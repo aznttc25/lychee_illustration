@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sarah Ly | Illustration Portfolio</title>
+  <meta name="description" content="Illustration portfolio of Artist Name." />
+  <link rel="stylesheet" href="style-homepage.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <main id="top">
+      <header class="artist-header">
+        <div class="artist-header__inner">
+      
+          <!-- Left: logo/avatar -->
+          <a class="artist-header__avatar" href="#top" aria-label="Go to top">
+            <img src="images/lycheeLOGO.png" alt="Artist profile logo" />
+          </a>
+      
+          <!-- Center: wordmark -->
+          <a class="artist-header__wordmark" href="#top">
+            <span class="artist-header__name">Sarah Ly</span>
+            <span class="artist-header__title">Illustration</span>
+          </a>
+      
+          <!-- Right: social icons -->
+          <div class="artist-header__social" aria-label="Social links">
+            <a href="https://www.instagram.com/lychee.illustration/" target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram">
+              <!-- Instagram icon -->
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2zM17.6 6.4a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9z"/>
+              </svg>
+            </a>
+      
+            <a href="#" target="_blank" rel="noreferrer" aria-label="Behance" title="Behance">
+              <!-- Behance icon -->
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M9.2 11.2c1.4 0 2.4-.9 2.4-2.2 0-1.6-1.1-2.4-3.1-2.4H3v11h5.9c2.2 0 3.7-1 3.7-3 0-1.6-1-2.6-2.4-2.8zM5.2 8.3h3c.9 0 1.3.4 1.3 1.1 0 .8-.5 1.2-1.4 1.2H5.2V8.3zm3.4 7H5.2v-2.9h3.3c1.2 0 1.8.5 1.8 1.5 0 1-.6 1.4-1.7 1.4zM14.2 7h4.5V5.6h-4.5V7zm2.3 3.1c-2.2 0-3.8 1.6-3.8 4.1 0 2.6 1.6 4.2 4 4.2 1.9 0 3.2-1 3.6-2.6h-1.9c-.3.6-.9 1-1.7 1-1.2 0-2-.8-2-2.1h5.7c.1-2.9-1.4-4.6-3.9-4.6zm-1.8 3c.1-1.1.8-1.7 1.8-1.7 1 0 1.7.6 1.8 1.7h-3.6z"/>
+              </svg>
+            </a>
+      
+            <a href="https://www.linkedin.com/in/sarah-ly-14077632b"
+                target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                    <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 23.5h4V7.98h-4V23.5zM8.5 7.98h3.83v2.12h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v9.36h-4v-8.3c0-1.98-.04-4.52-2.75-4.52-2.75 0-3.17 2.15-3.17 4.37v8.45h-4V7.98z"/>
+                </svg>
+            </a>
+          </div>
+      
+        </div>
+      
+        <!-- Nav row under header -->
+        <nav class="artist-nav" aria-label="Site navigation">
+          <a href="#top">Home</a>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#work">Illustration</a>
+          <a href="#jukebox">Sketches</a>
+          <a href="#motion">Motion</a>
+          <a href="#contact" class="cta">Let’s work together</a>
+        </nav>
+      </header>
+      
+    <!-- WORK / GALLERY -->
+    <section id="work" class="section">
+      <div class="section-head">
+        <h2>Selected Work</h2>
+        <p>Click any piece to view larger.</p>
+      </div>
+
+      <div class="gallery">
+        <!-- Replace image src + alt text POPUP ART INFORMATION-->
+        <button class="tile" type="button"
+            data-src="images/foodseries-7.jpg|images/foodseries-6.jpg|images/foodseries-5.jpg|images/foodseries-4.jpg|images/foodseries-3.jpg|images/foodseries-2.jpg|images/foodseries-1.jpg"
+            data-title="Food Memory Illustrations"
+            data-year="2025"
+            data-medium="Gouache on paper"
+            data-desc="A three-panel study focused on gloss, texture, and warm lighting.">
+            <img src="images/foodseries-7.jpg" alt="Food Study Triptych">
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/art2.jpg"
+            data-title="Mountain Range"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/art2.jpg" alt="Mountain Landscape" />
+        </button>
+        
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/art3.jpg" alt="Mountain Landscape" />
+        </button>
+        
+        <button class="tile" type="button"
+            data-src="images/Pufferfish Playground.png"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/Pufferfish Playground.png" alt="Mountain Landscape" />
+        </button>
+        <!-- Duplicate tiles as needed -->
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+        </button>
+        
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+        </button>
+        
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+        </button>
+        
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/work1.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+        </button>
+      </div>
+    </section>
+    
+    <!-- PROCESS / SKETCHES (AUTO CAROUSEL) -->
+    <section id="jukebox" class="section" aria-label="Sketch carousel">
+        <div class="section-head">
+            <h2>Sketchbook</h2>
+            <p>A rotating peek into process work and studies.</p>
+          </div>
+
+        <div class="jukebox__stage" id="jukeboxStage">
+          <button class="jukebox__item" type="button">
+            <img src="images/foodseries-7.jpg" alt="Sketch 1" loading="lazy">
+          </button>
+          <button class="jukebox__item" type="button">
+            <img src="images/foodseries-6.jpg" alt="Sketch 2" loading="lazy">
+          </button>
+          <button class="jukebox__item" type="button">
+            <img src="images/foodseries-5.jpg" alt="Sketch 3" loading="lazy">
+          </button>
+          <button class="jukebox__item" type="button">
+            <img src="images/foodseries-4.jpg" alt="Sketch 4" loading="lazy">
+          </button>
+          <button class="jukebox__item" type="button">
+            <img src="images/foodseries-3.jpg" alt="Sketch 5" loading="lazy">
+          </button>
+        </div>
+    </section>
+      
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <p>Collections of work with a short story behind them.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Portrait Series</h3>
+          <p>Expressive portraits exploring light, color, and personality.</p>
+          <p class="meta">Tools: Procreate / Photoshop</p>
+        </article>
+        <article class="card">
+          <h3>Food Studies</h3>
+          <p>Painted studies focused on texture, shine, and warm color palettes.</p>
+          <p class="meta">Tools: Gouache / Digital</p>
+        </article>
+        <article class="card">
+          <h3>Character Design</h3>
+          <p>Concept work and exploration pages for original characters.</p>
+          <p class="meta">Tools: Clip Studio / Procreate</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- MOTION / ANIMATION -->
+    <section id="motion" class="section">
+        <div class="section-head">
+        <h2>Motion</h2>
+        <p>A short animation study.</p>
+        </div>
+    
+        <div class="motion">
+            <div class="motion__media">
+                <!-- Option 1: Local MP4 -->
+                <video id="motionVid" controls playsinline muted preload="metadata" poster="images/animation-2.jpg">
+                <source src="images/dancing.mov" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+            </div>
+    
+            <div class="motion__meta">
+                <h3>Animation Study</h3>
+                <p class="meta">2025 • Frame-by-frame / Digital</p>
+                <p>
+                A short character motion test exploring timing, weight, and expression.
+                </p>
+            </div>
+        </div>
+
+        <div class="motion">
+            <div class="motion__media">
+                <!-- Option 1: Local MP4 -->
+                <video id="motionVid" controls playsinline muted preload="metadata" poster="images/animation-1.jpg">
+                <source src="images/The Perfect Dish Trailer.mov" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+            </div>
+    
+            <div class="motion__meta">
+                <h3>Animation Study</h3>
+                <p class="meta">2025 • Frame-by-frame / Digital</p>
+                <p>
+                A short character motion test exploring timing, weight, and expression.
+                </p>
+            </div>
+        </div>
+    </section>
+  
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+
+      <div class="about">
+        <div class="about-text">
+          <p>
+            Hi! I’m <strong>Artist Name</strong>, an illustration student focused on digital painting and
+            visual storytelling. I love creating character-driven work, portraits, and food illustrations
+            that feel warm, vibrant, and detailed.
+          </p>
+          <p>
+            I’m currently open to internships, freelance projects, and commissions. If you have an idea
+            you’d like brought to life, I’d love to hear about it.
+          </p>
+
+          <div class="about-links">
+            <a class="btn" href="https://www.instagram.com/lychee.illustration/" target="_blank" rel="noreferrer">Instagram</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Behance</a>
+            <a class="btn" href="https://www.linkedin.com/in/sarah-ly-14077632b" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="btn" href="files/Sarah Ly Resume.pdf" target="_blank" rel="noreferrer">Resume (PDF)</a>
+          </div>
+        </div>
+
+        <div class="about-photo">
+          <!-- optional: replace with a headshot / self-portrait -->
+          <img src="images/profile.jpg" alt="Artist profile photo" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <!-- <section id="contact" class="section">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p>For commissions or opportunities, email is best.</p>
+      </div>
+
+      <div class="contact">
+        <a class="btn primary" href="mailto:artist@email.com">Email: artist@email.com</a>
+        <p class="tiny">Response time: usually within 1–3 days.</p> -->
+
+        <!-- Optional Netlify form (works after deploy on Netlify) -->
+        <!-- <form class="form" name="contact" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <label>
+            Name
+            <input name="name" type="text" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button class="btn" type="submit">Send message</button>
+        </form>
+      </div>
+    </section> -->
+    <section id="contact" class="section">
+        <div class="section-head">
+          <h2>Contact</h2>
+          <p>For commissions or opportunities, email is best.</p>
+        </div>
+      
+        <div class="contact">
+          <a class="btn primary" href="mailto:lychee.illustration@gmail.com">Email: lychee.illustration@gmail.com</a>
+          <p class="tiny">Response time: usually within 1–3 days.</p>
+        </div>
+      </section>
+      
+
+    <footer class="footer">
+      <p> © <span id="year"></span> Sarah Ly / Lychee Illustrations</p>
+    </footer>
+  </main>
+
+  <!-- LIGHTBOX MODAL -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-close="true"></div>
+
+    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous artwork">‹</button>
+    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next artwork">›</button>
+  
+    <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+      <button class="lightbox__close" type="button" aria-label="Close" data-close="true">✕</button>
+
+      <div class="lightbox__content">
+        <div class="lightbox__media">
+          <button class="lightbox__zoom" type="button" id="lightboxZoomBtn" aria-label="Zoom">Zoom</button>
+
+          <button class="media-nav media-nav--prev" type="button" aria-label="Previous image">‹</button>
+          <button class="media-nav media-nav--next" type="button" aria-label="Next image">›</button>
+          <div class="media-dots" id="mediaDots" aria-label="Image dots"></div>
+
+          <img id="lightboxImg" alt="">
+        </div>
+  
+        <aside class="lightbox__meta">
+          <h3 id="lightboxTitle"></h3>
+          <p class="lightbox__sub" id="lightboxSub"></p>
+          <p class="lightbox__desc" id="lightboxDesc"></p>
+  
+          <!-- Optional: add tags or tools -->
+          <div class="lightbox__chips" id="lightboxChips"></div>
+        </aside>
+      </div>
+    </div>
+  </div> 
+  
+  <script>
+    // ---------- helpers ----------
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    // ----- multi-image helpers -----
+    function parseSrcList(srcString){
+        return (srcString || "")
+            .split("|")
+            .map(s => s.trim())
+            .filter(Boolean);
+    }
+
+    function buildDots(){
+        if (!mediaDots) return;
+
+        mediaDots.innerHTML = "";
+        slideUrls.forEach((_, idx) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.setAttribute("aria-label", `View image ${idx + 1}`);
+            dot.addEventListener("click", (e) => {
+            e.stopPropagation();
+            showSlide(idx);
+            });
+            mediaDots.appendChild(dot);
+        });
+    }
+
+    function showSlide(i){
+        if (!slideUrls.length) return;
+
+        slideIndex = (i + slideUrls.length) % slideUrls.length;
+        imgEl.src = slideUrls[slideIndex];
+
+        // update dots
+        if (mediaDots){
+            Array.from(mediaDots.children).forEach((dot, idx) => {
+            dot.classList.toggle("is-active", idx === slideIndex);
+            });
+        }
+
+        resetZoom();
+    }
+
+  
+    // ---------- elements ----------
+    const lightbox = document.getElementById("lightbox");
+    const imgEl = document.getElementById("lightboxImg");
+    const titleEl = document.getElementById("lightboxTitle");
+    const subEl = document.getElementById("lightboxSub");
+    const descEl = document.getElementById("lightboxDesc");
+    const chipsEl = document.getElementById("lightboxChips");
+
+    const tiles = Array.from(document.querySelectorAll(".tile[data-src]"));
+
+    const prevBtn = document.querySelector(".lightbox__nav--prev"); // OUTER (gallery)
+    const nextBtn = document.querySelector(".lightbox__nav--next"); // OUTER (gallery)
+
+    const zoomBtn = document.getElementById("lightboxZoomBtn");
+    const mediaWrap = document.querySelector(".lightbox__media");
+
+    const mediaPrevBtn = document.querySelector(".media-nav--prev"); // INNER (within artwork)
+    const mediaNextBtn = document.querySelector(".media-nav--next"); // INNER (within artwork)
+    const mediaDots = document.getElementById("mediaDots");
+
+    const panelEl = document.querySelector(".lightbox__panel");
+
+    // =========================
+// JUKEBOX CAROUSEL (auto + user-controlled)
+// =========================
+const jukeboxStage = document.getElementById("jukeboxStage");
+const jukeboxItems = jukeboxStage ? Array.from(jukeboxStage.querySelectorAll(".jukebox__item")) : [];
+
+let jukeboxIndex = 0;
+let jukeboxTimer = null;
+let wheelLock = false;
+
+// --- apply position classes ---
+function applyJukeboxClasses(){
+    if (!jukeboxItems.length) return;
+
+    jukeboxItems.forEach((item, i) => {
+        item.classList.remove("is-front","is-left","is-right","is-back-left","is-back-right");
+
+        const offset = (i - jukeboxIndex + jukeboxItems.length) % jukeboxItems.length;
+
+        if (offset === 0) item.classList.add("is-front");
+        else if (offset === 1) item.classList.add("is-right");
+        else if (offset === jukeboxItems.length - 1) item.classList.add("is-left");
+        else if (offset === 2) item.classList.add("is-back-right");
+        else if (offset === jukeboxItems.length - 2) item.classList.add("is-back-left");
+        else {
+        // hide extras if more than 5
+        item.style.opacity = "0";
+        item.style.pointerEvents = "none";
+        return;
+        }
+
+        item.style.opacity = "";
+        item.style.pointerEvents = "";
+    });
+    }
+
+    function jukeboxGo(delta){
+    jukeboxIndex = (jukeboxIndex + delta + jukeboxItems.length) % jukeboxItems.length;
+    applyJukeboxClasses();
+    }
+
+    // --- auto rotation ---
+    function startJukebox(){
+    if (!jukeboxItems.length) return;
+    stopJukebox();
+    jukeboxTimer = setInterval(() => jukeboxGo(1), 3200); // speed
+    }
+    function stopJukebox(){
+    if (jukeboxTimer) clearInterval(jukeboxTimer);
+    jukeboxTimer = null;
+    }
+
+    if (jukeboxItems.length){
+    applyJukeboxClasses();
+    startJukebox();
+
+    // click to bring item forward
+    jukeboxItems.forEach((item, i) => {
+        item.addEventListener("click", () => {
+        jukeboxIndex = i;
+        applyJukeboxClasses();
+        startJukebox();
+        });
+    });
+
+    // pause on hover (so it doesn't fight user)
+    jukeboxStage.addEventListener("mouseenter", stopJukebox);
+    jukeboxStage.addEventListener("mouseleave", startJukebox);
+
+    // wheel / trackpad control
+    jukeboxStage.addEventListener("wheel", (e) => {
+        e.preventDefault();
+
+        if (wheelLock) return;
+        wheelLock = true;
+        setTimeout(() => (wheelLock = false), 250);
+
+        // use the stronger axis (trackpad may give both)
+        const v = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+        if (v > 0) jukeboxGo(1);
+        else jukeboxGo(-1);
+
+        startJukebox(); // resume auto after manual input
+    }, { passive: false });
+
+    // swipe control (mobile)
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    jukeboxStage.addEventListener("touchstart", (e) => {
+        if (!e.touches || !e.touches[0]) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        stopJukebox();
+    }, { passive: true });
+
+    jukeboxStage.addEventListener("touchend", (e) => {
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) { startJukebox(); return; }
+
+        const dx = t.clientX - touchStartX;
+        const dy = t.clientY - touchStartY;
+
+        // require a minimum swipe distance, and prefer horizontal swipes
+        if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)){
+        if (dx < 0) jukeboxGo(1);
+        else jukeboxGo(-1);
+        }
+
+        startJukebox();
+    }, { passive: true });
+    }
+
+
+
+    // ---------- state ----------
+    let lastFocused = null;
+    let currentIndex = 0;
+
+    let isZoomed = false;
+    let dragging = false;
+    let startX = 0, startY = 0;
+    let offsetX = 0, offsetY = 0;
+    const ZOOM_SCALE = 2;
+
+    let slideUrls = [];
+    let slideIndex = 0;
+
+    // ---------- keep OUTER nav near popup ----------
+    function positionOuterNav(){
+    if (!lightbox.classList.contains("is-open")) return;
+
+    const r = panelEl.getBoundingClientRect();
+    const gap = 14;
+
+    // match your CSS (.lightbox__nav width/height is 46px)
+    const btnW = 46;
+
+    // preferred: outside the popup
+    let prevX = r.left - btnW - gap;
+    let nextX = r.right + gap;
+
+    // if outside would go off-screen, tuck just inside popup edge
+    if (prevX < 12) prevX = r.left + gap;
+    if (nextX + btnW > window.innerWidth - 12) nextX = r.right - btnW - gap;
+
+    prevBtn.style.left = `${prevX}px`;
+    nextBtn.style.left = `${nextX}px`;
+
+    // keep them vertically centered to popup (not the whole page)
+    const centerY = r.top + r.height / 2;
+    prevBtn.style.top = `${centerY}px`;
+    nextBtn.style.top = `${centerY}px`;
+    }
+
+    // ---------- core render ----------
+    function renderFromIndex(i){
+    const tile = tiles[i];
+    if (!tile) return;
+
+    // MULTI-IMAGE
+    const srcString = tile.dataset.src || "";
+    slideUrls = parseSrcList(srcString);
+    slideIndex = 0;
+
+    const thumb = tile.querySelector("img")?.getAttribute("src");
+    if (!slideUrls.length && thumb) slideUrls = [thumb];
+
+    buildDots();
+    showSlide(0);
+
+    const hasMultiple = slideUrls.length > 1;
+    mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
+    mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
+    mediaDots.style.display = hasMultiple ? "flex" : "none";
+
+    // META
+    titleEl.textContent = tile.dataset.title || "";
+    subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
+    descEl.textContent = tile.dataset.desc || "";
+    chipsEl.innerHTML = "";
+
+    // after content updates, re-place outer buttons near popup
+    requestAnimationFrame(positionOuterNav);
+    }
+
+    // ---------- open / close ----------
+    function openAtIndex(i){
+    lastFocused = document.activeElement;
+    currentIndex = i;
+
+    renderFromIndex(currentIndex);
+
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+
+    // position right away + after layout
+    positionOuterNav();
+    requestAnimationFrame(positionOuterNav);
+    }
+
+    function closeLightbox(){
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    imgEl.src = "";
+    document.body.style.overflow = "";
+    resetZoom();
+    if (lastFocused) lastFocused.focus();
+    }
+
+    // open on tile click
+    tiles.forEach((tile, idx) => {
+    tile.addEventListener("click", () => openAtIndex(idx));
+    });
+
+    // close on backdrop/close button
+    lightbox.addEventListener("click", (e) => {
+    if (e.target.dataset.close === "true") closeLightbox();
+    });
+
+    // ---------- INNER (within artwork) navigation ----------
+    if (mediaPrevBtn) {
+    mediaPrevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showSlide(slideIndex - 1);
+    });
+    }
+
+    if (mediaNextBtn) {
+    mediaNextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showSlide(slideIndex + 1);
+    });
+    }
+
+
+    // ---------- OUTER (gallery) navigation ----------
+    function prevArtwork(){
+    currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
+    renderFromIndex(currentIndex);
+    }
+
+    function nextArtwork(){
+    currentIndex = (currentIndex + 1) % tiles.length;
+    renderFromIndex(currentIndex);
+    }
+
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
+
+    // keyboard
+    document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("is-open")) return;
+
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") prevArtwork();
+    if (e.key === "ArrowRight") nextArtwork();
+    });
+
+    // keep positioned on resize
+    window.addEventListener("resize", positionOuterNav);
+
+  
+    // ---------- navigation ----------
+    function prevArtwork() {
+      currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
+      renderFromIndex(currentIndex);
+    }
+  
+    function nextArtwork() {
+      currentIndex = (currentIndex + 1) % tiles.length;
+      renderFromIndex(currentIndex);
+    }
+  
+    prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
+    nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
+  
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+  
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") prevArtwork();
+      if (e.key === "ArrowRight") nextArtwork();
+    });
+  
+    // ---------- zoom ----------
+    function applyZoomTransform() {
+      imgEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${ZOOM_SCALE})`;
+    }
+  
+    function setZoom(on) {
+      isZoomed = on;
+      mediaWrap.classList.toggle("is-zoomed", on);
+  
+      if (!on) {
+        offsetX = 0; offsetY = 0;
+        imgEl.style.transform = "";
+      } else {
+        applyZoomTransform();
+      }
+    }
+  
+    function resetZoom() {
+      setZoom(false);
+    }
+  
+    function toggleZoom() {
+      setZoom(!isZoomed);
+    }
+  
+    zoomBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleZoom();
+    });
+  
+    imgEl.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      toggleZoom();
+    });
+  
+    // ---------- drag to pan (bounded) ----------
+    imgEl.addEventListener("mousedown", (e) => {
+      if (!isZoomed) return;
+      dragging = true;
+      startX = e.clientX - offsetX;
+      startY = e.clientY - offsetY;
+    });
+  
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging || !isZoomed) return;
+  
+      const containerRect = mediaWrap.getBoundingClientRect();
+  
+      // image scaled size
+      const scaledW = imgEl.naturalWidth * ZOOM_SCALE;
+      const scaledH = imgEl.naturalHeight * ZOOM_SCALE;
+  
+      const maxX = Math.max(0, (scaledW - containerRect.width) / 2);
+      const maxY = Math.max(0, (scaledH - containerRect.height) / 2);
+  
+      offsetX = clamp(e.clientX - startX, -maxX, maxX);
+      offsetY = clamp(e.clientY - startY, -maxY, maxY);
+  
+      applyZoomTransform();
+    });
+  
+    window.addEventListener("mouseup", () => {
+      dragging = false;
+    });
+  </script>
+  
+  
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+  <script>
+    // Prevent refresh from jumping to the last anchor (#contact, #work, etc.)
+    // by clearing the hash from the URL after navigation.
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => {
+        // After the browser scrolls, remove the hash from the address bar
+        setTimeout(() => {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        }, 50);
+      });
+    });
+  </script> 
+
+<script>
+    const motionVid = document.getElementById("motionVid");
+  
+    if (motionVid) {
+      motionVid.addEventListener("play", () => {
+        motionVid.loop = true;
+      });
+  
+      motionVid.addEventListener("pause", () => {
+        motionVid.loop = false;
+      });
+    }
+  </script>
+  
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+  /* HEADER like Lydia Hill style */
+  .artist-header{
+    position: relative;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+  }
+  
+  .artist-header__inner{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 18px 22px 10px;
+    display: grid;
+    grid-template-columns: 84px 1fr auto;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  /* Avatar/logo */
+  .artist-header__avatar{
+    width: 72px;
+    height: 72px;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+    display: block;
+  }
+  .artist-header__avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Wordmark center */
+  .artist-header__wordmark{
+    text-decoration: none;
+    color: #111;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 4px;
+  }
+  .artist-header__name{
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    font-size: 34px;
+    line-height: 1;
+  }
+  .artist-header__title{
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  /* Social icons */
+  .artist-header__social{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .artist-header__social a{
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid #eee;
+    color: #111;
+    text-decoration: none;
+  }
+  .artist-header__social a:hover{
+    background: #f4f4f4;
+  }
+  .artist-header__social svg{
+    fill: currentColor;
+  }
+  
+  /* Nav row */
+  .artist-nav{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 22px 14px;
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .artist-nav a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 999px;
+  }
+  .artist-nav a:hover{
+    background: #f2f2f2;
+  }
+  .artist-nav a.cta{
+    border: 1px solid #111;
+    color: #111;
+  }
+  
+  /* Mobile */
+  @media (max-width: 720px){
+    .artist-header__inner{
+      grid-template-columns: 72px 1fr;
+      grid-template-rows: auto auto;
+    }
+    .artist-header__social{
+      grid-column: 1 / -1;
+      justify-content: center;
+      padding-top: 4px;
+    }
+    .artist-header__name{ font-size: 28px; }
+  }
