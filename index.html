@@ -657,8 +657,10 @@ function applyJukeboxClasses(){
 
     // close on backdrop/close button
     lightbox.addEventListener("click", (e) => {
-    if (e.target.dataset.close === "true") closeLightbox();
+      const closeTarget = e.target.closest('[data-close="true"]');
+      if (closeTarget) closeLightbox();
     });
+
 
     // ---------- INNER (within artwork) navigation ----------
     if (mediaPrevBtn) {

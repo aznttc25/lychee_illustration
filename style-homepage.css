@@ -344,6 +344,9 @@ p, li, a, button, input, textarea {
     color: var(--ink);
     font-size: 18px;
     cursor: pointer;
+    z-index: 10005;
+    pointer-events: auto;
+    touch-action: manipulation;
   }
   
   .lightbox__content{
