@@ -388,9 +388,9 @@ p, li, a, button, input, textarea {
   
   .lightbox__media.is-zoomed img{
     cursor: grab;
-    transition: none; /* smoother panning */
-    transform: scale(2); /* zoom level */
+    transition: none;
   }
+
   .lightbox__media.is-zoomed img:active{
     cursor: grabbing;
   }
@@ -402,6 +402,16 @@ p, li, a, button, input, textarea {
     border: 1px solid var(--border);
     background: var(--surface);
     object-fit: contain;
+  }
+
+  .lightbox__media video{
+    max-width: 100%;
+    max-height: calc(100vh - 120px);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    object-fit: contain;
+    display: block;
   }
   
   .lightbox__meta{
@@ -451,6 +461,7 @@ p, li, a, button, input, textarea {
     .lightbox__content{ grid-template-columns: 1fr; }
     .lightbox__meta{ border-left: none; border-top: 1px solid var(--border); }
     .lightbox__media img{ max-height: 55vh; }
+    .lightbox__media video{ max-height: 55svh; max-width: 90%; }
   }
   
   /* GALLERY NAV (between artworks) — OUTSIDE the popup */
