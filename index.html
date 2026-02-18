@@ -94,7 +94,7 @@
         </button>
         
         <button class="tile" type="button"
-            data-src="images/thai-1.jpg|images/thai-2.jpg|images/thai-3.jpg|images/thai-4.jpg"
+            data-src="images/thai-1.jpg|images/thai-2.jpg|images/thai-3.jpg|images/thai-4.jpg|images/thaiVid.mov"
             data-title="Thai Town Series"
             data-year="2024"
             data-medium="Gouache on paper"
@@ -356,6 +356,7 @@
           <div class="media-dots" id="mediaDots" aria-label="Image dots"></div>
 
           <img id="lightboxImg" alt="">
+          <video id="lightboxVid" controls playsinline preload="metadata" style="display:none;"></video>
         </div>
   
         <aside class="lightbox__meta">
@@ -385,36 +386,72 @@
     }
 
     function buildDots(){
-        if (!mediaDots) return;
+      if (!mediaDots) return;
 
-        mediaDots.innerHTML = "";
-        slideUrls.forEach((_, idx) => {
-            const dot = document.createElement("button");
-            dot.type = "button";
-            dot.setAttribute("aria-label", `View image ${idx + 1}`);
-            dot.addEventListener("click", (e) => {
-            e.stopPropagation();
-            showSlide(idx);
-            });
-            mediaDots.appendChild(dot);
+      mediaDots.innerHTML = "";
+      slides.forEach((_, idx) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("aria-label", `View item ${idx + 1}`);
+        dot.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showSlide(idx);
         });
+        mediaDots.appendChild(dot);
+      });
     }
 
     function showSlide(i){
-        if (!slideUrls.length) return;
+      if (!slides.length) return;
 
-        slideIndex = (i + slideUrls.length) % slideUrls.length;
-        imgEl.src = slideUrls[slideIndex];
+      slideIndex = (i + slides.length) % slides.length;
+      const item = slides[slideIndex];
 
-        // update dots
-        if (mediaDots){
-            Array.from(mediaDots.children).forEach((dot, idx) => {
-            dot.classList.toggle("is-active", idx === slideIndex);
-            });
-        }
+      // stop/reset both
+      if (vidEl){
+        vidEl.pause();
+        vidEl.removeAttribute("src");
+        vidEl.load();
+        vidEl.style.display = "none";
+      }
+      imgEl.style.display = "none";
+      imgEl.src = "";
 
-        resetZoom();
+      if (item.type === "video" && vidEl){
+        vidEl.src = item.url;
+        vidEl.style.display = "block";
+      } else {
+        imgEl.src = item.url;
+        imgEl.style.display = "block";
+      }
+
+      // dots active state
+      if (mediaDots){
+        Array.from(mediaDots.children).forEach((dot, idx) => {
+          dot.classList.toggle("is-active", idx === slideIndex);
+        });
+      }
+
+      resetZoom();
     }
+
+
+    function getMediaType(url){
+      const clean = (url || "").split("?")[0].toLowerCase();
+      if (clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov")) return "video";
+      if (clean.endsWith(".jpg") || clean.endsWith(".jpeg") || clean.endsWith(".png") || clean.endsWith(".gif") || clean.endsWith(".webp")) return "image";
+      // default fallback
+      return "image";
+    }
+
+    function parseMediaList(srcString){
+      return (srcString || "")
+        .split("|")
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(url => ({ url, type: getMediaType(url) }));
+    }
+
 
   
     // ---------- elements ----------
@@ -437,6 +474,7 @@
     const mediaNextBtn = document.querySelector(".media-nav--next"); // INNER (within artwork)
     const mediaDots = document.getElementById("mediaDots");
 
+    const vidEl = document.getElementById("lightboxVid");
     const panelEl = document.querySelector(".lightbox__panel");
 
     // =========================
@@ -564,7 +602,7 @@ function applyJukeboxClasses(){
     let offsetX = 0, offsetY = 0;
     const ZOOM_SCALE = 2;
 
-    let slideUrls = [];
+    let slides  = [];
     let slideIndex = 0;
 
     // ---------- keep OUTER nav near popup ----------
@@ -601,16 +639,17 @@ function applyJukeboxClasses(){
 
     // MULTI-IMAGE
     const srcString = tile.dataset.src || "";
-    slideUrls = parseSrcList(srcString);
+    slides = parseMediaList(srcString);
     slideIndex = 0;
 
+    // fallback to thumbnail if nothing provided
     const thumb = tile.querySelector("img")?.getAttribute("src");
-    if (!slideUrls.length && thumb) slideUrls = [thumb];
+    if (!slides.length && thumb) slides = [{ url: thumb, type: getMediaType(thumb) }];
 
     buildDots();
     showSlide(0);
 
-    const hasMultiple = slideUrls.length > 1;
+    const hasMultiple = slides.length > 1;
     mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
     mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
     mediaDots.style.display = hasMultiple ? "flex" : "none";
