@@ -641,25 +641,13 @@ function applyJukeboxClasses(){
     requestAnimationFrame(positionOuterNav);
     }
 
-    function prevArtwork() {
-      currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
-      renderFromIndex(currentIndex);
-      positionOuterNav();
-    }
-
-    function nextArtwork() {
-      currentIndex = (currentIndex + 1) % tiles.length;
-      renderFromIndex(currentIndex);
-      positionOuterNav();
-    }
-
     function closeLightbox(){
-    lightbox.classList.remove("is-open");
-    lightbox.setAttribute("aria-hidden", "true");
-    imgEl.src = "";
-    document.body.style.overflow = "";
-    resetZoom();
-    if (lastFocused) lastFocused.focus();
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      imgEl.src = "";
+      document.body.style.overflow = "";
+      resetZoom();
+      if (lastFocused) lastFocused.focus();
     }
 
     // open on tile click
@@ -728,16 +716,8 @@ function applyJukeboxClasses(){
       renderFromIndex(currentIndex);
     }
   
-    prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
-    nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
-  
-    document.addEventListener("keydown", (e) => {
-      if (!lightbox.classList.contains("is-open")) return;
-  
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") prevArtwork();
-      if (e.key === "ArrowRight") nextArtwork();
-    });
+    // prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
+    // nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
   
     // ---------- zoom ----------
     function applyZoomTransform() {
