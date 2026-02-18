@@ -57,11 +57,11 @@
         <!-- Nav row under header -->
         <nav class="artist-nav" aria-label="Site navigation">
           <a href="#top">Home</a>
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
           <a href="#work">Illustration</a>
           <a href="#jukebox">Sketches</a>
+          <a href="#projects">Projects</a>
           <a href="#motion">Motion</a>
+          <a href="#about">About</a>
           <a href="#contact" class="cta">Let’s work together</a>
         </nav>
       </header>
@@ -85,7 +85,7 @@
         </button>
 
         <button class="tile" type="button"
-            data-src="images/dance-1.jpg|dance-2.jpg|dance-3.jpg|dance-4.jpg|dance-5.jpg|dance-6.jpg|dance-7.jpg"
+            data-src="images/dance-1.jpg|images/dance-2.jpg|images/dance-3.jpg|images/dance-4.jpg|images/dance-5.jpg|images/dance-6.jpg|images/dance-7.jpg"
             data-title="Rainbow Dance Series"
             data-year="2024"
             data-medium="Gouache on paper"
@@ -94,7 +94,7 @@
         </button>
         
         <button class="tile" type="button"
-            data-src="images/thai-1.jpg|thai-2.jpg|thai-3.jpg|thai-4.jpg"
+            data-src="images/thai-1.jpg|images/thai-2.jpg|images/thai-3.jpg|images/thai-4.jpg"
             data-title="Thai Town Series"
             data-year="2024"
             data-medium="Gouache on paper"
@@ -425,7 +425,7 @@
     const descEl = document.getElementById("lightboxDesc");
     const chipsEl = document.getElementById("lightboxChips");
 
-    const tiles = Array.from(document.querySelectorAll(".tile[data-src]"));
+    const tiles = Array.from(document.querySelectorAll(".gallery .tile[data-src]"));
 
     const prevBtn = document.querySelector(".lightbox__nav--prev"); // OUTER (gallery)
     const nextBtn = document.querySelector(".lightbox__nav--next"); // OUTER (gallery)
@@ -639,6 +639,18 @@ function applyJukeboxClasses(){
     // position right away + after layout
     positionOuterNav();
     requestAnimationFrame(positionOuterNav);
+    }
+
+    function prevArtwork() {
+      currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
+      renderFromIndex(currentIndex);
+      positionOuterNav();
+    }
+
+    function nextArtwork() {
+      currentIndex = (currentIndex + 1) % tiles.length;
+      renderFromIndex(currentIndex);
+      positionOuterNav();
     }
 
     function closeLightbox(){
