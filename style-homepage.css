@@ -590,8 +590,8 @@ JUKEBOX ROTATION CAROUSEL
     width: 100%;          /* responsive */
     margin: 18px auto 0; /* center horizontally */
   
-    height: 420px;
-    padding: 26px;
+    height: 560px;
+    padding: 30px;
   
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -611,7 +611,7 @@ JUKEBOX ROTATION CAROUSEL
   
     border: 0;
     background: transparent;
-    padding: 0;
+    padding: 10px;
     cursor: pointer;
     border-radius: 16px;
     overflow: hidden;
@@ -620,12 +620,15 @@ JUKEBOX ROTATION CAROUSEL
   }
   
   .jukebox__item img{
-    width: 320px;
-    height: 240px;
-    object-fit: contain;              /* important for sketches */
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    width: 320px;  /* Interchangeable */
+    height: 420px;  /* Interchangeable */
+    object-fit: contain;
+    object-position: center;              
+    /* background: var(--bg); */
+    background: transparent;
+    /* border: 1px solid var(--border); */
+    border: 0;
+    border-radius: 12px;
     display: block;
   }
   
@@ -638,28 +641,28 @@ JUKEBOX ROTATION CAROUSEL
   }
   
   .jukebox__item.is-left{
-    transform: translate(-50%, -50%) translateX(-260px) scale(0.9);
+    transform: translate(-50%, -50%) translateX(-320px) scale(0.9);
     opacity: 0.55;
     filter: blur(2px);
     z-index: 3;
   }
   
   .jukebox__item.is-right{
-    transform: translate(-50%, -50%) translateX(260px) scale(0.9);
+    transform: translate(-50%, -50%) translateX(320px) scale(0.9);
     opacity: 0.55;
     filter: blur(2px);
     z-index: 3;
   }
   
   .jukebox__item.is-back-left{
-    transform: translate(-50%, -50%) translateX(-420px) scale(0.78);
+    transform: translate(-50%, -50%) translateX(-520px) scale(0.78);
     opacity: 0.25;
     filter: blur(4px);
     z-index: 1;
   }
   
   .jukebox__item.is-back-right{
-    transform: translate(-50%, -50%) translateX(420px) scale(0.78);
+    transform: translate(-50%, -50%) translateX(520px) scale(0.78);
     opacity: 0.25;
     filter: blur(4px);
     z-index: 1;
@@ -668,17 +671,17 @@ JUKEBOX ROTATION CAROUSEL
   
   /* Mobile tuning */
   @media (max-width: 900px){
-    .jukebox__stage{ height: 320px; }
-    .jukebox__item img{ width: 260px; height: 200px; }
+    .jukebox__stage{ height: 460px; }
+    .jukebox__item img{ width: 260px; height: 320px; object-fit: contain;}
     .jukebox__item.is-left{ transform: translateX(-210px) scale(0.9); }
     .jukebox__item.is-right{ transform: translateX(210px) scale(0.9); }
-    .jukebox__item.is-back-left{ transform: translateX(-320px) scale(0.78); }
-    .jukebox__item.is-back-right{ transform: translateX(320px) scale(0.78); }
+    .jukebox__item.is-back-left{ transform: translateX(-330px) scale(0.78); }
+    .jukebox__item.is-back-right{ transform: translateX(330px) scale(0.78); }
   }
   
   @media (max-width: 520px){
-    .jukebox__stage{ height: 280px; }
-    .jukebox__item img{ width: 220px; height: 170px; }
+    .jukebox__stage{ height: 420px; }
+    .jukebox__item img{ width: 220px; height: 280px; object-fit: contain;}
     .jukebox__item.is-left{ transform: translateX(-170px) scale(0.9); }
     .jukebox__item.is-right{ transform: translateX(170px) scale(0.9); }
     .jukebox__item.is-back-left{ transform: translateX(-260px) scale(0.78); }
