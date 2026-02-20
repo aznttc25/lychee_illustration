@@ -96,7 +96,8 @@ p, li, a, button, input, textarea {
     height: 120px;
     border-radius: 999px;
     overflow: hidden;
-    border: 1px solid var(--border);
+    /* border: 1px solid var(--border); */
+    border: 0; /* oval logo */
     background: var(--surface);
     display: block;
     transition: width 220ms ease, height 220ms ease;
