@@ -43,6 +43,9 @@ html { scroll-behavior: smooth; }
   
     --font-display: "Fraunces", serif;
     --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+    --page-max: 1320px;           /* try 1280–1440 */
+    --page-pad: clamp(14px, 2.5vw, 28px);
   }
   
   
@@ -80,7 +83,7 @@ p, li, a, button, input, textarea {
 
   
   .artist-header__inner{
-    max-width: 1200px;
+    max-width: var(--page-max);
     margin: 0 auto;
     padding: 48px 28px 22px;
     display: grid;
@@ -328,10 +331,11 @@ p, li, a, button, input, textarea {
 
 /* SECTIONS */
 .section {
-  padding: 56px 22px;
+  padding: 56px var(--page-pad);
+  scroll-margin-top: 170px;
 }
 .section-head {
-  max-width: 980px;
+  max-width: var(--page-max);
   margin: 0 auto 18px;
 }
 .section h2 {
@@ -345,35 +349,45 @@ p, li, a, button, input, textarea {
   }
   
 
-/* GALLERY */
-.gallery {
-  max-width: 980px;
+/* =========================
+   MASONRY / PUZZLE GALLERY
+========================= */
+
+.gallery{
+  max-width: 1320px;        /* wider page */
   margin: 18px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  column-count: 3;          /* 3 columns desktop */
+  column-gap: 16px;
 }
-/* Make tiles buttons look like your tiles */
+
+/* Tiles must not break between columns */
 .tile{
-    border: 1px solid var(--border);
-    background: var(--surface);
-    border-radius: var(--radius);
-    overflow: hidden;
-    padding: 0;
-    cursor: pointer;
-    display: block;
-  }
-  
-  .tile img{
-    width: 100%;
-    height: 100%;
-    display: block;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    transition: transform 180ms ease;
-  }
-  
-  .tile:hover img{ transform: scale(1.03); }
+  width: 100%;
+  display: inline-block;    /* required for columns */
+  break-inside: avoid;
+  margin: 0 0 16px;
+
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Show FULL image */
+.tile img{
+  width: 100%;
+  height: auto;             /* natural height */
+  display: block;
+  object-fit: contain;      /* safe, keeps full image */
+  transition: transform 180ms ease;
+}
+
+.tile:hover img{
+  transform: scale(1.01);   /* subtle zoom */
+}
+
   
   /* LIGHTBOX */
   .lightbox{
@@ -628,7 +642,7 @@ p, li, a, button, input, textarea {
 
 /* PROJECT CARDS */
 .cards {
-  max-width: 980px;
+  max-width: var(--page-max);
   margin: 18px auto 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -645,6 +659,19 @@ p, li, a, button, input, textarea {
 .meta { color: var(--muted); font-size: 14px; }
 .card h3 { margin: 0 0 8px; }
 
+.gallery,
+.cards,
+.about,
+.motion,
+.contact,
+.jukebox__stage,
+.artist-header__inner,
+.artist-nav,
+.footer p{
+  max-width: var(--page-max);
+}
+
+
 /* =========================
 JUKEBOX ROTATION CAROUSEL
 ========================= */
@@ -654,12 +681,12 @@ JUKEBOX ROTATION CAROUSEL
 } */
 
 .jukebox{
-    max-width: 980px;
+    max-width: var(--page-max);
     margin: 18px auto 0;
 }
   
 .jukebox__stage{
-    max-width: 980px;     /* match gallery/cards width */
+    max-width: var(--page-max);     /* match gallery/cards width */
     width: 100%;          /* responsive */
     margin: 18px auto 0; /* center horizontally */
   
@@ -701,7 +728,7 @@ JUKEBOX ROTATION CAROUSEL
     background: transparent;
     /* border: 1px solid var(--border); */
     border: 0;
-    border-radius: 12px;
+    border-radius: 20px;
     display: block;
   }
   
@@ -764,6 +791,7 @@ JUKEBOX ROTATION CAROUSEL
     .jukebox__item.is-back-right{
       transform: translate(-50%, -50%) translateX(270px) scale(0.78);
     }
+    .gallery{ column-count: 2; }
 }
 
   
@@ -788,6 +816,7 @@ JUKEBOX ROTATION CAROUSEL
     .jukebox__item.is-back-right{
       transform: translate(-50%, -50%) translateX(220px) scale(0.78);
     }
+    .gallery{ column-count: 1; }
   }
 
   
@@ -798,7 +827,7 @@ JUKEBOX ROTATION CAROUSEL
      ========================= */
   
   .motion{
-    max-width: 980px;
+    max-width: var(--page-max);
     margin: 18px auto 0;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
@@ -856,7 +885,7 @@ JUKEBOX ROTATION CAROUSEL
 
 /* ABOUT */
 .about {
-  max-width: 980px;
+  max-width: var(--page-max);
   margin: 18px auto 0;
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -874,7 +903,7 @@ JUKEBOX ROTATION CAROUSEL
 
 /* CONTACT */
 .contact {
-  max-width: 980px;
+  max-width: var(--page-max);
   margin: 18px auto 0;
 }
 .contact .tiny{
@@ -908,17 +937,17 @@ input, textarea {
 }
   
 .footer p{
-    max-width: 980px;
+    max-width: var(--page-max);
     margin: 0 auto;
 }
   
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gallery{ column-count: 2; }
   .cards { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
-  .gallery { grid-template-columns: 1fr; }
+  .gallery{ column-count: 1; }
 }
