@@ -69,10 +69,15 @@ p, li, a, button, input, textarea {
 /* Bigger header */
 /* HEADER + NAV */
 .artist-header{
-    position: relative;     /* not sticky */
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-  }
+  position: sticky;
+  top: 0;
+  z-index: 9998;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  transition: box-shadow 200ms ease;
+}
+
   
   .artist-header__inner{
     max-width: 1200px;
@@ -82,6 +87,7 @@ p, li, a, button, input, textarea {
     grid-template-columns: 140px 1fr 240px;
     align-items: center;
     gap: 24px;
+    transition: padding 220ms ease;
   }
   
   /* Avatar/logo */
@@ -93,12 +99,14 @@ p, li, a, button, input, textarea {
     border: 1px solid var(--border);
     background: var(--surface);
     display: block;
+    transition: width 220ms ease, height 220ms ease;
   }
   .artist-header__avatar img{
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+
   }
   
   /* Wordmark */
@@ -116,6 +124,7 @@ p, li, a, button, input, textarea {
     font-weight: 800;
     letter-spacing: -0.01em;
     line-height: 1;
+    transition: font-size 220ms ease;
   }
   
   .artist-header__title{
@@ -125,6 +134,7 @@ p, li, a, button, input, textarea {
     margin-top: 12px;
     color: var(--muted);
     font-weight: 800;
+    transition: margin-top 220ms ease, font-size 220ms ease;
   }
   
   /* Social icons (consistent circles + hover) */
@@ -168,6 +178,7 @@ p, li, a, button, input, textarea {
     gap: 26px;
     justify-content: center;
     flex-wrap: wrap;
+    transition: padding 220ms ease, gap 220ms ease;
   }
   
   .artist-nav a{
@@ -177,8 +188,46 @@ p, li, a, button, input, textarea {
     color: var(--ink);
     font-weight: 800;
     border-radius: 999px;
-    transition: background 160ms ease, transform 160ms ease;
+    transition: padding 220ms ease, font-size 220ms ease;
   }
+
+  /* ===== Compact state when scrolling ===== */
+.artist-header.is-compact{
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+}
+
+/* shrink the big header row */
+.artist-header.is-compact .artist-header__inner{
+  padding: 18px 18px 10px; /* was 48px 28px 22px */
+}
+
+/* shrink logo */
+.artist-header.is-compact .artist-header__avatar{
+  width: 72px;
+  height: 72px;
+}
+
+/* shrink type */
+.artist-header.is-compact .artist-header__name{
+  font-size: 34px; /* was 52px */
+}
+.artist-header.is-compact .artist-header__title{
+  margin-top: 6px; /* was 12px */
+  font-size: 12px;
+}
+
+/* shrink nav row */
+.artist-header.is-compact .artist-nav{
+  padding: 10px 16px 14px; /* was 18px 28px 36px */
+  gap: 12px;               /* was 26px */
+}
+.artist-header.is-compact .artist-nav a{
+  padding: 8px 12px;       /* was 12px 16px */
+  font-size: 14px;         /* was 16px */
+}
+.artist-header.is-compact .artist-nav a.cta{
+  padding: 8px 14px;       /* was 12px 20px */
+}
   
   /* Hover for NORMAL nav links (not CTA) */
   .artist-nav a:not(.cta):hover{
@@ -222,6 +271,29 @@ p, li, a, button, input, textarea {
     .artist-header__title{ font-size: 13px; }
   
     .artist-nav{ padding: 10px 18px 18px; gap: 14px; }
+
+    .artist-header.is-compact .artist-header__inner{
+      padding: 14px 14px 8px;
+    }
+
+    .artist-header.is-compact .artist-header__avatar{
+      width: 64px;
+      height: 64px;
+    }
+
+    .artist-header.is-compact .artist-header__name{
+      font-size: 28px;
+    }
+
+    .artist-header.is-compact .artist-nav{
+      padding: 8px 12px 10px;
+      gap: 10px;
+    }
+
+    .artist-header.is-compact .artist-nav a{
+      padding: 8px 10px;
+      font-size: 13px;
+    }
   }
   
 /* BUTTONS */

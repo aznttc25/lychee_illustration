@@ -855,6 +855,17 @@ function applyJukeboxClasses(){
     }
   </script>
   
+  <script>
+    const header = document.querySelector(".artist-header");
 
+    function updateHeaderCompact(){
+      if (!header) return;
+      const shouldCompact = window.scrollY > 60; // threshold
+      header.classList.toggle("is-compact", shouldCompact);
+    }
+
+    updateHeaderCompact();
+    window.addEventListener("scroll", updateHeaderCompact, { passive: true });
+  </script>
 </body>
 </html>
