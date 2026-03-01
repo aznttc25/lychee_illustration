@@ -767,7 +767,103 @@ JUKEBOX ROTATION CAROUSEL
     filter: blur(4px);
     z-index: 1;
   }
-  
+
+/* =========================
+   SKETCHBOOK ARCHIVE OVERLAY
+   ========================= */
+
+.sketchbook__cta{
+  max-width: 1100px;
+  margin: 14px auto 0;
+  padding: 0 22px;
+  display: flex;
+  justify-content: center; /* center */
+}
+
+.sketch-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  padding: clamp(14px, 2.5vw, 28px);
+  z-index: 10020;
+}
+
+.sketch-overlay.active{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Big panel that covers most of the screen */
+.overlay-content{
+  position: relative;
+  width: min(1400px, 96vw);
+  height: min(88vh, 980px);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+  padding: clamp(18px, 2.2vw, 28px);
+  overflow: auto; /* scroll inside the panel */
+}
+
+.overlay-content h2{
+  margin: 6px 0 18px;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 40px);
+}
+
+/* Close button in the panel (not floating randomly) */
+.overlay-close{
+  position: sticky;      /* stays visible as you scroll inside */
+  top: 0;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Masonry / puzzle-like layout using columns */
+.overlay-grid{
+  column-count: 4;
+  column-gap: 16px;
+}
+
+.overlay-grid img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 0 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  break-inside: avoid;
+}
+
+/* Responsive columns */
+@media (max-width: 1100px){
+  .overlay-grid{ column-count: 3; }
+}
+
+@media (max-width: 760px){
+  .overlay-content{
+    height: 92vh;
+    border-radius: 22px;
+  }
+  .overlay-grid{ column-count: 2; }
+}
+
+@media (max-width: 480px){
+  .overlay-grid{ column-count: 1; }
+}
   
   /* Mobile tuning */
   @media (max-width: 900px){
