@@ -988,7 +988,11 @@ JUKEBOX ROTATION CAROUSEL
   gap: 18px;
   align-items: start;
 }
-.about-text p { margin: 0 0 12px; line-height: 1.6; }
+
+.about-text{ order: 2; }
+.about-photo{ order: 1; }
+
+.about-text p { margin: 0 0 12px; line-height: 1.6;}
 .about-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
 .about-photo img {
   width: 100%;
@@ -1043,6 +1047,8 @@ input, textarea {
   .gallery{ column-count: 2; }
   .cards { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
+  .about-photo{ order: 0; } 
+  .about-text{ order: 1; } 
 }
 @media (max-width: 520px) {
   .gallery{ column-count: 1; }
