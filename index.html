@@ -163,30 +163,75 @@
         </button>
         
         <button class="tile" type="button"
-            data-src="images/work1.jpg"
+            data-src="images/dance-1.jpg"
             data-title="Mountain Landscape"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
-            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+            <img src="images/dance-1.jpg" alt="Mountain Landscape" />
         </button>
         
         <button class="tile" type="button"
-            data-src="images/work1.jpg"
+            data-src="images/dance-2.jpg"
             data-title="Mountain Landscape"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
-            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+            <img src="images/dance-2.jpg" alt="Mountain Landscape" />
         </button>
 
         <button class="tile" type="button"
-            data-src="images/work1.jpg"
+            data-src="images/dance-3.jpg"
             data-title="Mountain Landscape"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
-            <img src="images/work1_thumb.jpg" alt="Mountain Landscape" />
+            <img src="images/dance-3.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/dance-3.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/dance-3.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/dance-3.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/dance-3.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/dance-3.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/dance-3.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/dance-3.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/dance-3.jpg" alt="Mountain Landscape" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/matcha.jpg"
+            data-title="Mountain Landscape"
+            data-year="2024"
+            data-medium="Gouache on paper"
+            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            <img src="images/matcha.jpg" alt="Mountain Landscape" />
         </button>
       </div>
     </section>
@@ -439,7 +484,90 @@
         .map(url => ({ url, type: getMediaType(url) }));
     }
 
+    // =========================
+    // GALLERY TILE AUTO-PREVIEW (cycles thumbnail for multi-image tiles)
+    // =========================
+    (function tileAutoPreview(){
+      const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      if (prefersReduced) return;
 
+      const tiles = Array.from(document.querySelectorAll(".gallery .tile[data-src]"));
+      if (!tiles.length) return;
+
+      const FADE_MS = 500;
+      const INTERVAL_MS = 4000;
+
+      // Store per-tile state
+      const state = new Map(); // tile -> { list, idx, timer, img }
+
+      function getImageUrls(tile){
+        // Use your existing parser, then keep images only (skip videos)
+        const list = parseMediaList(tile.dataset.src || "");
+        return list.filter(x => x.type === "image").map(x => x.url);
+      }
+
+      function start(tile){
+        const s = state.get(tile);
+        if (!s || s.timer || s.list.length <= 1) return;
+
+        s.timer = window.setInterval(() => {
+          s.idx = (s.idx + 1) % s.list.length;
+
+          // fade out -> swap src -> fade in
+          s.img.classList.add("is-fading");
+          window.setTimeout(() => {
+            s.img.src = s.list[s.idx];
+            s.img.classList.remove("is-fading");
+          }, FADE_MS);
+        }, INTERVAL_MS);
+      }
+
+      function stop(tile){
+        const s = state.get(tile);
+        if (!s || !s.timer) return;
+        clearInterval(s.timer);
+        s.timer = null;
+      }
+
+      // IntersectionObserver: only run while visible
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const tile = entry.target;
+          if (entry.isIntersecting) start(tile);
+          else stop(tile);
+        });
+      }, { threshold: 0.35 });
+
+      tiles.forEach(tile => {
+        const img = tile.querySelector("img");
+        if (!img) return;
+
+        const list = getImageUrls(tile);
+        if (list.length <= 1) return; // only auto-cycle multi-image tiles
+
+        // Initialize state
+        state.set(tile, { list, idx: 0, timer: null, img });
+
+        // Start/stop logic
+        io.observe(tile);
+
+        // Pause on hover/focus so user can click calmly
+        tile.addEventListener("mouseenter", () => stop(tile));
+        tile.addEventListener("mouseleave", () => start(tile));
+        tile.addEventListener("focusin", () => stop(tile));
+        tile.addEventListener("focusout", () => start(tile));
+      });
+
+      // Safety: stop all timers if the tab is hidden
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden){
+          tiles.forEach(stop);
+        } else {
+          // restart only ones in view; observer will handle, but this helps instantly
+          tiles.forEach(tile => start(tile));
+        }
+      });
+    })();
   
     // ---------- elements ----------
     const lightbox = document.getElementById("lightbox");

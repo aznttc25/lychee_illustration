@@ -1,26 +1,6 @@
 * { box-sizing: border-box; }
 
-/* Optional: keep smooth scroll. If you don't want it, delete this line. */
 html { scroll-behavior: smooth; }
-
-/* :root{ */
-  /* Honeybutter palette */
-  /* --bg: #FAF4E6;
-  --surface: #F8EED6;
-  --surface-2: #F2E6C0;
-  --accent: #F4D68E;
-  --accent-2: #F4DA9D;
-
-  --ink: #1A1A1A;
-  --ink-soft: #2F2A22;
-  --muted: #5B5346;
-  --border: rgba(26,26,26,0.12);
-
-  --radius: 18px;
-
-  --font-display: "Fraunces", serif;
-  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-} */
 
 :root{
     /* MARIGOLD / BUFF / PEARL */
@@ -48,8 +28,6 @@ html { scroll-behavior: smooth; }
     --page-pad: clamp(14px, 2.5vw, 28px);
   }
   
-  
-
 body{
     margin: 0;
     font-family: var(--font-body);
@@ -69,7 +47,6 @@ p, li, a, button, input, textarea {
 }
   
 /* NAV */
-/* Bigger header */
 /* HEADER + NAV */
 .artist-header{
   position: sticky;
@@ -354,13 +331,20 @@ p, li, a, button, input, textarea {
 ========================= */
 
 .gallery{
-  max-width: 1320px;        /* wider page */
+  max-width: 1320px;  
   margin: 18px auto 0;
-  column-count: 3;          /* 3 columns desktop */
+  column-count: 4; /* adjust column gallery*/      
   column-gap: 16px;
 }
 
-/* Tiles must not break between columns */
+.gallery .tile img{
+  transition: opacity 220ms ease, transform 180ms ease;
+}
+
+.gallery .tile img.is-fading{
+  opacity: 0;
+}
+
 .tile{
   width: 100%;
   display: inline-block;    /* required for columns */
@@ -1044,12 +1028,12 @@ input, textarea {
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .gallery{ column-count: 2; }
+  .gallery{ grid-template-columns: repeat(2, 1fr); }
   .cards { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
   .about-photo{ order: 0; } 
   .about-text{ order: 1; } 
 }
 @media (max-width: 520px) {
-  .gallery{ column-count: 1; }
+  .gallery{ grid-template-columns: 1fr; }
 }
