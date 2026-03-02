@@ -3,30 +3,38 @@
 html { scroll-behavior: smooth; }
 
 :root{
-    /* MARIGOLD / BUFF / PEARL */
-    --bg: #EBDDC5;        /* Pearl */
-    --surface: #F3D58D;   /* Buff */
-    --surface-2: #F8E4AE; /* lighter buff */
-  
-    --accent: #E5902C;    /* Marigold */
-    --accent-2: #8A3B08; /* Citrine Brown */
-  
-    --ink: #2A241E;
-    --ink-soft: #4A4036;
-    --muted: #6A5F52;
-  
-    --border: rgba(42,36,30,0.16);
+  --marigold: #E5902C;
+  --buff: #F3D58D;
+  --pearl: #EBDDC5;
+  --police-blue: #2F4365;
+  --citrine-brown: #8A3B08;
 
-    --header-footer-bg: #E6D5B8;
-  
-    --radius: 18px;
-  
-    --font-display: "Fraunces", serif;
-    --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  /* Site roles */
+  --bg: var(--pearl);               /* page background */
+  --surface: var(--buff);           /* cards/panels */
+  --surface-2: #F8E4AE;             /* lighter buff hover */
 
-    --page-max: 1320px;           /* try 1280–1440 */
-    --page-pad: clamp(14px, 2.5vw, 28px);
-  }
+  --accent: var(--marigold);        /* primary accent */
+  --accent-2: var(--police-blue);   /* secondary accent */
+  --accent-3: var(--citrine-brown); /* rare/strong accent */
+
+  /* Text + borders */
+  --ink: var(--police-blue);   
+  --ink-soft: rgba(47,67,101,0.86);
+  --muted: rgba(47,67,101,0.70);
+  --border: rgba(47,67,101,0.18);
+
+  /* Header/footer background */
+  --header-footer-bg: color-mix(in srgb, var(--pearl) 70%, var(--buff) 30%);
+
+  --radius: 18px;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  --page-max: 1320px;
+  --page-pad: clamp(14px, 2.5vw, 28px);
+}
   
 body{
     margin: 0;
@@ -52,7 +60,7 @@ p, li, a, button, input, textarea {
   position: sticky;
   top: 0;
   z-index: 9998;
-  background: var(--bg);
+  background: var(--header-footer-bg);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
   transition: box-shadow 200ms ease;
@@ -166,10 +174,14 @@ p, li, a, button, input, textarea {
     font-size: 16px;
     padding: 12px 16px;
     text-decoration: none;
-    color: var(--ink);
+    color: #8A3B08;
     font-weight: 800;
     border-radius: 999px;
     transition: padding 220ms ease, font-size 220ms ease;
+  }
+
+  .artist-nav a:hover{
+    color: #E5902C; /* Marigold */
   }
 
   /* ===== Compact state when scrolling ===== */
@@ -225,7 +237,7 @@ p, li, a, button, input, textarea {
   
   .artist-nav a.cta:hover{
     background: var(--ink);
-    color: var(--bg);
+    color: var(--pearl);
     transform: translateY(-1px);
   }
   
@@ -296,9 +308,9 @@ p, li, a, button, input, textarea {
   }
   
   .btn.primary{
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
+    background: var(--accent-2);
+    color: var(--pearl);
+    border-color: var(--accent-2);
   }
   
   .btn.primary:hover{
@@ -544,8 +556,8 @@ p, li, a, button, input, textarea {
     height: 40px;                    
     border-radius: 999px;
     border: 1px solid var(--border);
-    background: var(--accent);       
-    color: white;
+    background: var(--accent-2);       
+    color: var(--pearl);
     font-size: 22px;                 
     line-height: 1;
     display: grid;
@@ -556,7 +568,7 @@ p, li, a, button, input, textarea {
   }
   
   .lightbox__nav:hover{
-    background: var(--surface-2);
+    background: var(--accent);
     transform: translateY(-50%) scale(1.04);
   }
   
