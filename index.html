@@ -672,18 +672,24 @@ function applyJukeboxClasses(){
 
     // wheel / trackpad control
     jukeboxStage.addEventListener("wheel", (e) => {
+        const mostlyHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        const allowCarouselWheel = e.shiftKey || mostlyHorizontal;
+
+        // let normal page scrolling pass through
+        if (!allowCarouselWheel) return;
+
         e.preventDefault();
 
         if (wheelLock) return;
         wheelLock = true;
         setTimeout(() => (wheelLock = false), 250);
 
-        // use the stronger axis (trackpad may give both)
-        const v = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+        const v = mostlyHorizontal ? e.deltaX : e.deltaY;
+
         if (v > 0) jukeboxGo(1);
         else jukeboxGo(-1);
 
-        startJukebox(); // resume auto after manual input
+        startJukebox();
     }, { passive: false });
 
     // swipe control (mobile)
