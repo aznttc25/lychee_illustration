@@ -63,7 +63,7 @@ p, li, a, button, input, textarea {
   background: var(--header-footer-bg);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-  transition: box-shadow 200ms ease;
+  transition: box-shadow 220ms ease, background-color 220ms ease;
 }
 
   
@@ -75,7 +75,8 @@ p, li, a, button, input, textarea {
     grid-template-columns: 140px 1fr 240px;
     align-items: center;
     gap: 24px;
-    transition: padding 220ms ease;
+    transition: transform 220ms ease;
+    transform-origin: top center;
   }
   
   /* Avatar/logo */
@@ -88,7 +89,8 @@ p, li, a, button, input, textarea {
     border: 0; /* oval logo */
     background: var(--surface);
     display: block;
-    transition: width 220ms ease, height 220ms ease;
+    transition: transform 220ms ease;
+    transform-origin: center;
   }
   .artist-header__avatar img{
     width: 100%;
@@ -113,7 +115,8 @@ p, li, a, button, input, textarea {
     font-weight: 800;
     letter-spacing: -0.01em;
     line-height: 1;
-    transition: font-size 220ms ease;
+    transition: transform 220ms ease, opacity 220ms ease;
+    transform-origin: center;
     padding: 25px;
   }
   
@@ -124,7 +127,8 @@ p, li, a, button, input, textarea {
     margin-top: 12px;
     color: var(--muted);
     font-weight: 800;
-    transition: margin-top 220ms ease, font-size 220ms ease;
+    transition: transform 220ms ease, opacity 220ms ease;
+    transform-origin: center;
   }
   
   /* Social icons (consistent circles + hover) */
@@ -168,7 +172,8 @@ p, li, a, button, input, textarea {
     gap: 26px;
     justify-content: center;
     flex-wrap: wrap;
-    transition: padding 220ms ease, gap 220ms ease;
+    transition: transform 220ms ease, opacity 220ms ease;
+    transform-origin: top center;
   }
   
   .artist-nav a{
@@ -178,7 +183,7 @@ p, li, a, button, input, textarea {
     color: #8A3B08;
     font-weight: 800;
     border-radius: 999px;
-    transition: padding 220ms ease, font-size 220ms ease;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease, opacity 220ms ease;
   }
 
   .artist-nav a:hover{
@@ -192,32 +197,32 @@ p, li, a, button, input, textarea {
 
 /* shrink the big header row */
 .artist-header.is-compact .artist-header__inner{
-  padding: 18px 18px 10px; /* was 48px 28px 22px */
+  transform: scale(0.9);
 }
 
 /* shrink logo */
 .artist-header.is-compact .artist-header__avatar{
-  width: 72px;
-  height: 72px;
+  transform: scale(0.75);
 }
 
 /* shrink type */
 .artist-header.is-compact .artist-header__name{
-  font-size: 34px; /* was 52px */
+  transform: scale(0.72);
+  opacity: 0.98;
 }
 .artist-header.is-compact .artist-header__title{
-  margin-top: 6px; /* was 12px */
-  font-size: 12px;
+  transform: translateY(-4px) scale(0.88);
+  opacity: 0.75;
 }
 
 /* shrink nav row */
 .artist-header.is-compact .artist-nav{
-  padding: 10px 16px 14px; /* was 18px 28px 36px */
-  gap: 12px;               /* was 26px */
+  transform: translateY(-6px) scale(0.96);
+  opacity: 0.98;
 }
 .artist-header.is-compact .artist-nav a{
-  padding: 8px 12px;       /* was 12px 16px */
-  font-size: 14px;         /* was 16px */
+  transform: translateY(-6px) scale(0.96);
+  opacity: 0.98;
 }
 .artist-header.is-compact .artist-nav a.cta{
   padding: 8px 14px;       /* was 12px 20px */
@@ -1246,24 +1251,19 @@ input, textarea {
 }
 
 .artist-header.is-compact .artist-header__inner{
-  grid-template-columns: 34px 1fr auto;
-  padding: 8px 14px 6px;
-  gap: 8px;
+  transform: scale(0.94);
 }
 
 .artist-header.is-compact .artist-header__avatar{
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  transform: scale(0.82);
 }
 
 .artist-header.is-compact .artist-header__name{
-  font-size: 18px;
+  transform: scale(0.9);
 }
 
 .artist-header.is-compact .artist-header__social{
-  display: flex;
-  gap: 6px;
+  transform: scale(0.92);
 }
 
 .artist-header.is-compact .artist-header__social a{
@@ -1277,13 +1277,11 @@ input, textarea {
 }
 
 .artist-header.is-compact .artist-nav{
-  padding: 8px 14px 10px;
-  gap: 8px 10px;
+  transform: translateY(-4px) scale(0.97);
 }
 
 .artist-header.is-compact .artist-nav a{
-  padding: 8px 8px;
-  font-size: 12px;
+  opacity: 0.98;
 }
 
 .artist-header.is-compact .artist-nav a.cta{

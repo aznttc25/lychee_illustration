@@ -993,15 +993,35 @@ function applyJukeboxClasses(){
   
   <script>
     const header = document.querySelector(".artist-header");
+    let isCompact = false;
+    let ticking = false;
 
-    function updateHeaderCompact(){
+    function updateHeaderCompact() {
       if (!header) return;
-      const shouldCompact = window.scrollY > 24; // threshold
-      header.classList.toggle("is-compact", shouldCompact);
+
+      const y = window.scrollY;
+
+      if (!isCompact && y > 80) {
+        isCompact = true;
+        header.classList.add("is-compact");
+      } else if (isCompact && y < 30) {
+        isCompact = false;
+        header.classList.remove("is-compact");
+      }
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateHeaderCompact();
+          ticking = false;
+        });
+        ticking = true;
+      }
     }
 
     updateHeaderCompact();
-    window.addEventListener("scroll", updateHeaderCompact, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
   </script>
 
     <script>
