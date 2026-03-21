@@ -995,7 +995,7 @@ function applyJukeboxClasses(){
 
     function updateHeaderCompact(){
       if (!header) return;
-      const shouldCompact = window.scrollY > 60; // threshold
+      const shouldCompact = window.scrollY > 20; // threshold
       header.classList.toggle("is-compact", shouldCompact);
     }
 
