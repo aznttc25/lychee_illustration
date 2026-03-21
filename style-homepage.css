@@ -242,54 +242,6 @@ p, li, a, button, input, textarea {
     transform: translateY(-1px);
   }
   
-  /* Mobile */
-  @media (max-width: 820px){
-    .artist-header__inner{
-      grid-template-columns: 100px 1fr;
-      grid-template-rows: auto auto;
-      padding: 22px 18px 12px;
-    }
-  
-    .artist-header__avatar{
-      width: 92px;
-      height: 92px;
-    }
-  
-    .artist-header__social{
-      grid-column: 1 / -1;
-      justify-content: center;
-      padding-top: 10px;
-    }
-  
-    .artist-header__name{ font-size: 38px; }
-    .artist-header__title{ font-size: 13px; }
-  
-    .artist-nav{ padding: 10px 18px 18px; gap: 14px; }
-
-    .artist-header.is-compact .artist-header__inner{
-      padding: 14px 14px 8px;
-    }
-
-    .artist-header.is-compact .artist-header__avatar{
-      width: 64px;
-      height: 64px;
-    }
-
-    .artist-header.is-compact .artist-header__name{
-      font-size: 28px;
-    }
-
-    .artist-header.is-compact .artist-nav{
-      padding: 8px 12px 10px;
-      gap: 10px;
-    }
-
-    .artist-header.is-compact .artist-nav a{
-      padding: 8px 10px;
-      font-size: 13px;
-    }
-  }
-  
 /* BUTTONS */
 .btn{
     display: inline-block;
