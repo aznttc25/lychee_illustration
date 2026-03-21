@@ -1266,7 +1266,7 @@ input, textarea {
   }
 
   .artist-header.is-compact .artist-header__social{
-    display: none;
+    display: flex;
   }
 
   .artist-header.is-compact .artist-header__social a{
