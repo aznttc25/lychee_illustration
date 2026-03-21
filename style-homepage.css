@@ -56,17 +56,16 @@ p, li, a, button, input, textarea {
   
 /* NAV */
 /* HEADER + NAV */
-.artist-header{
-  position: sticky;
-  top: 0;
-  z-index: 9998;
-  background: var(--header-footer-bg);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-  transition: box-shadow 220ms ease, background-color 220ms ease;
-}
+  .artist-header{
+    position: sticky;
+    top: 0;
+    z-index: 9998;
+    background: var(--header-footer-bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    transition: box-shadow 220ms ease, background-color 220ms ease;
+  }
 
-  
   .artist-header__inner{
     max-width: var(--page-max);
     margin: 0 auto;
@@ -75,8 +74,7 @@ p, li, a, button, input, textarea {
     grid-template-columns: 140px 1fr 240px;
     align-items: center;
     gap: 24px;
-    transition: transform 220ms ease;
-    transform-origin: top center;
+    transition: padding 220ms ease, grid-template-columns 220ms ease, gap 220ms ease;
   }
   
   /* Avatar/logo */
@@ -85,12 +83,10 @@ p, li, a, button, input, textarea {
     height: 120px;
     border-radius: 999px;
     overflow: hidden;
-    /* border: 1px solid var(--border); */
-    border: 0; /* oval logo */
+    border: 0;
     background: var(--surface);
     display: block;
-    transition: transform 220ms ease;
-    transform-origin: center;
+    transition: width 220ms ease, height 220ms ease;
   }
   .artist-header__avatar img{
     width: 100%;
@@ -111,13 +107,13 @@ p, li, a, button, input, textarea {
   
   .artist-header__name{
     font-family: var(--font-display);
-    font-size: 80px;
+    font-size: clamp(48px, 5.4vw, 72px);
     font-weight: 800;
     letter-spacing: -0.01em;
     line-height: 1;
-    transition: transform 220ms ease, opacity 220ms ease;
-    transform-origin: center;
-    padding: 25px;
+    white-space: nowrap;
+    transition: font-size 220ms ease, opacity 220ms ease;
+    padding: 0;
   }
   
   .artist-header__title{
@@ -127,8 +123,7 @@ p, li, a, button, input, textarea {
     margin-top: 12px;
     color: var(--muted);
     font-weight: 800;
-    transition: transform 220ms ease, opacity 220ms ease;
-    transform-origin: center;
+    transition: margin-top 220ms ease, font-size 220ms ease, opacity 220ms ease;
   }
   
   /* Social icons (consistent circles + hover) */
@@ -172,8 +167,7 @@ p, li, a, button, input, textarea {
     gap: 26px;
     justify-content: center;
     flex-wrap: wrap;
-    transition: transform 220ms ease, opacity 220ms ease;
-    transform-origin: top center;
+    transition: padding 220ms ease, gap 220ms ease, opacity 220ms ease;
   }
   
   .artist-nav a{
@@ -183,7 +177,7 @@ p, li, a, button, input, textarea {
     color: #8A3B08;
     font-weight: 800;
     border-radius: 999px;
-    transition: background 160ms ease, color 160ms ease, transform 160ms ease, opacity 220ms ease;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease, padding 220ms ease, font-size 220ms ease, opacity 220ms ease;
   }
 
   .artist-nav a:hover{
@@ -191,38 +185,41 @@ p, li, a, button, input, textarea {
   }
 
   /* ===== Compact state when scrolling ===== */
-.artist-header.is-compact{
-  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
-}
+  .artist-header.is-compact{
+    box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  }
 
-/* shrink the big header row */
-.artist-header.is-compact .artist-header__inner{
-  transform: scale(0.9);
-}
+  .artist-header.is-compact .artist-header__inner{
+    padding: 20px 28px 10px;
+    grid-template-columns: 96px 1fr 190px;
+    gap: 18px;
+  }
 
-/* shrink logo */
-.artist-header.is-compact .artist-header__avatar{
-  transform: scale(0.75);
-}
+  .artist-header.is-compact .artist-header__avatar{
+    width: 82px;
+    height: 82px;
+  }
 
-/* shrink type */
-.artist-header.is-compact .artist-header__name{
-  transform: scale(0.72);
-  opacity: 0.98;
-}
-.artist-header.is-compact .artist-header__title{
-  transform: translateY(-4px) scale(0.88);
-  opacity: 0.75;
-}
+  .artist-header.is-compact .artist-header__name{
+    font-size: clamp(36px, 4.1vw, 52px);
+    opacity: 0.98;
+  }
+
+  .artist-header.is-compact .artist-header__title{
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.75;
+  }
 
 /* shrink nav row */
 .artist-header.is-compact .artist-nav{
-  transform: translateY(-6px) scale(0.96);
+  padding: 10px 28px 16px;
+  gap: 18px;
   opacity: 0.98;
 }
 .artist-header.is-compact .artist-nav a{
-  transform: translateY(-6px) scale(0.96);
-  opacity: 0.98;
+  font-size: 14px;
+  padding: 8px 12px;
 }
 .artist-header.is-compact .artist-nav a.cta{
   padding: 8px 14px;       /* was 12px 20px */
