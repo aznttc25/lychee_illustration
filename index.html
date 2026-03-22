@@ -741,33 +741,6 @@ function applyJukeboxClasses(){
     let slides  = [];
     let slideIndex = 0;
 
-    // ---------- keep OUTER nav near popup ----------
-    function positionOuterNav(){
-    if (!lightbox.classList.contains("is-open")) return;
-
-    const r = panelEl.getBoundingClientRect();
-    const gap = 14;
-
-    // match your CSS (.lightbox__nav width/height is 46px)
-    const btnW = 46;
-
-    // preferred: outside the popup
-    let prevX = r.left - btnW - gap;
-    let nextX = r.right + gap;
-
-    // if outside would go off-screen, tuck just inside popup edge
-    if (prevX < 12) prevX = r.left + gap;
-    if (nextX + btnW > window.innerWidth - 12) nextX = r.right - btnW - gap;
-
-    prevBtn.style.left = `${prevX}px`;
-    nextBtn.style.left = `${nextX}px`;
-
-    // keep them vertically centered to popup (not the whole page)
-    const centerY = r.top + r.height / 2;
-    prevBtn.style.top = `${centerY}px`;
-    nextBtn.style.top = `${centerY}px`;
-    }
-
     // ---------- core render ----------
     function renderFromIndex(i){
     const tile = tiles[i];
@@ -775,45 +748,39 @@ function applyJukeboxClasses(){
 
     // MULTI-IMAGE
     const srcString = tile.dataset.src || "";
-    slides = parseMediaList(srcString);
-    slideIndex = 0;
+      slides = parseMediaList(srcString);
+      slideIndex = 0;
 
-    // fallback to thumbnail if nothing provided
-    const thumb = tile.querySelector("img")?.getAttribute("src");
-    if (!slides.length && thumb) slides = [{ url: thumb, type: getMediaType(thumb) }];
+      // fallback to thumbnail if nothing provided
+      const thumb = tile.querySelector("img")?.getAttribute("src");
+      if (!slides.length && thumb) slides = [{ url: thumb, type: getMediaType(thumb) }];
 
-    buildDots();
-    showSlide(0);
+      buildDots();
+      showSlide(0);
 
-    const hasMultiple = slides.length > 1;
-    mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
-    mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
-    mediaDots.style.display = hasMultiple ? "flex" : "none";
+      const hasMultiple = slides.length > 1;
+      mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
+      mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
+      mediaDots.style.display = hasMultiple ? "flex" : "none";
 
-    // META
-    titleEl.textContent = tile.dataset.title || "";
-    subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
-    descEl.textContent = tile.dataset.desc || "";
-    chipsEl.innerHTML = "";
+      // META
+      titleEl.textContent = tile.dataset.title || "";
+      subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
+      descEl.textContent = tile.dataset.desc || "";
+      chipsEl.innerHTML = "";
 
-    // after content updates, re-place outer buttons near popup
-    requestAnimationFrame(positionOuterNav);
     }
 
     // ---------- open / close ----------
     function openAtIndex(i){
-    lastFocused = document.activeElement;
-    currentIndex = i;
+      lastFocused = document.activeElement;
+      currentIndex = i;
 
-    renderFromIndex(currentIndex);
+      renderFromIndex(currentIndex);
 
-    lightbox.classList.add("is-open");
-    lightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-
-    // position right away + after layout
-    positionOuterNav();
-    requestAnimationFrame(positionOuterNav);
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
     }
 
     function closeLightbox(){
@@ -875,9 +842,6 @@ function applyJukeboxClasses(){
     if (e.key === "ArrowLeft") prevArtwork();
     if (e.key === "ArrowRight") nextArtwork();
     });
-
-    // keep positioned on resize
-    window.addEventListener("resize", positionOuterNav);
 
   
     // ---------- navigation ----------
