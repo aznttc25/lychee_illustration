@@ -402,7 +402,7 @@ p, li, a, button, input, textarea {
   background: color-mix(in srgb, var(--surface) 35%, var(--bg) 65%);
   display: grid;
   place-items: center;
-  padding: 30px 32px 84px;
+  padding: 30px 32px 112px;
   border: 1px solid var(--border);
   border-radius: 24px;
 }
@@ -422,7 +422,8 @@ p, li, a, button, input, textarea {
 }
 
 .lightbox__body{
-  padding: 32px 8px 0;
+  padding: 32px 8px 8px;
+  max-width: 84ch;
 }
 
 .lightbox__section{
@@ -454,34 +455,18 @@ p, li, a, button, input, textarea {
   line-height: 1.85;
 }
 
-.lightbox__section-grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 26px;
-  padding-top: 8px;
-}
 
 .lightbox__meta{
   min-width: 0;
   border-left: 1px solid var(--border);
   background: color-mix(in srgb, var(--bg) 82%, white 18%);
-  padding: 34px 34px 44px;
+  padding: 54px 34px 44px;
   position: sticky;
   top: 0;
   align-self: start;
   min-height: 100vh;
 }
 
-.lightbox__backlink{
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 28px;
-}
 
 .lightbox__meta h3{
   margin: 0 0 14px;
@@ -523,35 +508,6 @@ p, li, a, button, input, textarea {
   color: var(--ink);
 }
 
-.lightbox__facts{
-  margin: 48px 0 0;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-}
-
-.lightbox__facts > div{
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.lightbox__facts dt,
-.lightbox__facts dd{
-  margin: 0;
-}
-
-.lightbox__facts dt{
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.lightbox__facts dd{
-  color: var(--ink-soft);
-  font-weight: 700;
-  text-align: right;
-}
 
 .lightbox__close{
   position: absolute;
@@ -599,10 +555,10 @@ p, li, a, button, input, textarea {
 
 .media-nav{
   position: absolute;
-  bottom: 20px;
+  bottom: 22px;
   transform: none;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface);
@@ -614,21 +570,21 @@ p, li, a, button, input, textarea {
   z-index: 5;
 }
 
-.media-nav--prev{ left: calc(50% - 92px); }
-.media-nav--next{ right: calc(50% - 92px); }
+.media-nav--prev{ left: calc(50% - 116px); }
+.media-nav--next{ left: calc(50% + 70px); }
 
 .media-dots{
   position: absolute;
-  bottom: 20px;
+  bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 8px;
   z-index: 4;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.78);
   backdrop-filter: blur(6px);
 }
 
@@ -696,7 +652,7 @@ p, li, a, button, input, textarea {
   }
 
   .lightbox__media{
-    padding: 54px 14px 72px;
+    padding: 54px 14px 88px;
     border-radius: 18px;
   }
 
@@ -707,12 +663,8 @@ p, li, a, button, input, textarea {
   }
 
   .lightbox__body{
-    padding: 26px 2px 0;
-  }
-
-  .lightbox__section-grid{
-    grid-template-columns: 1fr;
-    gap: 18px;
+    padding: 26px 2px 6px;
+    max-width: none;
   }
 
   .lightbox__body-copy,
@@ -755,6 +707,20 @@ p, li, a, button, input, textarea {
 
   .lightbox__nav--prev{ left: 16px; }
   .lightbox__nav--next{ right: 16px; }
+
+  .media-nav{
+    bottom: 18px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .media-nav--prev{ left: calc(50% - 104px); }
+  .media-nav--next{ left: calc(50% + 64px); }
+
+  .media-dots{
+    bottom: 22px;
+    padding: 7px 12px;
+  }
 }
 
 /* PROJECT CARDS */

@@ -414,38 +414,20 @@
                   <p class="lightbox__body-copy" id="lightboxOverview"></p>
                 </div>
 
-                <div class="lightbox__section-grid">
-                  <div class="lightbox__section">
-                    <h4>The story</h4>
-                    <p class="lightbox__body-copy" id="lightboxStory"></p>
-                  </div>
-                  <div class="lightbox__section">
-                    <h4>Process & notes</h4>
-                    <p class="lightbox__body-copy" id="lightboxProcess"></p>
-                  </div>
+                <div class="lightbox__section">
+                  <h4>The story</h4>
+                  <p class="lightbox__body-copy" id="lightboxStory"></p>
                 </div>
               </section>
             </section>
         
             <aside class="lightbox__meta">
-              <button class="lightbox__backlink" type="button" data-close="true" aria-label="Back to gallery">← View all</button>
               <p class="lightbox__kicker" id="lightboxKicker"></p>
               <h3 id="lightboxTitle"></h3>
               <p class="lightbox__sub" id="lightboxSub"></p>
               <p class="lightbox__desc" id="lightboxDesc"></p>
         
               <div class="lightbox__chips" id="lightboxChips"></div>
-
-              <dl class="lightbox__facts">
-                <div>
-                  <dt>Role</dt>
-                  <dd id="lightboxRole"></dd>
-                </div>
-                <div>
-                  <dt>Series</dt>
-                  <dd id="lightboxSeries"></dd>
-                </div>
-              </dl>
             </aside>
           </div>
         </div>
@@ -644,9 +626,6 @@
     const descEl = document.getElementById("lightboxDesc");
     const overviewEl = document.getElementById("lightboxOverview");
     const storyEl = document.getElementById("lightboxStory");
-    const processEl = document.getElementById("lightboxProcess");
-    const roleEl = document.getElementById("lightboxRole");
-    const seriesEl = document.getElementById("lightboxSeries");
     const kickerEl = document.getElementById("lightboxKicker");
     const chipsEl = document.getElementById("lightboxChips");
 
@@ -835,9 +814,6 @@ function applyJukeboxClasses(){
       descEl.textContent = desc;
       overviewEl.textContent = overview;
       storyEl.textContent = story;
-      processEl.textContent = process;
-      roleEl.textContent = role;
-      seriesEl.textContent = series;
       kickerEl.textContent = tile.dataset.year || "Featured Work";
 
       chipsEl.innerHTML = "";
