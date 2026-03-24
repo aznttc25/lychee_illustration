@@ -78,6 +78,7 @@
         <button class="tile" type="button"
             data-src="images/foodseries-7.jpg|images/foodseries-6.jpg|images/foodseries-5.jpg|images/foodseries-4.jpg|images/foodseries-3.jpg|images/foodseries-2.jpg|images/foodseries-1.jpg"
             data-title="Food Memory Series"
+            data-collection="food"
             data-year="2025"
             data-medium="Gouache on paper"
             data-series="Illustration"
@@ -93,6 +94,7 @@
         <button class="tile" type="button"
             data-src="images/cards-1.png|images/cards-fly.png|images/cards-layout.png|images/cards-lean.png"
             data-title="Card Series"
+            data-collection="portraits"
             data-year="2024"
             data-medium="Gouache on paper"
             data-series="Print / Object"
@@ -108,6 +110,7 @@
         <button class="tile" type="button"
             data-src="images/thai-1.png|images/thai-5.png|images/thai-p1.jpg|images/thai-p2.jpg|images/thaiVid.mov"
             data-title="Thai Town Series"
+            data-collection="food"
             data-year="2024"
             data-medium="Gouache on paper"
             data-series="Illustration Series"
@@ -123,6 +126,7 @@
         <button class="tile" type="button"
             data-src="images/Pufferfish Playground.png"
             data-title="Mountain Landscape"
+            data-collection="characters"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
@@ -132,6 +136,7 @@
         <button class="tile" type="button"
             data-src="images/home.jpg"
             data-title="Monterey Park"
+            data-collection="characters"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
@@ -141,6 +146,7 @@
         <button class="tile" type="button"
             data-src="images/matchas.png"
             data-title="Matcha"
+            data-collection="food"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
@@ -150,6 +156,7 @@
         <button class="tile" type="button"
             data-src="images/red-mockup.png|images/front-red.png|images/Bookred-2.png|images/red.jpg"
             data-title="Red Art Series"
+            data-collection="portraits"
             data-year="2024"
             data-medium="Gouache on paper"
             data-desc="A warm palette study exploring atmospheric depth and edge control.">
@@ -220,7 +227,7 @@
         </button> -->
       </div>
     </section>
-    
+
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <div class="section-head">
@@ -229,21 +236,35 @@
       </div>
 
       <div class="cards">
-        <article class="card">
+        <button class="card card--project" type="button"
+          data-project-collection="portraits"
+          data-project-title="Portrait Series"
+          data-project-desc="A collection centered on personality, keepsakes, and character-forward compositions with a painterly, storybook warmth."
+          data-project-tools="Tools: Procreate / Photoshop">
           <h3>Portrait Series</h3>
           <p>Expressive portraits exploring light, color, and personality.</p>
           <p class="meta">Tools: Procreate / Photoshop</p>
-        </article>
-        <article class="card">
+        </button>
+
+        <button class="card card--project" type="button"
+          data-project-collection="food"
+          data-project-title="Food Studies"
+          data-project-desc="Painted studies focused on texture, shine, warm color, and memory-driven storytelling through food."
+          data-project-tools="Tools: Gouache / Digital">
           <h3>Food Studies</h3>
           <p>Painted studies focused on texture, shine, and warm color palettes.</p>
           <p class="meta">Tools: Gouache / Digital</p>
-        </article>
-        <article class="card">
+        </button>
+
+        <button class="card card--project" type="button"
+          data-project-collection="characters"
+          data-project-title="Character Design"
+          data-project-desc="Concept-led pieces exploring stylized forms, playful worlds, and original character energy across finished illustrations."
+          data-project-tools="Tools: Clip Studio / Procreate">
           <h3>Character Design</h3>
           <p>Concept work and exploration pages for original characters.</p>
           <p class="meta">Tools: Clip Studio / Procreate</p>
-        </article>
+        </button>
       </div>
     </section>
     
@@ -431,7 +452,25 @@
           </div>
         </div>
       </div>
-    </div> 
+    
+</div> 
+
+    <div class="project-overlay" id="projectOverlay" aria-hidden="true">
+      <div class="project-overlay__backdrop" data-project-close="true"></div>
+
+      <div class="project-overlay__panel" role="dialog" aria-modal="true" aria-label="Project collection viewer">
+        <button class="project-overlay__close" type="button" aria-label="Close collection" data-project-close="true">✕</button>
+
+        <div class="project-overlay__head">
+          <p class="project-overlay__eyebrow">Collection</p>
+          <h3 id="projectOverlayTitle"></h3>
+          <p class="project-overlay__desc" id="projectOverlayDesc"></p>
+          <p class="project-overlay__tools" id="projectOverlayTools"></p>
+        </div>
+
+        <div class="project-overlay__grid" id="projectOverlayGrid"></div>
+      </div>
+    </div>
 
     <div id="sketchOverlay" class="sketch-overlay">
       <div class="overlay-content">
@@ -803,9 +842,6 @@ function applyJukeboxClasses(){
       const desc = tile.dataset.desc || "";
       const overview = tile.dataset.overview || desc || "Additional details for this piece can live here.";
       const story = tile.dataset.story || desc || "This piece can hold a longer narrative, memory, or artist reflection.";
-      const process = tile.dataset.process || desc || "Use this section for process notes, materials, or context behind the final work.";
-      const role = tile.dataset.role || "Illustration";
-      const series = tile.dataset.series || "Selected Work";
       const details = (tile.dataset.details || "").split("•").map(s => s.trim()).filter(Boolean);
 
       titleEl.textContent = tile.dataset.title || "";
@@ -857,6 +893,83 @@ function applyJukeboxClasses(){
     });
 
 
+    // ---------- project collections ----------
+    const projectCards = Array.from(document.querySelectorAll(".card--project"));
+    const projectOverlay = document.getElementById("projectOverlay");
+    const projectOverlayTitle = document.getElementById("projectOverlayTitle");
+    const projectOverlayDesc = document.getElementById("projectOverlayDesc");
+    const projectOverlayTools = document.getElementById("projectOverlayTools");
+    const projectOverlayGrid = document.getElementById("projectOverlayGrid");
+
+    let projectLastFocused = null;
+
+    function closeProjectOverlay({ restoreFocus = true } = {}){
+      if (!projectOverlay) return;
+      projectOverlay.classList.remove("is-open");
+      projectOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (restoreFocus && projectLastFocused) projectLastFocused.focus();
+    }
+
+    function openProjectOverlay(card){
+      if (!projectOverlay || !card) return;
+
+      projectLastFocused = document.activeElement;
+      const collection = card.dataset.projectCollection || "";
+      const matches = tiles
+        .map((tile, idx) => ({ tile, idx }))
+        .filter(({ tile }) => tile.dataset.collection === collection);
+
+      projectOverlayTitle.textContent = card.dataset.projectTitle || "Collection";
+      projectOverlayDesc.textContent = card.dataset.projectDesc || "";
+      projectOverlayTools.textContent = card.dataset.projectTools || "";
+
+      projectOverlayGrid.innerHTML = "";
+
+      matches.forEach(({ tile, idx }) => {
+        const media = parseMediaList(tile.dataset.src || "");
+        const firstImage = media.find((item) => item.type === "image")?.url || tile.querySelector("img")?.getAttribute("src") || "";
+        const cardBtn = document.createElement("button");
+        cardBtn.type = "button";
+        cardBtn.className = "project-piece";
+        cardBtn.innerHTML = `
+          <div class="project-piece__thumb">
+            <img src="${firstImage}" alt="${tile.dataset.title || ""}">
+          </div>
+          <div class="project-piece__meta">
+            <h4>${tile.dataset.title || ""}</h4>
+            <p>${[tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ")}</p>
+          </div>
+        `;
+        cardBtn.addEventListener("click", () => {
+          closeProjectOverlay({ restoreFocus: false });
+          openAtIndex(idx);
+        });
+        projectOverlayGrid.appendChild(cardBtn);
+      });
+
+      if (!matches.length){
+        const empty = document.createElement("p");
+        empty.className = "project-overlay__empty";
+        empty.textContent = "Add artworks with matching collection tags to show them here.";
+        projectOverlayGrid.appendChild(empty);
+      }
+
+      projectOverlay.classList.add("is-open");
+      projectOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    projectCards.forEach((card) => {
+      card.addEventListener("click", () => openProjectOverlay(card));
+    });
+
+    projectOverlay?.addEventListener("click", (e) => {
+      const closeTarget = e.target.closest('[data-project-close="true"]');
+      if (closeTarget) closeProjectOverlay();
+    });
+
+
     // ---------- INNER (within artwork) navigation ----------
     if (mediaPrevBtn) {
     mediaPrevBtn.addEventListener("click", (e) => {
@@ -889,9 +1002,18 @@ function applyJukeboxClasses(){
 
     // keyboard
     document.addEventListener("keydown", (e) => {
-    if (!lightbox.classList.contains("is-open")) return;
+    const lightboxOpen = lightbox.classList.contains("is-open");
+    const projectOpen = projectOverlay?.classList.contains("is-open");
 
-    if (e.key === "Escape") closeLightbox();
+    if (!lightboxOpen && !projectOpen) return;
+
+    if (e.key === "Escape") {
+      if (lightboxOpen) closeLightbox();
+      else if (projectOpen) closeProjectOverlay();
+      return;
+    }
+
+    if (!lightboxOpen) return;
     if (e.key === "ArrowLeft") prevArtwork();
     if (e.key === "ArrowRight") nextArtwork();
     });
