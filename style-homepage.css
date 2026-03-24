@@ -5,7 +5,7 @@ html { scroll-behavior: smooth; }
 :root{
   --marigold: #E5902C;
   --buff: #F3D58D;
-  --pearl: #EBDDC5;
+  --pearl: #FFF4E8;
   --police-blue: #2F4365;
   --citrine-brown: #8A3B08;
 
@@ -25,7 +25,7 @@ html { scroll-behavior: smooth; }
   --border: rgba(47,67,101,0.18);
 
   /* Header/footer background */
-  --header-footer-bg: color-mix(in srgb, var(--pearl) 70%, var(--buff) 30%);
+  --header-footer-bg: color-mix(in srgb, var(--pearl) 85%, var(--buff) 15%);
 
   --radius: 18px;
 
