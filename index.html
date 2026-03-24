@@ -80,7 +80,13 @@
             data-title="Food Memory Series"
             data-year="2025"
             data-medium="Gouache on paper"
-            data-desc="A three-panel study focused on gloss, texture, and warm lighting.">
+            data-series="Illustration"
+            data-role="Illustration"
+            data-desc="A three-panel study focused on gloss, texture, and warm lighting."
+            data-overview="This series translates food memories into small, theatrical scenes where ordinary ingredients become places, moods, and little stories. Each image leans into warmth, color, and playful scale so the work feels both intimate and dreamlike."
+            data-story="The paintings are rooted in the feeling of remembering food not just by taste, but by atmosphere—steam, shine, light, and the emotional weight certain meals can carry."
+            data-process="I explored how gouache could hold both graphic clarity and soft warmth, paying close attention to reflected light, glossy surfaces, and layered textures. The sequence of images can be viewed as individual moments or as one connected visual memory."
+            data-details="Warm palette study • texture exploration • memory-based illustration">
             <img src="images/foodseries-7.jpg" alt="Food Study Triptych">
         </button>
 
@@ -89,7 +95,13 @@
             data-title="Card Series"
             data-year="2024"
             data-medium="Gouache on paper"
-            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            data-series="Print / Object"
+            data-role="Illustration"
+            data-desc="A warm palette study exploring atmospheric depth and edge control."
+            data-overview="A collection of illustrated card designs presented both as finished faces and as floating mockups."
+            data-story="This series explores the feeling of objects as keepsakes—small pieces that feel personal, tactile, and worth lingering over."
+            data-process="The work balances decorative framing, surface color, and presentation, with each mockup helping show how the illustrations behave as physical objects."
+            data-details="object study • printed format • presentation mockups">
             <img src="images/cards-1.png" alt="Card Series" />
         </button>
         
@@ -98,7 +110,13 @@
             data-title="Thai Town Series"
             data-year="2024"
             data-medium="Gouache on paper"
-            data-desc="A warm palette study exploring atmospheric depth and edge control.">
+            data-series="Illustration Series"
+            data-role="Illustration"
+            data-desc="A warm palette study exploring atmospheric depth and edge control."
+            data-overview="A vibrant series built around letterform, food, and place, blending cultural motifs with bold graphic composition."
+            data-story="The work celebrates Thai Town through texture, ingredients, and signage, turning visual references from the neighborhood into something rhythmic and playful."
+            data-process="The series moves between standalone pieces, detail studies, and motion, allowing the visual language to stretch across formats while keeping the same energy."
+            data-details="lettering • cultural motifs • mixed presentation">
             <img src="images/thai-1.png" alt="Thai Town Series" />
         </button>
         
@@ -377,25 +395,59 @@
         <button class="lightbox__close" type="button" aria-label="Close" data-close="true">✕</button>
 
         <div class="lightbox__content">
-          <div class="lightbox__media">
-            <button class="lightbox__zoom" type="button" id="lightboxZoomBtn" aria-label="Zoom">Zoom</button>
+          <div class="lightbox__hero">
+            <section class="lightbox__media-section">
+              <div class="lightbox__media">
+                <button class="lightbox__zoom" type="button" id="lightboxZoomBtn" aria-label="Zoom">Zoom</button>
 
-            <button class="media-nav media-nav--prev" type="button" aria-label="Previous image">‹</button>
-            <button class="media-nav media-nav--next" type="button" aria-label="Next image">›</button>
-            <div class="media-dots" id="mediaDots" aria-label="Image dots"></div>
+                <button class="media-nav media-nav--prev" type="button" aria-label="Previous image">‹</button>
+                <button class="media-nav media-nav--next" type="button" aria-label="Next image">›</button>
+                <div class="media-dots" id="mediaDots" aria-label="Image dots"></div>
 
-            <img id="lightboxImg" alt="">
-            <video id="lightboxVid" controls playsinline preload="metadata" style="display:none;"></video>
+                <img id="lightboxImg" alt="">
+                <video id="lightboxVid" controls playsinline preload="metadata" style="display:none;"></video>
+              </div>
+
+              <section class="lightbox__body">
+                <div class="lightbox__section">
+                  <p class="lightbox__eyebrow">Overview</p>
+                  <p class="lightbox__body-copy" id="lightboxOverview"></p>
+                </div>
+
+                <div class="lightbox__section-grid">
+                  <div class="lightbox__section">
+                    <h4>The story</h4>
+                    <p class="lightbox__body-copy" id="lightboxStory"></p>
+                  </div>
+                  <div class="lightbox__section">
+                    <h4>Process & notes</h4>
+                    <p class="lightbox__body-copy" id="lightboxProcess"></p>
+                  </div>
+                </div>
+              </section>
+            </section>
+        
+            <aside class="lightbox__meta">
+              <button class="lightbox__backlink" type="button" data-close="true" aria-label="Back to gallery">← View all</button>
+              <p class="lightbox__kicker" id="lightboxKicker"></p>
+              <h3 id="lightboxTitle"></h3>
+              <p class="lightbox__sub" id="lightboxSub"></p>
+              <p class="lightbox__desc" id="lightboxDesc"></p>
+        
+              <div class="lightbox__chips" id="lightboxChips"></div>
+
+              <dl class="lightbox__facts">
+                <div>
+                  <dt>Role</dt>
+                  <dd id="lightboxRole"></dd>
+                </div>
+                <div>
+                  <dt>Series</dt>
+                  <dd id="lightboxSeries"></dd>
+                </div>
+              </dl>
+            </aside>
           </div>
-    
-          <aside class="lightbox__meta">
-            <h3 id="lightboxTitle"></h3>
-            <p class="lightbox__sub" id="lightboxSub"></p>
-            <p class="lightbox__desc" id="lightboxDesc"></p>
-    
-            <!-- Optional: add tags or tools -->
-            <div class="lightbox__chips" id="lightboxChips"></div>
-          </aside>
         </div>
       </div>
     </div> 
@@ -590,6 +642,12 @@
     const titleEl = document.getElementById("lightboxTitle");
     const subEl = document.getElementById("lightboxSub");
     const descEl = document.getElementById("lightboxDesc");
+    const overviewEl = document.getElementById("lightboxOverview");
+    const storyEl = document.getElementById("lightboxStory");
+    const processEl = document.getElementById("lightboxProcess");
+    const roleEl = document.getElementById("lightboxRole");
+    const seriesEl = document.getElementById("lightboxSeries");
+    const kickerEl = document.getElementById("lightboxKicker");
     const chipsEl = document.getElementById("lightboxChips");
 
     const tiles = Array.from(document.querySelectorAll(".gallery .tile[data-src]"));
@@ -764,10 +822,30 @@ function applyJukeboxClasses(){
       mediaDots.style.display = hasMultiple ? "flex" : "none";
 
       // META
+      const desc = tile.dataset.desc || "";
+      const overview = tile.dataset.overview || desc || "Additional details for this piece can live here.";
+      const story = tile.dataset.story || desc || "This piece can hold a longer narrative, memory, or artist reflection.";
+      const process = tile.dataset.process || desc || "Use this section for process notes, materials, or context behind the final work.";
+      const role = tile.dataset.role || "Illustration";
+      const series = tile.dataset.series || "Selected Work";
+      const details = (tile.dataset.details || "").split("•").map(s => s.trim()).filter(Boolean);
+
       titleEl.textContent = tile.dataset.title || "";
       subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
-      descEl.textContent = tile.dataset.desc || "";
+      descEl.textContent = desc;
+      overviewEl.textContent = overview;
+      storyEl.textContent = story;
+      processEl.textContent = process;
+      roleEl.textContent = role;
+      seriesEl.textContent = series;
+      kickerEl.textContent = tile.dataset.year || "Featured Work";
+
       chipsEl.innerHTML = "";
+      details.forEach((detail) => {
+        const chip = document.createElement("span");
+        chip.textContent = detail;
+        chipsEl.appendChild(chip);
+      });
 
     }
 
@@ -843,20 +921,6 @@ function applyJukeboxClasses(){
     if (e.key === "ArrowRight") nextArtwork();
     });
 
-  
-    // ---------- navigation ----------
-    function prevArtwork() {
-      currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
-      renderFromIndex(currentIndex);
-    }
-  
-    function nextArtwork() {
-      currentIndex = (currentIndex + 1) % tiles.length;
-      renderFromIndex(currentIndex);
-    }
-  
-    // prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
-    // nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
   
     // ---------- zoom ----------
     function applyZoomTransform() {
