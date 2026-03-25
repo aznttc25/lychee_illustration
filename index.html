@@ -1143,21 +1143,6 @@ function applyJukeboxClasses(){
     if (e.key === "ArrowLeft") prevArtwork();
     if (e.key === "ArrowRight") nextArtwork();
     });
-
-  
-    // ---------- navigation ----------
-    function prevArtwork() {
-      currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
-      renderFromIndex(currentIndex);
-    }
-  
-    function nextArtwork() {
-      currentIndex = (currentIndex + 1) % tiles.length;
-      renderFromIndex(currentIndex);
-    }
-  
-    // prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
-    // nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
   
     // ---------- zoom ----------
     function applyZoomTransform() {
