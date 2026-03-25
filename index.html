@@ -227,7 +227,7 @@
         </button> -->
       </div>
     </section>
-
+    
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <div class="section-head">
@@ -267,7 +267,7 @@
         </button>
       </div>
     </section>
-    
+
     <!-- PROCESS / SKETCHES (AUTO CAROUSEL) -->
     <section id="jukebox" class="section" aria-label="Sketch carousel">
         <div class="section-head">
@@ -806,6 +806,8 @@ function applyJukeboxClasses(){
     // ---------- state ----------
     let lastFocused = null;
     let currentIndex = 0;
+    let activeTileIndices = [];
+    let activeCollectionKey = "";
 
     let isZoomed = false;
     let dragging = false;
@@ -817,6 +819,10 @@ function applyJukeboxClasses(){
     let slideIndex = 0;
 
     // ---------- core render ----------
+    function getActiveIndices(){
+      return activeTileIndices.length ? activeTileIndices : tiles.map((_, idx) => idx);
+    }
+
     function renderFromIndex(i){
     const tile = tiles[i];
     if (!tile) return;
@@ -861,9 +867,19 @@ function applyJukeboxClasses(){
     }
 
     // ---------- open / close ----------
-    function openAtIndex(i){
+    function openAtIndex(i, options = {}){
       lastFocused = document.activeElement;
       currentIndex = i;
+
+      if (Array.isArray(options.activeIndices)) {
+        activeTileIndices = options.activeIndices.slice();
+      } else if (!activeTileIndices.length) {
+        activeTileIndices = tiles.map((_, idx) => idx);
+      }
+
+      if (typeof options.collectionKey === "string") {
+        activeCollectionKey = options.collectionKey;
+      }
 
       renderFromIndex(currentIndex);
 
@@ -883,7 +899,7 @@ function applyJukeboxClasses(){
 
     // open on tile click
     tiles.forEach((tile, idx) => {
-    tile.addEventListener("click", () => openAtIndex(idx));
+    tile.addEventListener("click", () => openAtIndex(idx, { activeIndices: tiles.map((_, i) => i), collectionKey: "" }));
     });
 
     // close on backdrop/close button
@@ -920,6 +936,10 @@ function applyJukeboxClasses(){
         .map((tile, idx) => ({ tile, idx }))
         .filter(({ tile }) => tile.dataset.collection === collection);
 
+      const collectionIndices = matches.map(({ idx }) => idx);
+      activeTileIndices = collectionIndices.slice();
+      activeCollectionKey = collection;
+
       projectOverlayTitle.textContent = card.dataset.projectTitle || "Collection";
       projectOverlayDesc.textContent = card.dataset.projectDesc || "";
       projectOverlayTools.textContent = card.dataset.projectTools || "";
@@ -943,7 +963,7 @@ function applyJukeboxClasses(){
         `;
         cardBtn.addEventListener("click", () => {
           closeProjectOverlay({ restoreFocus: false });
-          openAtIndex(idx);
+          openAtIndex(idx, { activeIndices: collectionIndices, collectionKey: collection });
         });
         projectOverlayGrid.appendChild(cardBtn);
       });
@@ -988,12 +1008,18 @@ function applyJukeboxClasses(){
 
     // ---------- OUTER (gallery) navigation ----------
     function prevArtwork(){
-    currentIndex = (currentIndex - 1 + tiles.length) % tiles.length;
+    const activeIndices = getActiveIndices();
+    const currentPos = Math.max(0, activeIndices.indexOf(currentIndex));
+    const nextPos = (currentPos - 1 + activeIndices.length) % activeIndices.length;
+    currentIndex = activeIndices[nextPos];
     renderFromIndex(currentIndex);
     }
 
     function nextArtwork(){
-    currentIndex = (currentIndex + 1) % tiles.length;
+    const activeIndices = getActiveIndices();
+    const currentPos = Math.max(0, activeIndices.indexOf(currentIndex));
+    const nextPos = (currentPos + 1) % activeIndices.length;
+    currentIndex = activeIndices[nextPos];
     renderFromIndex(currentIndex);
     }
 
