@@ -727,20 +727,70 @@ p, li, a, button, input, textarea {
 }
 
 .card--project{
+  position: relative;
+  isolation: isolate;
   text-align: left;
   cursor: pointer;
   color: var(--ink);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+  min-height: 184px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 88%, white 12%);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
+
+.card--project::before{
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background-image: var(--project-bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(12px) saturate(0.95);
+  transform: scale(1.08);
+  opacity: 0.45;
+  z-index: -2;
+  transition: transform 220ms ease, opacity 220ms ease, filter 220ms ease;
+}
+
+.card--project::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,244,232,0.36) 0%, rgba(243,213,141,0.70) 100%),
+    rgba(255,244,232,0.28);
+  z-index: -1;
+}
+
+.card--project__content{
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
 .card--project:hover{
   transform: translateY(-3px);
-  background: var(--surface-2);
   box-shadow: 0 16px 30px rgba(47,67,101,0.10);
   border-color: rgba(47,67,101,0.28);
 }
+
+.card--project:hover::before{
+  transform: scale(1.12);
+  opacity: 0.90;
+  filter: blur(6px) saturate(1);
+}
+
 .card--project:focus-visible{
   outline: 3px solid color-mix(in srgb, var(--accent) 55%, white 45%);
   outline-offset: 2px;
+}
+
+.card--project p{
+  position: relative;
+}
+
+.card--project .meta{
+  color: color-mix(in srgb, var(--ink) 72%, white 28%);
 }
 
 .meta { color: var(--muted); font-size: 14px; }
