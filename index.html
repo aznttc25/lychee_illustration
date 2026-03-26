@@ -337,7 +337,7 @@
             data-title="Fruit Baby Series"
             data-featured="true"
             data-collection="food"
-            data-year="2024"
+            data-year="2026"
             data-medium="Gouache on paper"
             data-series="Illustration Series"
             data-role="Illustration"
@@ -407,6 +407,48 @@
             data-process="The series moves between standalone pieces, detail studies, and motion, allowing the visual language to stretch across formats while keeping the same energy."
             data-details="Clay Sculpture - Clay • Cardboard • Acrylic paint">
             <img src="images/cBakery-01.jpg" alt="Crossiant Bakery Series" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/portrait-SILUT.jpg"
+            data-title="Someone I Look Up To"
+            data-featured="false"
+            data-collection="narrative"
+            data-year="2025"
+            data-medium="Gouache on paper"
+            data-series="Illustration Series"
+            data-role="Illustration"
+            
+            data-desc="A bakery hidden inside a croissant inspired by childhood memories, Croissant Bakery transforms something 
+            familiar into a tiny, glowing world, where “butter people” bring the magic of baking to life."
+
+            data-overview="A vibrant series built around letterform, food, and place, blending cultural motifs with bold graphic composition."
+            data-story=" Portrait for the arts to someone I look up to."
+            
+            data-process="The series moves between standalone pieces, detail studies, and motion, allowing the visual language to stretch across formats while keeping the same energy."
+            data-details="Acrylic paint">
+            <img src="images/portrait-SILUT.jpg" alt="I Look Up To Portrait" />
+        </button>
+
+        <button class="tile" type="button"
+            data-src="images/portrait-express.jpg"
+            data-title="Expressive Portrait"
+            data-featured="false"
+            data-collection="narrative"
+            data-year="2025"
+            data-medium="Gouache on paper"
+            data-series="Illustration Series"
+            data-role="Illustration"
+            
+            data-desc="A bakery hidden inside a croissant inspired by childhood memories, Croissant Bakery transforms something 
+            familiar into a tiny, glowing world, where “butter people” bring the magic of baking to life."
+
+            data-overview="A vibrant series built around letterform, food, and place, blending cultural motifs with bold graphic composition."
+            data-story=" Portrait for the arts to expressiv portrait."
+            
+            data-process="The series moves between standalone pieces, detail studies, and motion, allowing the visual language to stretch across formats while keeping the same energy."
+            data-details="Acrylic paint">
+            <img src="images/portrait-express.jpg" alt="Expressive Portrait" />
         </button>
 
         <!-- <button class="tile" type="button"
@@ -1121,7 +1163,7 @@ function applyJukeboxClasses(){
         .filter(Boolean);
 
       titleEl.textContent = tile.dataset.title || "";
-      subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
+      subEl.textContent = tile.dataset.medium || "";
       descEl.textContent = desc;
       overviewEl.textContent = overview;
       storyEl.innerHTML = story.replace(/\|\|/g, "<br><br>");
