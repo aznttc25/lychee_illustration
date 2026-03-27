@@ -525,6 +525,14 @@ p, li, a, button, input, textarea {
   line-height: 1.8;
 }
 
+.lightbox__desc p{
+  margin: 0 0 16px;
+}
+
+.lightbox__desc p:last-child{
+  margin-bottom: 0;
+}
+
 .lightbox__chips{
   margin-top: 24px;
   display: flex;

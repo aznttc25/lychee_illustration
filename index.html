@@ -103,18 +103,25 @@
             data-medium="Gouache on paper"
             data-series="Print / Object"
             data-role="Illustration"
-            data-desc="A warm palette study exploring atmospheric depth and edge control."
+            data-desc="When I turned 20, I started asking myself, “What did I do with my life?” ||
+
+            Playing Cards of My Life is my way of answering that by turning memories, emotions, and growth into something 
+            tangible. From the earliest memories to who I am now, every card holds a piece of me. ||
+            
+            Each suit carries its own meaning: ||
+            ♥ love, ♦ wealth, ♣ growth, ♠ knowledge"
+
             data-overview="A collection of illustrated card designs presented both as finished faces and as floating mockups."
             data-story="This series explores the feeling of objects as keepsakes—small pieces that feel personal, tactile, and worth lingering over."
             data-process="The work balances decorative framing, surface color, and presentation, with each mockup helping show how the illustrations behave as physical objects."
-            data-details="object study • printed format • presentation mockups"
+            data-details="Digital • Photoshop"
             data-process-images="images/cards-layout.png|images/cards-fly.png"
             data-process-captions="Layout exploration|Mockup presentation">
             <img src="images/cards-1.png" alt="Card Series" />
         </button>
         
         <button class="tile" type="button"
-            data-src="images/thai-1.png|images/thai-5.png|images/thai-p1.jpg|images/thai-p2.jpg|images/thaiVid.mov"
+            data-src="images/thai-1.png|images/thai-p1.jpg|images/thai-p2.jpg|images/thaiVid.mov"
             data-title="Thai Town Series"
             data-featured="true"
             data-collection="food"
@@ -703,7 +710,7 @@
               <p class="lightbox__kicker" id="lightboxKicker"></p>
               <h3 id="lightboxTitle"></h3>
               <p class="lightbox__sub" id="lightboxSub"></p>
-              <p class="lightbox__desc" id="lightboxDesc"></p>
+              <div class="lightbox__desc" id="lightboxDesc"></div>
         
               <div class="lightbox__chips" id="lightboxChips"></div>
             </aside>
@@ -1164,7 +1171,10 @@ function applyJukeboxClasses(){
 
       titleEl.textContent = tile.dataset.title || "";
       subEl.textContent = tile.dataset.medium || "";
-      descEl.textContent = desc;
+      descEl.innerHTML = (desc || "")
+      .split("||")
+      .map(p => `<p>${p.trim()}</p>`)
+      .join("");
       overviewEl.textContent = overview;
       storyEl.innerHTML = story.replace(/\|\|/g, "<br><br>");
       renderProcessGallery(tile);
