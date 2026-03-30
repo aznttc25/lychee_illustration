@@ -4,10 +4,10 @@ html { scroll-behavior: smooth; }
 
 :root{
   --marigold: #E5902C;
-  --buff: #F3D58D;
+  --buff: #FEEABC;
   --pearl: #FFF4E8;
-  --police-blue: #EF4849;
-  --citrine-brown: #8A3B08;
+  --coral-red: #EF4849;
+  --crimson-red: #B52E32;
 
   /* Site roles */
   --bg: var(--pearl);               /* page background */
@@ -15,11 +15,11 @@ html { scroll-behavior: smooth; }
   --surface-2: #F8E4AE;             /* lighter buff hover */
 
   --accent: var(--marigold);        /* primary accent */
-  --accent-2: var(--police-blue);   /* secondary accent */
-  --accent-3: var(--citrine-brown); /* rare/strong accent */
+  --accent-2: var(--coral-red);   /* secondary accent */
+  --accent-3: var(--crimson-red); /* rare/strong accent */
 
   /* Text + borders */
-  --ink: var(--police-blue);   
+  --ink: var(--coral-red);   
   --ink-soft: rgba(47,67,101,0.86);
   --muted: rgba(47,67,101,0.70);
   --border: rgba(47,67,101,0.18);
@@ -177,7 +177,7 @@ p, li, a, button, input, textarea {
     font-size: 16px;
     padding: 12px 16px;
     text-decoration: none;
-    color: #8A3B08;
+    color: #B52E32;
     font-weight: 800;
     border-radius: 999px;
     transition: background 160ms ease, color 160ms ease, transform 160ms ease, padding 220ms ease, font-size 220ms ease, opacity 220ms ease;
