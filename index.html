@@ -595,46 +595,61 @@
 
     <!-- MOTION / ANIMATION -->
     <section id="motion" class="section">
-        <div class="section-head">
+      <div class="section-head">
         <h2>Motion</h2>
         <p>A short animation study.</p>
-        </div>
-    
-        <div class="motion">
-            <div class="motion__media">
-                <!-- Option 1: Local MP4 -->
-                <video id="motionVid" controls playsinline muted preload="metadata" poster="images/animation-2.jpg">
-                <source src="images/dancing.mov" type="video/mp4">
-                Your browser does not support the video tag.
-                </video>
-            </div>
-    
-            <div class="motion__meta">
-                <h3>Dancing Animation</h3>
-                <p class="meta">2025 • Frame-by-frame / Digital</p>
-                <p>
-                A short character motion test exploring timing, weight, and expression.
-                </p>
-            </div>
+      </div>
+
+      <div class="motion">
+        <div class="motion__media">
+          <video
+            class="motion-auto-video"
+            id="motionVid"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="images/animation-2.jpg"
+          >
+            <source src="images/Fragile-Things-Dance.mov" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
 
-        <div class="motion">
-            <div class="motion__media">
-                <!-- Option 1: Local MP4 -->
-                <video controls playsinline muted preload="metadata" poster="images/deadpool-t.jpg" loop>
-                  <source src="images/Deadpool.mp4" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-            </div>
-    
-            <div class="motion__meta">
-                <h3>Deadpool Animation</h3>
-                <p class="meta">2025 • Frame-by-frame / Digital</p>
-                <p>
-                A short character motion test exploring timing, weight, and expression.
-                </p>
-            </div>
+        <div class="motion__meta">
+          <h3>Dancing Animation</h3>
+          <p class="meta">2025 • Frame-by-frame / Digital</p>
+          <p>
+            A short character motion test exploring timing, weight, and expression.
+          </p>
         </div>
+      </div>
+
+      <div class="motion">
+        <div class="motion__media">
+          <video
+            class="motion-auto-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="images/deadpool-t.jpg"
+          >
+            <source src="images/Deadpool.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="motion__meta">
+          <h3>Deadpool Animation</h3>
+          <p class="meta">2025 • Frame-by-frame / Digital</p>
+          <p>
+            A short character motion test exploring timing, weight, and expression.
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- ABOUT -->
@@ -1897,5 +1912,51 @@ function applyJukeboxClasses(){
         }
       });
     </script>
+
+    <script>
+    // =========================
+    // MOTION VIDEOS: autoplay when in view, pause when out of view
+    // =========================
+    (function motionAutoPlayOnScroll() {
+      const videos = Array.from(document.querySelectorAll(".motion-auto-video"));
+      if (!videos.length) return;
+
+      const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      if (prefersReduced) return;
+
+      videos.forEach((video) => {
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.autoplay = true;
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(() => {});
+            }
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+      }, {
+        threshold: [0, 0.45, 0.75]
+      });
+
+      videos.forEach((video) => observer.observe(video));
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          videos.forEach((video) => video.pause());
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
