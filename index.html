@@ -103,6 +103,8 @@
             data-medium="Gouache on paper"
             data-series="Print / Object"
             data-role="Illustration"
+            data-layout="cards-special"
+
             data-desc="When I turned 20, I started asking myself, “What did I do with my life?” ||
 
             Playing Cards of My Life is my way of answering that by turning memories, emotions, and growth into something 
@@ -111,17 +113,44 @@
             Each suit carries its own meaning: ||
             ♥ love, ♦ wealth, ♣ growth, ♠ knowledge"
 
+            data-info-slider-images="images/all-club.png|images/all-diamond.png|images/all-heart.png|images/all-spade.png"
+            data-info-slider-captions="Clubs Suit|Diamonds Suit|Hearts Suit|Spades Suit"
+
             data-overview="A collection of illustrated card designs presented both as finished faces and as floating mockups."
             data-story="This series explores the feeling of objects as keepsakes—small pieces that feel personal, tactile, and worth lingering over."
             data-process="The work balances decorative framing, surface color, and presentation, with each mockup helping show how the illustrations behave as physical objects."
             data-details="Digital • Photoshop"
-            data-process-images="images/cards-layout.png|images/cards-fly.png"
-            data-process-captions="Layout exploration|Mockup presentation">
+
+            data-cards-loop-images="images/deckCards/Club-1.png|images/deckCards/Club-2.png|images/deckCards/Club-3.png|
+            images/deckCards/Club-4.png|images/deckCards/Club-5.png|images/deckCards/Club-6.png|images/deckCards/Club-7.png|
+            images/deckCards/Club-8.png|images/deckCards/Club-9.png|images/deckCards/Club-10.png|images/deckCards/Club-11.png|
+            images/deckCards/Club-12.png|
+            images/deckCards/Diamond-1.png|images/deckCards/Diamond-2.png|images/deckCards/Diamond-3.png|
+            images/deckCards/Diamond-4.png|images/deckCards/Diamond-5.png|images/deckCards/Diamond-6.png|images/deckCards/Diamond-7.png|
+            images/deckCards/Diamond-8.png|images/deckCards/Diamond-9.png|images/deckCards/Diamond-10.png|images/deckCards/Diamond-11.png|
+            images/deckCards/Diamond-12.png|images/deckCards/Diamond-13.png|
+            images/deckCards/Heart-1.png|images/deckCards/Heart-2.png|images/deckCards/Heart-3.png|images/deckCards/Heart-4.png|
+            images/deckCards/Heart-5.png|images/deckCards/Heart-6.png|images/deckCards/Heart-7.png|images/deckCards/Heart-8.png|
+            images/deckCards/Heart-9.png|images/deckCards/Heart-10.png|
+            images/deckCards/Heart-11.png|images/deckCards/Heart-12.png|images/deckCards/Heart-13.png|
+            images/deckCards/Spade-1.png|images/deckCards/Spade-2.png|images/deckCards/Spade-3.png|images/deckCards/Spade-4.png|
+            images/deckCards/Spade-5.png|images/deckCards/Spade-6.png|images/deckCards/Spade-7.png|images/deckCards/Spade-8.png|
+            images/deckCards/Spade-9.png| images/deckCards/Spade-10.png|images/deckCards/Spade-11.png|images/deckCards/Spade-12.png|
+            images/deckCards/Spade-13.png|images/deckCards/Joker-Bone.png|images/deckCards/Joker-Cup.png"
+            data-cards-loop-captions="1 of Clubs|2 of Clubs|3 of Clubs|4 of Clubs|5 of Clubs|6 of Clubs|7 of Clubs|8 of Clubs|
+            9 of Clubs|10 of Clubs|Jack of Clubs|Queen of Clubs|King of Clubs|
+            1 of Diamonds|2 of Diamonds|3 of Diamonds|4 of Diamonds|5 of Diamonds|6 of Diamonds|7 of Diamonds|8 of Diamonds|
+            9 of Diamonds|10 of Diamonds|Jack of Diamonds|Queen of Diamonds|King of Diamonds|
+            1 of Hearts|2 of Hearts|3 of Hearts|4 of Hearts|5 of Hearts|6 of Hearts|7 of Hearts|8 of Hearts|
+            9 of Hearts|10 of Hearts|Jack of Hearts|Queen of Hearts|King of Hearts|
+            1 of Spades|2 of Spades|3 of Spades|4 of Spades|5 of Spades|6 of Spades|7 of Spades|8 of Spades|
+            9 of Spades|10 of Spades|Jack of Spades|Queen of Spades|King of Spades|
+            Joker Bone|Joker Cup">
             <img src="images/cards-1.png" alt="Card Series" />
         </button>
         
         <button class="tile" type="button"
-            data-src="images/thai-1.png|images/thai-p1.jpg|images/thai-p2.jpg|images/thaiVid.mov"
+            data-src="images/thai-1.png|images/thai-p01.jpg|images/thai-p02.jpg|images/thaiVid.mov"
             data-title="Thai Town Series"
             data-featured="true"
             data-collection="food"
@@ -266,7 +295,7 @@
         </button>
         
         <button class="tile" type="button"
-            data-src="images/stamp1.PNG|images/stamp2.PNG|images/stamp3.PNG|images/stamp4.PNG|images/stamp5.PNG"
+            data-src="images/stamp1.PNG|images/stamp2.PNG|images/stamp3.PNG|images/stamp4.jpg|images/stamp5.PNG"
             data-title="Food Stamp Series"
             data-featured="true"
             data-collection="food"
@@ -847,16 +876,312 @@
     function renderProcessGallery(tile){
       if (!processSectionEl || !processGridEl || !processEl) return;
 
+      const overviewText = tile.dataset.overview || "";
+      const storyText = tile.dataset.story || "";
       const processText = tile.dataset.process || "";
       const processImages = parsePipeList(tile.dataset.processImages);
       const processCaptions = parsePipeList(tile.dataset.processCaptions);
 
+      const isCardsSpecial = tile.dataset.layout === "cards-special";
+      const infoSliderImages = parsePipeList(tile.dataset.infoSliderImages);
+      const infoSliderCaptions = parsePipeList(tile.dataset.infoSliderCaptions);
+      const loopImages = parsePipeList(tile.dataset.cardsLoopImages);
+      const loopCaptions = parsePipeList(tile.dataset.cardsLoopCaptions);
+
       processGridEl.innerHTML = "";
       processEl.textContent = processText;
 
-      const hasProcess = !!processText || processImages.length > 0;
+      const hasProcess =
+        !!processText ||
+        processImages.length > 0 ||
+        infoSliderImages.length > 0 ||
+        loopImages.length > 0;
+
       processSectionEl.hidden = !hasProcess;
       if (!hasProcess) return;
+
+      if (isCardsSpecial) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "cards-special";
+
+        /* =========================
+          TOP MINI SLIDER
+        ========================= */
+        if (infoSliderImages.length) {
+          const slider = document.createElement("section");
+          slider.className = "cards-special__info-slider";
+
+          const viewport = document.createElement("div");
+          viewport.className = "cards-special__info-viewport";
+
+          const img = document.createElement("img");
+          img.className = "cards-special__info-image";
+          img.alt = tile.dataset.title || "Card Series image";
+
+          const prevBtn = document.createElement("button");
+          prevBtn.type = "button";
+          prevBtn.className = "cards-special__info-nav cards-special__info-nav--prev";
+          prevBtn.setAttribute("aria-label", "Previous image");
+          prevBtn.innerHTML = "‹";
+
+          const nextBtn = document.createElement("button");
+          nextBtn.type = "button";
+          nextBtn.className = "cards-special__info-nav cards-special__info-nav--next";
+          nextBtn.setAttribute("aria-label", "Next image");
+          nextBtn.innerHTML = "›";
+
+          const dots = document.createElement("div");
+          dots.className = "cards-special__info-dots";
+
+          let infoIndex = 0;
+
+          function updateInfoSlider() {
+            img.src = infoSliderImages[infoIndex];
+            img.alt = infoSliderCaptions[infoIndex] || `Card Series image ${infoIndex + 1}`;
+
+            Array.from(dots.children).forEach((dot, idx) => {
+              dot.classList.toggle("is-active", idx === infoIndex);
+            });
+          }
+
+          infoSliderImages.forEach((_, idx) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "cards-special__info-dot";
+            dot.setAttribute("aria-label", `Go to image ${idx + 1}`);
+            dot.addEventListener("click", () => {
+              infoIndex = idx;
+              updateInfoSlider();
+            });
+            dots.appendChild(dot);
+          });
+
+          prevBtn.addEventListener("click", () => {
+            infoIndex = (infoIndex - 1 + infoSliderImages.length) % infoSliderImages.length;
+            updateInfoSlider();
+          });
+
+          nextBtn.addEventListener("click", () => {
+            infoIndex = (infoIndex + 1) % infoSliderImages.length;
+            updateInfoSlider();
+          });
+
+          viewport.appendChild(img);
+          slider.appendChild(viewport);
+          slider.appendChild(prevBtn);
+          slider.appendChild(nextBtn);
+          slider.appendChild(dots);
+
+          updateInfoSlider();
+          wrapper.appendChild(slider);
+        }
+
+        /* =========================
+          TEXT
+        ========================= */
+        const textBlock = document.createElement("div");
+        textBlock.className = "cards-special__copy";
+
+        if (overviewText) {
+          const section = document.createElement("section");
+          section.className = "lightbox__section";
+
+          const eyebrow = document.createElement("p");
+          eyebrow.className = "lightbox__eyebrow";
+          eyebrow.textContent = "Overview";
+
+          const body = document.createElement("p");
+          body.className = "lightbox__body-copy";
+          body.textContent = overviewText;
+
+          section.appendChild(eyebrow);
+          section.appendChild(body);
+          textBlock.appendChild(section);
+        }
+
+        if (storyText) {
+          const section = document.createElement("section");
+          section.className = "lightbox__section";
+
+          const heading = document.createElement("h4");
+          heading.textContent = "The story";
+
+          const body = document.createElement("p");
+          body.className = "lightbox__body-copy";
+          body.textContent = storyText;
+
+          section.appendChild(heading);
+          section.appendChild(body);
+          textBlock.appendChild(section);
+        }
+
+        if (processText) {
+          const section = document.createElement("section");
+          section.className = "lightbox__section lightbox__section--process";
+
+          const heading = document.createElement("h4");
+          heading.textContent = "Process & references";
+
+          const body = document.createElement("p");
+          body.className = "lightbox__body-copy";
+          body.textContent = processText;
+
+          section.appendChild(heading);
+          section.appendChild(body);
+          textBlock.appendChild(section);
+        }
+
+        if (textBlock.children.length) {
+          wrapper.appendChild(textBlock);
+        }
+
+        /* =========================
+          BOTTOM INFINITE CAROUSEL
+        ========================= */
+        if (loopImages.length) {
+          const carousel = document.createElement("section");
+          carousel.className = "cards-special__carousel";
+
+          const viewport = document.createElement("div");
+          viewport.className = "cards-special__viewport";
+
+          const track = document.createElement("div");
+          track.className = "cards-special__track";
+
+          const items = loopImages.map((src, idx) => ({
+            src,
+            caption: loopCaptions[idx] || `Card ${idx + 1}`
+          }));
+
+          const duplicated = [...items, ...items];
+
+          duplicated.forEach((item) => {
+            const figure = document.createElement("figure");
+            figure.className = "cards-special__slide";
+
+            const image = document.createElement("img");
+            image.src = item.src;
+            image.alt = item.caption;
+            image.loading = "lazy";
+
+            const figcaption = document.createElement("figcaption");
+            figcaption.textContent = item.caption;
+
+            figure.appendChild(image);
+            figure.appendChild(figcaption);
+            track.appendChild(figure);
+          });
+
+          viewport.appendChild(track);
+          carousel.appendChild(viewport);
+          wrapper.appendChild(carousel);
+
+          requestAnimationFrame(() => {
+            let baseSpeed = 1.1;   // faster automatic movement
+            let position = 0;
+            let paused = false;
+            let isDragging = false;
+            let startX = 0;
+            let startPosition = 0;
+
+            const originalCount = items.length;
+            const slides = Array.from(track.children);
+
+            function getGapValue() {
+              const styles = window.getComputedStyle(track);
+              return parseFloat(styles.columnGap || styles.gap || 0) || 0;
+            }
+
+            function getLoopWidth() {
+              let total = 0;
+              for (let i = 0; i < originalCount; i++) {
+                total += slides[i].offsetWidth;
+              }
+              total += (originalCount - 1) * getGapValue();
+              return total;
+            }
+
+            let loopWidth = getLoopWidth();
+
+            function updateTrack() {
+              track.style.transform = `translateX(${position}px)`;
+            }
+
+            function normalizePosition() {
+              while (position > 0) {
+                position -= loopWidth;
+              }
+              while (Math.abs(position) >= loopWidth) {
+                position += loopWidth;
+              }
+            }
+
+            function animate() {
+              if (!paused && !isDragging) {
+                position -= baseSpeed;
+                normalizePosition();
+                updateTrack();
+              }
+              requestAnimationFrame(animate);
+            }
+
+            carousel.addEventListener("mouseenter", () => {
+              paused = true;
+            });
+
+            carousel.addEventListener("mouseleave", () => {
+              paused = false;
+            });
+
+            carousel.addEventListener("pointerdown", (e) => {
+              isDragging = true;
+              carousel.classList.add("is-dragging");
+              startX = e.clientX;
+              startPosition = position;
+              if (carousel.setPointerCapture) carousel.setPointerCapture(e.pointerId);
+            });
+
+            carousel.addEventListener("pointermove", (e) => {
+              if (!isDragging) return;
+              const dx = e.clientX - startX;
+              position = startPosition + dx;
+              normalizePosition();
+              updateTrack();
+            });
+
+            function endDrag() {
+              isDragging = false;
+              carousel.classList.remove("is-dragging");
+              normalizePosition();
+              updateTrack();
+            }
+
+            carousel.addEventListener("pointerup", endDrag);
+            carousel.addEventListener("pointercancel", endDrag);
+
+            // mouse wheel / trackpad control
+            carousel.addEventListener("wheel", (e) => {
+              e.preventDefault();
+              const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+              position -= delta * 0.9;   // bigger = faster manual wheel control
+              normalizePosition();
+              updateTrack();
+            }, { passive: false });
+
+            window.addEventListener("resize", () => {
+              loopWidth = getLoopWidth();
+              normalizePosition();
+              updateTrack();
+            });
+
+            updateTrack();
+            animate();
+          });
+        }
+
+        processGridEl.appendChild(wrapper);
+        return;
+      }
 
       processImages.forEach((src, idx) => {
         const figure = document.createElement("figure");
@@ -978,6 +1303,12 @@
     const processGridEl = document.getElementById("lightboxProcessGrid");
     const kickerEl = document.getElementById("lightboxKicker");
     const chipsEl = document.getElementById("lightboxChips");
+    const lightboxBodyEl = document.querySelector(".lightbox__body");
+
+    const lightboxOverviewSectionEl = overviewEl?.closest(".lightbox__section");
+    const lightboxStorySectionEl = storyEl?.closest(".lightbox__section");
+    const lightboxProcessTextEl = document.getElementById("lightboxProcess");
+    const lightboxProcessHeadingEl = processSectionEl?.querySelector("h4");
 
     const featuredTiles = Array.from(document.querySelectorAll(".gallery .tile[data-src]"));
     const libraryTiles = Array.from(document.querySelectorAll(".artwork-library .tile[data-src]"));
@@ -1142,8 +1473,26 @@ function applyJukeboxClasses(){
 
     // ---------- core render ----------
     function renderFromIndex(i){
-    const tile = tiles[i];
-    if (!tile) return;
+      const tile = tiles[i];
+      if (!tile) return;
+
+      const isCardsSpecial = tile.dataset.layout === "cards-special";
+
+      if (lightboxOverviewSectionEl) {
+        lightboxOverviewSectionEl.style.display = isCardsSpecial ? "none" : "";
+      }
+
+      if (lightboxStorySectionEl) {
+        lightboxStorySectionEl.style.display = isCardsSpecial ? "none" : "";
+      }
+
+      if (lightboxProcessTextEl) {
+        lightboxProcessTextEl.style.display = isCardsSpecial ? "none" : "";
+      }
+
+      if (lightboxProcessHeadingEl) {
+        lightboxProcessHeadingEl.style.display = isCardsSpecial ? "none" : "";
+      }
 
     // MULTI-IMAGE
     const srcString = tile.dataset.src || "";
@@ -1213,6 +1562,23 @@ function applyJukeboxClasses(){
       imgEl.src = "";
       document.body.style.overflow = "";
       resetZoom();
+
+      if (lightboxOverviewSectionEl) {
+        lightboxOverviewSectionEl.style.display = "";
+      }
+
+      if (lightboxStorySectionEl) {
+        lightboxStorySectionEl.style.display = "";
+      }
+
+      if (lightboxProcessTextEl) {
+        lightboxProcessTextEl.style.display = "";
+      }
+
+      if (lightboxProcessHeadingEl) {
+        lightboxProcessHeadingEl.style.display = "";
+      }
+
       if (lastFocused) lastFocused.focus();
     }
 
