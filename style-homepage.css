@@ -392,7 +392,7 @@ p, li, a, button, input, textarea {
 
 .lightbox__media-section{
   min-width: 0;
-  padding: 30px 30px 42px;
+  padding: 30px 30px 42px 72px;
 }
 
 .lightbox__media{
@@ -503,18 +503,25 @@ p, li, a, button, input, textarea {
 ========================= */
 
 .cards-special{
-  width: min(100%, 860px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   display: grid;
   gap: 34px;
-  justify-items: center;
+  justify-items: stretch;
   text-align: left;
+}
+
+.cards-special__info-slider,
+.cards-special__carousel{
+  width: min(100%, 760px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cards-special__copy{
   width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
 .cards-special__copy .lightbox__section{
@@ -522,14 +529,11 @@ p, li, a, button, input, textarea {
 }
 
 .cards-special__copy .lightbox__body-copy{
-  max-width: 760px;
+  max-width: none;
 }
 
 /* top mini slider */
 .cards-special__info-slider{
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
   position: relative;
   padding: 0 0 52px;
   background: transparent;
@@ -609,9 +613,6 @@ p, li, a, button, input, textarea {
 
 /* bottom infinite carousel */
 .cards-special__carousel{
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
   overflow: hidden;
   padding: 4px 0 0;
   background: transparent;
@@ -672,9 +673,17 @@ p, li, a, button, input, textarea {
   display: none !important;
 }
 
-#lightboxInfoGallery .cards-special{
-  margin-left: auto;
-  margin-right: auto;
+.lightbox__body.is-cards-special{
+  max-width: none;
+}
+
+.lightbox__body.is-cards-special .cards-special__copy{
+  width: 100%;
+  max-width: none;
+}
+
+.lightbox__body.is-cards-special .cards-special__copy .lightbox__body-copy{
+  max-width: none;
 }
 
 @media (max-width: 900px){
@@ -684,8 +693,9 @@ p, li, a, button, input, textarea {
   }
 
   .cards-special__info-slider,
-  .cards-special__copy,
-  .cards-special__carousel{
+  .cards-special__carousel,
+  .cards-special__copy{
+    width: 100%;
     max-width: 100%;
   }
 
@@ -920,7 +930,7 @@ p, li, a, button, input, textarea {
   }
 
   .lightbox__media-section{
-    padding: 58px 14px 28px;
+    padding: 58px 20px 28px 60px;
   }
 
   .lightbox__media{
