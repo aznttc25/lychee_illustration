@@ -456,11 +456,8 @@ p, li, a, button, input, textarea {
   line-height: 1.85;
 }
 
-.lightbox__section--process{
-  padding-top: 6px;
-}
-
 .lightbox__process-grid{
+  width: 100%;
   margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -491,14 +488,14 @@ p, li, a, button, input, textarea {
   color: var(--muted);
 }
 
-.lightbox__process-grid{
-  display: block;
+.lightbox__section--gallery{
   width: 100%;
-  margin-top: 18px;
+  padding-top: 6px;
 }
 
-.lightbox__section--process{
-  width: 100%;
+#lightboxInfoGallery .cards-special{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* =========================
@@ -675,12 +672,7 @@ p, li, a, button, input, textarea {
   display: none !important;
 }
 
-/* helpers for centering inside process section */
-#lightboxProcessSection{
-  width: 100%;
-}
-
-#lightboxProcessGrid .cards-special{
+#lightboxInfoGallery .cards-special{
   margin-left: auto;
   margin-right: auto;
 }
