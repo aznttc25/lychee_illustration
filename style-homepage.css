@@ -1947,8 +1947,35 @@ input, textarea {
   border: 1px solid var(--border);
   background: var(--surface);
   min-height: 184px;
-  text-align: left;
+  text-align: center; /* changed from left */
   cursor: pointer;
+}
+
+.card--project__content{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 24px 28px;
+}
+
+.card--project__content h3{
+  margin: 0 0 14px;
+  color: #5E3A2C;
+  line-height: 1.1;
+}
+
+.card--project__content p{
+  margin: 0;
+  max-width: 24ch;   /* same readable width for all cards */
+  color: #5E3A2C;
+  line-height: 1.45;
 }
 
 .card__bg,
@@ -1971,14 +1998,6 @@ input, textarea {
 .card__overlay{
   background:
     linear-gradient(180deg, rgba(255,244,232,0.42) 0%, rgba(243,213,141,0.58) 100%);
-}
-
-.card--project__content{
-  position: relative;
-  inset: auto;
-  display: block;
-  padding: 16px;
-  z-index: 2;
 }
 
 .card--project:hover .card__bg{
