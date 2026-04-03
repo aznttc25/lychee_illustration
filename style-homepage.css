@@ -498,6 +498,14 @@ p, li, a, button, input, textarea {
   margin-right: auto;
 }
 
+.lightbox__section--gallery-block{
+  margin-top: 18px;
+}
+
+.lightbox__section--gallery-block h4{
+  margin-bottom: 14px;
+}
+
 /* =========================
    CARD SERIES SPECIAL LAYOUT
 ========================= */
@@ -1291,65 +1299,163 @@ JUKEBOX ROTATION CAROUSEL
   
   
   /* =========================
-     MOTION / VIDEO SECTION
-     ========================= */
-  
+            MOTION
+  ========================= */
   .motion{
     max-width: var(--page-max);
     margin: 18px auto 0;
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 14px;
-    border-radius: var(--radius);
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.95fr);
+    align-items: stretch;
+    gap: 0;
     border: 1px solid var(--border);
-    background: var(--surface);
+    border-radius: 26px;
     overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   }
-  
+
+  .motion + .motion{
+    margin-top: 24px;
+  }
+
   .motion__media{
-    padding: 14px;
-    background: rgba(0,0,0,0.06);
-    display: grid;
-    place-items: center;
+    padding: 18px;
+    background: color-mix(in srgb, var(--surface) 72%, var(--bg) 28%);
+    display: flex;
   }
-  
+
   .motion__media video{
     width: 100%;
-    height: auto;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: var(--bg);
+    height: 100%;
+    min-height: 420px;
+    object-fit: cover;
     display: block;
+    border-radius: 22px;
+    background: #000;
   }
-  
+
   .motion__meta{
-    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 34px 28px;
+    background: color-mix(in srgb, var(--surface) 88%, white 12%);
+    border-left: 1px solid var(--border);
+    min-height: 100%;
   }
-  
+
+  .motion__meta-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .motion__kicker{
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+  }
+
   .motion__meta h3{
-    margin: 0 0 8px;
-    font-family: var(--font-display);
-    font-size: 26px;
+    margin: 0 0 12px;
+    font-size: clamp(32px, 3vw, 46px);
+    line-height: 1.02;
+    color: var(--accent-2);
   }
-  
-  .motion__meta p{
-    margin: 0 0 10px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-  }
-  
+
   .motion__meta .meta{
-    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 15px;
     font-weight: 700;
-    margin-bottom: 12px;
+    color: var(--muted);
   }
-  
-  /* Mobile: stack */
+
+  .motion__desc{
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+
+  .motion__btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    background: var(--accent-2);
+    color: var(--pearl);
+    border: 1px solid var(--accent-2);
+    transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  }
+
+  .motion__btn:hover{
+    background: var(--accent-3);
+    border-color: var(--accent-3);
+    transform: translateY(-1px);
+  }
+
+  .motion__footer{
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+
+  .motion__footer p{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* mobile */
   @media (max-width: 900px){
     .motion{
       grid-template-columns: 1fr;
+      border-radius: 20px;
     }
-  }  
+
+    .motion__media{
+      padding: 12px;
+    }
+
+    .motion__media video{
+      min-height: 250px;
+      border-radius: 16px;
+    }
+
+    .motion__meta{
+      border-left: none;
+      border-top: 1px solid var(--border);
+      padding: 22px 18px 20px;
+    }
+
+    .motion__meta h3{
+      font-size: clamp(26px, 7vw, 34px);
+    }
+
+    .motion__desc{
+      max-width: 100%;
+    }
+
+    .motion__btn{
+      margin-top: 18px;
+    }
+
+    .motion__footer{
+      margin-top: 20px;
+      padding-top: 14px;
+    }
+  }
 
 /* ABOUT */
 .about{
@@ -1966,6 +2072,7 @@ input, textarea {
 }
 
 .card--project__content h3{
+  font-size: 20px;
   margin: 0 0 14px;
   color: #5E3A2C;
   line-height: 1.1;

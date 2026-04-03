@@ -61,12 +61,10 @@ function showSlide(i) {
     resetZoom();
 }
 
-
 function getMediaType(url) {
     const clean = (url || "").split("?")[0].toLowerCase();
     if (clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov")) return "video";
     if (clean.endsWith(".jpg") || clean.endsWith(".jpeg") || clean.endsWith(".png") || clean.endsWith(".gif") || clean.endsWith(".webp")) return "image";
-    // default fallback
     return "image";
 }
 
@@ -91,6 +89,12 @@ function renderInfoGallery(tile) {
     const processImages = parsePipeList(tile.dataset.processImages);
     const processCaptions = parsePipeList(tile.dataset.processCaptions);
 
+    const supportImages = parsePipeList(tile.dataset.supportImages);
+    const supportCaptions = parsePipeList(tile.dataset.supportCaptions);
+
+    const processHeading = tile.dataset.processHeading || "Process";
+    const supportHeading = tile.dataset.supportHeading || "Supporting Images";
+
     const isCardsSpecial = tile.dataset.layout === "cards-special";
     const infoSliderImages = parsePipeList(tile.dataset.infoSliderImages);
     const infoSliderCaptions = parsePipeList(tile.dataset.infoSliderCaptions);
@@ -101,6 +105,7 @@ function renderInfoGallery(tile) {
 
     const hasGallery =
         processImages.length > 0 ||
+        supportImages.length > 0 ||
         infoSliderImages.length > 0 ||
         loopImages.length > 0;
 
@@ -113,9 +118,6 @@ function renderInfoGallery(tile) {
 
         const storyText = tile.dataset.story || "";
 
-        /* =========================
-          TOP MINI SLIDER
-        ========================= */
         if (infoSliderImages.length) {
             const slider = document.createElement("section");
             slider.className = "cards-special__info-slider";
@@ -185,9 +187,6 @@ function renderInfoGallery(tile) {
             wrapper.appendChild(slider);
         }
 
-        /* =========================
-            STORY TEXT (CARD SERIES ONLY)
-        ========================= */
         if (storyText) {
             const textBlock = document.createElement("div");
             textBlock.className = "cards-special__copy";
@@ -208,9 +207,6 @@ function renderInfoGallery(tile) {
             wrapper.appendChild(textBlock);
         }
 
-        /* =========================
-          BOTTOM INFINITE CAROUSEL
-        ========================= */
         if (loopImages.length) {
             const carousel = document.createElement("section");
             carousel.className = "cards-special__carousel";
@@ -351,24 +347,44 @@ function renderInfoGallery(tile) {
         return;
     }
 
-    processImages.forEach((src, idx) => {
-        const figure = document.createElement("figure");
-        figure.className = "lightbox__process-card";
+    function createGallerySection(headingText, images, captions) {
+        if (!images.length) return;
 
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = processCaptions[idx] || `${tile.dataset.title || "Artwork"} image ${idx + 1}`;
-        img.loading = "lazy";
-        figure.appendChild(img);
+        const section = document.createElement("section");
+        section.className = "lightbox__section lightbox__section--gallery-block";
 
-        if (processCaptions[idx]) {
-            const cap = document.createElement("figcaption");
-            cap.textContent = processCaptions[idx];
-            figure.appendChild(cap);
-        }
+        const heading = document.createElement("h4");
+        heading.textContent = headingText;
+        section.appendChild(heading);
 
-        infoGalleryEl.appendChild(figure);
-    });
+        const grid = document.createElement("div");
+        grid.className = "lightbox__process-grid";
+
+        images.forEach((src, idx) => {
+            const figure = document.createElement("figure");
+            figure.className = "lightbox__process-card";
+
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = captions[idx] || `${tile.dataset.title || "Artwork"} image ${idx + 1}`;
+            img.loading = "lazy";
+            figure.appendChild(img);
+
+            if (captions[idx]) {
+                const cap = document.createElement("figcaption");
+                cap.textContent = captions[idx];
+                figure.appendChild(cap);
+            }
+
+            grid.appendChild(figure);
+        });
+
+        section.appendChild(grid);
+        infoGalleryEl.appendChild(section);
+    }
+
+    createGallerySection(processHeading, processImages, processCaptions);
+    createGallerySection(supportHeading, supportImages, supportCaptions);
 }
 
 // =========================
@@ -386,11 +402,9 @@ function renderInfoGallery(tile) {
     const FADE_MS = 500;
     const INTERVAL_MS = 4000;
 
-    // Store per-tile state
-    const state = new Map(); // tile -> { list, idx, timer, img }
+    const state = new Map();
 
     function getImageUrls(tile) {
-        // Use your existing parser, then keep images only (skip videos)
         const list = parseMediaList(tile.dataset.src || "");
         return list.filter(x => x.type === "image").map(x => x.url);
     }
@@ -401,8 +415,6 @@ function renderInfoGallery(tile) {
 
         s.timer = window.setInterval(() => {
             s.idx = (s.idx + 1) % s.list.length;
-
-            // fade out -> swap src -> fade in
             s.img.classList.add("is-fading");
             window.setTimeout(() => {
                 s.img.src = s.list[s.idx];
@@ -418,7 +430,6 @@ function renderInfoGallery(tile) {
         s.timer = null;
     }
 
-    // IntersectionObserver: only run while visible
     const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const tile = entry.target;
@@ -432,27 +443,22 @@ function renderInfoGallery(tile) {
         if (!img) return;
 
         const list = getImageUrls(tile);
-        if (list.length <= 1) return; // only auto-cycle multi-image tiles
+        if (list.length <= 1) return;
 
-        // Initialize state
         state.set(tile, { list, idx: 0, timer: null, img });
 
-        // Start/stop logic
         io.observe(tile);
 
-        // Pause on hover/focus so user can click calmly
         tile.addEventListener("mouseenter", () => stop(tile));
         tile.addEventListener("mouseleave", () => start(tile));
         tile.addEventListener("focusin", () => stop(tile));
         tile.addEventListener("focusout", () => start(tile));
     });
 
-    // Safety: stop all timers if the tab is hidden
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
             tiles.forEach(stop);
         } else {
-            // restart only ones in view; observer will handle, but this helps instantly
             tiles.forEach(tile => start(tile));
         }
     });
@@ -477,14 +483,18 @@ const featuredTiles = Array.from(document.querySelectorAll(".gallery .tile[data-
 const libraryTiles = Array.from(document.querySelectorAll(".artwork-library .tile[data-src]"));
 const tiles = [...featuredTiles, ...libraryTiles];
 
-const prevBtn = document.querySelector(".lightbox__nav--prev"); // OUTER (gallery)
-const nextBtn = document.querySelector(".lightbox__nav--next"); // OUTER (gallery)
+// NEW: motion projects use same lightbox
+const motionProjects = Array.from(document.querySelectorAll(".motion-project[data-src]"));
+const allProjectTiles = [...tiles, ...motionProjects];
+
+const prevBtn = document.querySelector(".lightbox__nav--prev");
+const nextBtn = document.querySelector(".lightbox__nav--next");
 
 const zoomBtn = document.getElementById("lightboxZoomBtn");
 const mediaWrap = document.querySelector(".lightbox__media");
 
-const mediaPrevBtn = document.querySelector(".media-nav--prev"); // INNER (within artwork)
-const mediaNextBtn = document.querySelector(".media-nav--next"); // INNER (within artwork)
+const mediaPrevBtn = document.querySelector(".media-nav--prev");
+const mediaNextBtn = document.querySelector(".media-nav--next");
 const mediaDots = document.getElementById("mediaDots");
 
 const vidEl = document.getElementById("lightboxVid");
@@ -500,7 +510,6 @@ let jukeboxIndex = 0;
 let jukeboxTimer = null;
 let wheelLock = false;
 
-// --- apply position classes ---
 function applyJukeboxClasses() {
     if (!jukeboxItems.length) return;
 
@@ -515,7 +524,6 @@ function applyJukeboxClasses() {
         else if (offset === 2) item.classList.add("is-back-right");
         else if (offset === jukeboxItems.length - 2) item.classList.add("is-back-left");
         else {
-            // hide extras if more than 5
             item.style.opacity = "0";
             item.style.pointerEvents = "none";
             return;
@@ -531,12 +539,12 @@ function jukeboxGo(delta) {
     applyJukeboxClasses();
 }
 
-// --- auto rotation ---
 function startJukebox() {
     if (!jukeboxItems.length) return;
     stopJukebox();
-    jukeboxTimer = setInterval(() => jukeboxGo(1), 3200); // speed
+    jukeboxTimer = setInterval(() => jukeboxGo(1), 3200);
 }
+
 function stopJukebox() {
     if (jukeboxTimer) clearInterval(jukeboxTimer);
     jukeboxTimer = null;
@@ -546,7 +554,6 @@ if (jukeboxItems.length) {
     applyJukeboxClasses();
     startJukebox();
 
-    // click to bring item forward
     jukeboxItems.forEach((item, i) => {
         item.addEventListener("click", () => {
             jukeboxIndex = i;
@@ -555,16 +562,13 @@ if (jukeboxItems.length) {
         });
     });
 
-    // pause on hover (so it doesn't fight user)
     jukeboxStage.addEventListener("mouseenter", stopJukebox);
     jukeboxStage.addEventListener("mouseleave", startJukebox);
 
-    // wheel / trackpad control
     jukeboxStage.addEventListener("wheel", (e) => {
         const mostlyHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
         const allowCarouselWheel = e.shiftKey || mostlyHorizontal;
 
-        // let normal page scrolling pass through
         if (!allowCarouselWheel) return;
 
         e.preventDefault();
@@ -581,7 +585,6 @@ if (jukeboxItems.length) {
         startJukebox();
     }, { passive: false });
 
-    // swipe control (mobile)
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -599,7 +602,6 @@ if (jukeboxItems.length) {
         const dx = t.clientX - touchStartX;
         const dy = t.clientY - touchStartY;
 
-        // require a minimum swipe distance, and prefer horizontal swipes
         if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) {
             if (dx < 0) jukeboxGo(1);
             else jukeboxGo(-1);
@@ -609,12 +611,10 @@ if (jukeboxItems.length) {
     }, { passive: true });
 }
 
-
-
 // ---------- state ----------
 let lastFocused = null;
 let currentIndex = 0;
-let activeTileIndices = featuredTiles.map((_, idx) => idx);
+let activeTileIndices = featuredTiles.map(tile => allProjectTiles.indexOf(tile));
 
 let isZoomed = false;
 let dragging = false;
@@ -626,78 +626,88 @@ let slides = [];
 let slideIndex = 0;
 
 function getActiveIndices() {
-    return activeTileIndices && activeTileIndices.length ? activeTileIndices : tiles.map((_, idx) => idx);
+    return activeTileIndices && activeTileIndices.length
+        ? activeTileIndices
+        : allProjectTiles.map((_, idx) => idx);
+}
+
+function getProjectGlobalIndex(tile) {
+    return allProjectTiles.indexOf(tile);
 }
 
 function getGlobalIndexFromFeaturedIndex(featuredIdx) {
     const tile = featuredTiles[featuredIdx];
-    return tiles.indexOf(tile);
+    return getProjectGlobalIndex(tile);
 }
 
 // ---------- core render ----------
-function renderFromIndex(i){
-  const tile = tiles[i];
-  if (!tile) return;
+function renderFromIndex(i) {
+    const tile = allProjectTiles[i];
+    if (!tile) return;
 
-  const srcString = tile.dataset.src || "";
-  slides = parseMediaList(srcString);
-  slideIndex = 0;
+    const srcString = tile.dataset.src || "";
+    slides = parseMediaList(srcString);
+    slideIndex = 0;
 
-  const thumb = tile.querySelector("img")?.getAttribute("src");
-  if (!slides.length && thumb) {
-    slides = [{ url: thumb, type: getMediaType(thumb) }];
-  }
-
-  buildDots();
-  showSlide(0);
-
-  const hasMultiple = slides.length > 1;
-  mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
-  mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
-  mediaDots.style.display = hasMultiple ? "flex" : "none";
-
-  const desc = tile.dataset.desc || "";
-  const story = tile.dataset.story || desc || "This piece can hold a longer narrative, memory, or artist reflection.";
-  const details = (tile.dataset.details || "")
-    .split("•")
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  titleEl.textContent = tile.dataset.title || "";
-  subEl.textContent = tile.dataset.medium || "";
-  descEl.innerHTML = (desc || "")
-    .split("||")
-    .map(p => `<p>${p.trim()}</p>`)
-    .join("");
-
-  const isCardsSpecial = tile.dataset.layout === "cards-special";
-
-  if (lightboxBodyEl) {
-    lightboxBodyEl.classList.toggle("is-cards-special", isCardsSpecial);
-  }
-
-  if (isCardsSpecial) {
-    storyEl.innerHTML = "";
-    if (lightboxStorySectionEl) {
-      lightboxStorySectionEl.style.display = "none";
+    const thumb = tile.querySelector("img")?.getAttribute("src");
+    if (!slides.length && thumb) {
+        slides = [{ url: thumb, type: getMediaType(thumb) }];
     }
-  } else {
-    storyEl.innerHTML = story.replace(/\|\|/g, "<br><br>");
-    if (lightboxStorySectionEl) {
-      lightboxStorySectionEl.style.display = "";
+
+    buildDots();
+    showSlide(0);
+
+    const hasMultiple = slides.length > 1;
+    if (mediaPrevBtn) mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
+    if (mediaNextBtn) mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
+    if (mediaDots) mediaDots.style.display = hasMultiple ? "flex" : "none";
+
+    const desc = tile.dataset.desc || "";
+    const story = tile.dataset.story || desc || "This piece can hold a longer narrative, memory, or artist reflection.";
+    const details = (tile.dataset.details || "")
+        .split("•")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+    titleEl.textContent = tile.dataset.title || "";
+    subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
+
+    descEl.innerHTML = (desc || "")
+        .split("||")
+        .map(p => `<p>${p.trim()}</p>`)
+        .join("");
+
+    const isCardsSpecial = tile.dataset.layout === "cards-special";
+
+    if (lightboxBodyEl) {
+        lightboxBodyEl.classList.toggle("is-cards-special", isCardsSpecial);
     }
-  }
 
-  renderInfoGallery(tile);
+    if (isCardsSpecial) {
+        storyEl.innerHTML = "";
+        if (lightboxStorySectionEl) {
+            lightboxStorySectionEl.style.display = "none";
+        }
+    } else {
+        storyEl.innerHTML = story
+            .split("||")
+            .map(p => `<p>${p.trim()}</p>`)
+            .join("");
+        if (lightboxStorySectionEl) {
+            lightboxStorySectionEl.style.display = story.trim() ? "" : "none";
+        }
+    }
 
-  kickerEl.textContent = tile.dataset.year || "Featured Work";
+    renderInfoGallery(tile);
 
-  chipsEl.innerHTML = "";
-  details.forEach((detail) => {
-    const chip = document.createElement("span");
-    chip.textContent = detail;
-    chipsEl.appendChild(chip);
-  });
+    kickerEl.textContent = tile.dataset.series || tile.dataset.year || "Featured Work";
+
+    chipsEl.innerHTML = "";
+    details.forEach((detail) => {
+        const chip = document.createElement("span");
+        chip.textContent = detail;
+        chipsEl.appendChild(chip);
+    });
 }
 
 // ---------- open / close ----------
@@ -716,36 +726,65 @@ function openAtIndex(i, options = {}) {
     document.body.style.overflow = "hidden";
 }
 
-function closeLightbox(){
-  lightbox.classList.remove("is-open");
-  lightbox.setAttribute("aria-hidden", "true");
-  imgEl.src = "";
-  document.body.style.overflow = "";
-  resetZoom();
+function closeLightbox() {
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    imgEl.src = "";
+    document.body.style.overflow = "";
+    resetZoom();
 
-  if (lightboxBodyEl) {
-    lightboxBodyEl.classList.remove("is-cards-special");
-  }
+    if (vidEl) {
+        vidEl.pause();
+        vidEl.removeAttribute("src");
+        vidEl.load();
+        vidEl.style.display = "none";
+    }
 
-  if (lightboxStorySectionEl) {
-    lightboxStorySectionEl.style.display = "";
-  }
+    if (lightboxBodyEl) {
+        lightboxBodyEl.classList.remove("is-cards-special");
+    }
 
-  if (infoGallerySectionEl) {
-    infoGallerySectionEl.hidden = true;
-  }
+    if (lightboxStorySectionEl) {
+        lightboxStorySectionEl.style.display = "";
+    }
 
-  if (infoGalleryEl) {
-    infoGalleryEl.innerHTML = "";
-  }
+    if (infoGallerySectionEl) {
+        infoGallerySectionEl.hidden = true;
+    }
 
-  if (lastFocused) lastFocused.focus();
+    if (infoGalleryEl) {
+        infoGalleryEl.innerHTML = "";
+    }
+
+    if (lastFocused) lastFocused.focus();
 }
 
-// open on featured tile click
+// ---------- open on featured artwork click ----------
 featuredTiles.forEach((tile, idx) => {
     tile.addEventListener("click", () => {
-        openAtIndex(getGlobalIndexFromFeaturedIndex(idx), { activeIndices: featuredTiles.map((_, i) => getGlobalIndexFromFeaturedIndex(i)) });
+        const featuredGlobalIndices = featuredTiles.map(item => getProjectGlobalIndex(item));
+        openAtIndex(getGlobalIndexFromFeaturedIndex(idx), {
+            activeIndices: featuredGlobalIndices
+        });
+    });
+});
+
+// ---------- NEW: motion project button click ----------
+motionProjects.forEach((project) => {
+    const button = project.querySelector(".motion__btn");
+
+    if (!button) return;
+
+    button.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const motionIndices = motionProjects.map(item => getProjectGlobalIndex(item));
+        const projectIndex = getProjectGlobalIndex(project);
+
+        openAtIndex(projectIndex, {
+            activeIndices: motionIndices
+        });
     });
 });
 
@@ -754,8 +793,6 @@ lightbox.addEventListener("click", (e) => {
     const closeTarget = e.target.closest('[data-close="true"]');
     if (closeTarget) closeLightbox();
 });
-
-
 
 // ---------- project collections ----------
 const projectCards = Array.from(document.querySelectorAll(".card--project"));
@@ -781,7 +818,7 @@ function openProjectOverlay(card) {
     projectLastFocused = document.activeElement;
     const collection = card.dataset.projectCollection || "";
     const matches = tiles
-        .map((tile, idx) => ({ tile, idx }))
+        .map((tile) => ({ tile, idx: getProjectGlobalIndex(tile) }))
         .filter(({ tile }) => tile.dataset.collection === collection);
 
     const collectionIndices = matches.map(({ idx }) => idx);
@@ -796,6 +833,7 @@ function openProjectOverlay(card) {
     matches.forEach(({ tile, idx }) => {
         const media = parseMediaList(tile.dataset.src || "");
         const firstImage = media.find((item) => item.type === "image")?.url || tile.querySelector("img")?.getAttribute("src") || "";
+
         const cardBtn = document.createElement("button");
         cardBtn.type = "button";
         cardBtn.className = "project-piece";
@@ -808,10 +846,12 @@ function openProjectOverlay(card) {
             <p>${[tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ")}</p>
           </div>
         `;
+
         cardBtn.addEventListener("click", () => {
             closeProjectOverlay({ restoreFocus: false });
             openAtIndex(idx, { activeIndices: collectionIndices });
         });
+
         projectOverlayGrid.appendChild(cardBtn);
     });
 
@@ -851,8 +891,7 @@ if (mediaNextBtn) {
     });
 }
 
-
-// ---------- OUTER (gallery) navigation ----------
+// ---------- OUTER (gallery / motion project) navigation ----------
 function prevArtwork() {
     const activeIndices = getActiveIndices();
     const currentPos = Math.max(0, activeIndices.indexOf(currentIndex));
@@ -869,19 +908,28 @@ function nextArtwork() {
     renderFromIndex(currentIndex);
 }
 
-prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prevArtwork(); });
-nextBtn.addEventListener("click", (e) => { e.stopPropagation(); nextArtwork(); });
+prevBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    prevArtwork();
+});
+
+nextBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    nextArtwork();
+});
 
 // keyboard
 document.addEventListener("keydown", (e) => {
     const lightboxOpen = lightbox.classList.contains("is-open");
     const projectOpen = projectOverlay?.classList.contains("is-open");
+    const sketchOpen = sketchOverlay?.classList.contains("active");
 
-    if (!lightboxOpen && !projectOpen) return;
+    if (!lightboxOpen && !projectOpen && !sketchOpen) return;
 
     if (e.key === "Escape") {
         if (lightboxOpen) closeLightbox();
         else if (projectOpen) closeProjectOverlay();
+        else if (sketchOpen) closeSketchOverlay();
         return;
     }
 
@@ -889,6 +937,7 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") prevArtwork();
     if (e.key === "ArrowRight") nextArtwork();
 });
+
 // ---------- zoom ----------
 function applyZoomTransform() {
     imgEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${ZOOM_SCALE})`;
@@ -899,7 +948,8 @@ function setZoom(on) {
     mediaWrap.classList.toggle("is-zoomed", on);
 
     if (!on) {
-        offsetX = 0; offsetY = 0;
+        offsetX = 0;
+        offsetY = 0;
         imgEl.style.transform = "";
     } else {
         applyZoomTransform();
@@ -911,6 +961,7 @@ function resetZoom() {
 }
 
 function toggleZoom() {
+    if (imgEl.style.display === "none") return;
     setZoom(!isZoomed);
 }
 
@@ -919,13 +970,13 @@ zoomBtn?.addEventListener("click", (e) => {
     toggleZoom();
 });
 
-imgEl.addEventListener("dblclick", (e) => {
+imgEl?.addEventListener("dblclick", (e) => {
     e.preventDefault();
     toggleZoom();
 });
 
 // ---------- drag to pan (bounded) ----------
-imgEl.addEventListener("mousedown", (e) => {
+imgEl?.addEventListener("mousedown", (e) => {
     if (!isZoomed) return;
     dragging = true;
     startX = e.clientX - offsetX;
@@ -936,8 +987,6 @@ window.addEventListener("mousemove", (e) => {
     if (!dragging || !isZoomed) return;
 
     const containerRect = mediaWrap.getBoundingClientRect();
-
-    // image scaled size
     const scaledW = imgEl.naturalWidth * ZOOM_SCALE;
     const scaledH = imgEl.naturalHeight * ZOOM_SCALE;
 
@@ -954,21 +1003,23 @@ window.addEventListener("mouseup", () => {
     dragging = false;
 });
 
-document.getElementById("year").textContent = new Date().getFullYear();
+// ---------- footer year ----------
+const yearEl = document.getElementById("year");
+if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+}
 
-// Prevent refresh from jumping to the last anchor (#contact, #work, etc.)
-// by clearing the hash from the URL after navigation.
+// Prevent refresh from jumping to last hash
 document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', () => {
-        // After the browser scrolls, remove the hash from the address bar
         setTimeout(() => {
             history.replaceState(null, "", window.location.pathname + window.location.search);
         }, 50);
     });
 });
 
+// ---------- legacy motion single-video hook ----------
 const motionVid = document.getElementById("motionVid");
-
 if (motionVid) {
     motionVid.addEventListener("play", () => {
         motionVid.loop = true;
@@ -979,6 +1030,7 @@ if (motionVid) {
     });
 }
 
+// ---------- compact header ----------
 const header = document.querySelector(".artist-header");
 let isCompact = false;
 let ticking = false;
@@ -1010,42 +1062,36 @@ function onScroll() {
 updateHeaderCompact();
 window.addEventListener("scroll", onScroll, { passive: true });
 
+// ---------- sketch overlay ----------
 const sketchOverlay = document.getElementById("sketchOverlay");
 const openSketchOverlayBtn = document.getElementById("openSketchOverlay");
 const closeSketchOverlayBtn = document.getElementById("closeSketchOverlay");
 
 function openSketchOverlay() {
+    if (!sketchOverlay) return;
     sketchOverlay.classList.add("active");
-    document.body.style.overflow = "hidden"; // stop background scroll
+    document.body.style.overflow = "hidden";
 }
 
 function closeSketchOverlay() {
+    if (!sketchOverlay) return;
     sketchOverlay.classList.remove("active");
-    document.body.style.overflow = ""; // restore scroll
+    document.body.style.overflow = "";
 }
 
-// open
 if (openSketchOverlayBtn) {
     openSketchOverlayBtn.addEventListener("click", openSketchOverlay);
 }
 
-// close via X
 if (closeSketchOverlayBtn) {
     closeSketchOverlayBtn.addEventListener("click", closeSketchOverlay);
 }
 
-// close by clicking outside panel (the dark backdrop area)
-sketchOverlay.addEventListener("click", (e) => {
-    // only close if the click was on the overlay backdrop, not inside the panel
-    if (e.target === sketchOverlay) closeSketchOverlay();
-});
-
-// close via ESC
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sketchOverlay.classList.contains("active")) {
-        closeSketchOverlay();
-    }
-});
+if (sketchOverlay) {
+    sketchOverlay.addEventListener("click", (e) => {
+        if (e.target === sketchOverlay) closeSketchOverlay();
+    });
+}
 
 // =========================
 // MOTION VIDEOS: autoplay when in view, pause when out of view
