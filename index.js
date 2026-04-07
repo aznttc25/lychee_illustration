@@ -764,6 +764,12 @@ function openAtIndex(i, options = {}) {
         activeTileIndices = options.activeIndices.slice();
     }
 
+    const fromProjectOverlay = !!options.fromProjectOverlay;
+
+    if (lightboxBackToProjectBtn) {
+        lightboxBackToProjectBtn.hidden = !fromProjectOverlay;
+    }
+
     renderFromIndex(currentIndex);
 
     lightbox.classList.add("is-open");
@@ -771,7 +777,7 @@ function openAtIndex(i, options = {}) {
     document.body.style.overflow = "hidden";
 }
 
-function closeLightbox() {
+function closeLightbox({ restoreFocus = true } = {}) {
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     imgEl.src = "";
@@ -801,7 +807,11 @@ function closeLightbox() {
         infoGalleryEl.innerHTML = "";
     }
 
-    if (lastFocused) lastFocused.focus();
+    if (lightboxBackToProjectBtn) {
+        lightboxBackToProjectBtn.hidden = true;
+    }
+
+    if (restoreFocus && lastFocused) lastFocused.focus();
 }
 
 // ---------- open on featured artwork click ----------
@@ -846,8 +856,10 @@ const projectOverlayTitle = document.getElementById("projectOverlayTitle");
 const projectOverlayDesc = document.getElementById("projectOverlayDesc");
 const projectOverlayTools = document.getElementById("projectOverlayTools");
 const projectOverlayGrid = document.getElementById("projectOverlayGrid");
+const lightboxBackToProjectBtn = document.getElementById("lightboxBackToProject");
 
 let projectLastFocused = null;
+let activeProjectCard = null;
 
 function closeProjectOverlay({ restoreFocus = true } = {}) {
     if (!projectOverlay) return;
@@ -861,6 +873,8 @@ function openProjectOverlay(card) {
     if (!projectOverlay || !card) return;
 
     projectLastFocused = document.activeElement;
+    activeProjectCard = card;
+
     const collection = card.dataset.projectCollection || "";
     const matches = tiles
         .map((tile) => ({ tile, idx: getProjectGlobalIndex(tile) }))
@@ -877,7 +891,10 @@ function openProjectOverlay(card) {
 
     matches.forEach(({ tile, idx }) => {
         const media = parseMediaList(tile.dataset.src || "");
-        const firstImage = media.find((item) => item.type === "image")?.url || tile.querySelector("img")?.getAttribute("src") || "";
+        const firstImage =
+            media.find((item) => item.type === "image")?.url ||
+            tile.querySelector("img")?.getAttribute("src") ||
+            "";
 
         const cardBtn = document.createElement("button");
         cardBtn.type = "button";
@@ -894,7 +911,10 @@ function openProjectOverlay(card) {
 
         cardBtn.addEventListener("click", () => {
             closeProjectOverlay({ restoreFocus: false });
-            openAtIndex(idx, { activeIndices: collectionIndices });
+            openAtIndex(idx, {
+                activeIndices: collectionIndices,
+                fromProjectOverlay: true
+            });
         });
 
         projectOverlayGrid.appendChild(cardBtn);
@@ -919,6 +939,18 @@ projectCards.forEach((card) => {
 projectOverlay?.addEventListener("click", (e) => {
     const closeTarget = e.target.closest('[data-project-close="true"]');
     if (closeTarget) closeProjectOverlay();
+});
+
+function backToProjectOverlay() {
+    if (!activeProjectCard) return;
+
+    closeLightbox({ restoreFocus: false });
+    openProjectOverlay(activeProjectCard);
+}
+
+lightboxBackToProjectBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    backToProjectOverlay();
 });
 
 // ---------- INNER (within artwork) navigation ----------
@@ -972,7 +1004,13 @@ document.addEventListener("keydown", (e) => {
     if (!lightboxOpen && !projectOpen && !sketchOpen) return;
 
     if (e.key === "Escape") {
-        if (lightboxOpen) closeLightbox();
+        if (lightboxOpen) {
+            if (lightboxBackToProjectBtn && !lightboxBackToProjectBtn.hidden && activeProjectCard) {
+                backToProjectOverlay();
+            } else {
+                closeLightbox();
+            }
+        }
         else if (projectOpen) closeProjectOverlay();
         else if (sketchOpen) closeSketchOverlay();
         return;

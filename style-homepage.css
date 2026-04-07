@@ -849,6 +849,8 @@ p, li, a, button, input, textarea {
   top: 0;
   align-self: start;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .lightbox__meta h3{
@@ -897,6 +899,45 @@ p, li, a, button, input, textarea {
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--ink);
+}
+
+.lightbox__back-to-project{
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+
+  margin: 0 0 18px;
+  padding: 8px 14px;
+
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 72%, white 28%);
+  color: var(--accent-2);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.lightbox__back-to-project:hover{
+  background: var(--surface-2);
+  transform: translateY(-1px);
+}
+
+.lightbox__back-to-project[hidden]{
+  display: none !important;
+}
+
+@media (max-width: 700px){
+  .lightbox__back-to-project{
+    margin-bottom: 14px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
 }
 
 .lightbox__close{
