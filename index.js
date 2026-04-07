@@ -95,6 +95,12 @@ function renderInfoGallery(tile) {
     const processHeading = tile.dataset.processHeading || "Process";
     const supportHeading = tile.dataset.supportHeading || "Supporting Images";
 
+    const storyHeading = tile.dataset.storyHeading || "The story";
+    const storyText = tile.dataset.story || "";
+
+    const additionalHeading = tile.dataset.additionalHeading || "";
+    const additionalText = tile.dataset.additionalText || "";
+
     const isCardsSpecial = tile.dataset.layout === "cards-special";
     const infoSliderImages = parsePipeList(tile.dataset.infoSliderImages);
     const infoSliderCaptions = parsePipeList(tile.dataset.infoSliderCaptions);
@@ -104,7 +110,9 @@ function renderInfoGallery(tile) {
     infoGalleryEl.innerHTML = "";
 
     const hasGallery =
+        !!storyText ||
         processImages.length > 0 ||
+        !!additionalText ||
         supportImages.length > 0 ||
         infoSliderImages.length > 0 ||
         loopImages.length > 0;
@@ -112,11 +120,10 @@ function renderInfoGallery(tile) {
     infoGallerySectionEl.hidden = !hasGallery;
     if (!hasGallery) return;
 
+    // keep existing special layout for card project
     if (isCardsSpecial) {
         const wrapper = document.createElement("div");
         wrapper.className = "cards-special";
-
-        const storyText = tile.dataset.story || "";
 
         if (infoSliderImages.length) {
             const slider = document.createElement("section");
@@ -347,15 +354,37 @@ function renderInfoGallery(tile) {
         return;
     }
 
-    function createGallerySection(headingText, images, captions) {
+    function createTextSection(headingText, bodyText, extraClass = "") {
+        if (!bodyText) return;
+
+        const section = document.createElement("section");
+        section.className = `lightbox__section ${extraClass}`.trim();
+
+        if (headingText) {
+            const heading = document.createElement("h4");
+            heading.textContent = headingText;
+            section.appendChild(heading);
+        }
+
+        const body = document.createElement("p");
+        body.className = "lightbox__body-copy";
+        body.innerHTML = bodyText.replace(/\|\|/g, "<br><br>");
+        section.appendChild(body);
+
+        infoGalleryEl.appendChild(section);
+    }
+
+    function createGallerySection(headingText, images, captions, extraClass = "") {
         if (!images.length) return;
 
         const section = document.createElement("section");
-        section.className = "lightbox__section lightbox__section--gallery-block";
+        section.className = `lightbox__section lightbox__section--gallery-block ${extraClass}`.trim();
 
-        const heading = document.createElement("h4");
-        heading.textContent = headingText;
-        section.appendChild(heading);
+        if (headingText) {
+            const heading = document.createElement("h4");
+            heading.textContent = headingText;
+            section.appendChild(heading);
+        }
 
         const grid = document.createElement("div");
         grid.className = "lightbox__process-grid";
@@ -383,8 +412,11 @@ function renderInfoGallery(tile) {
         infoGalleryEl.appendChild(section);
     }
 
-    createGallerySection(processHeading, processImages, processCaptions);
-    createGallerySection(supportHeading, supportImages, supportCaptions);
+    // New editorial flow:
+    createTextSection(storyHeading, storyText, "lightbox__section--intro");
+    createGallerySection(processHeading, processImages, processCaptions, "lightbox__section--images-top");
+    createTextSection(additionalHeading, additionalText, "lightbox__section--middle-copy");
+    createGallerySection(supportHeading, supportImages, supportCaptions, "lightbox__section--images-bottom");
 }
 
 // =========================
@@ -657,11 +689,6 @@ function renderFromIndex(i) {
     buildDots();
     showSlide(0);
 
-    const hasMultiple = slides.length > 1;
-    if (mediaPrevBtn) mediaPrevBtn.style.display = hasMultiple ? "grid" : "none";
-    if (mediaNextBtn) mediaNextBtn.style.display = hasMultiple ? "grid" : "none";
-    if (mediaDots) mediaDots.style.display = hasMultiple ? "flex" : "none";
-
     const desc = tile.dataset.desc || "";
     const story = tile.dataset.story || desc || "This piece can hold a longer narrative, memory, or artist reflection.";
     const details = (tile.dataset.details || "")
@@ -683,22 +710,34 @@ function renderFromIndex(i) {
         lightboxBodyEl.classList.toggle("is-cards-special", isCardsSpecial);
     }
 
-    if (isCardsSpecial) {
+    if (lightboxStorySectionEl) {
+        lightboxStorySectionEl.style.display = "none";
+    }
+    if (storyEl) {
         storyEl.innerHTML = "";
-        if (lightboxStorySectionEl) {
-            lightboxStorySectionEl.style.display = "none";
-        }
-    } else {
-        storyEl.innerHTML = story
-            .split("||")
-            .map(p => `<p>${p.trim()}</p>`)
-            .join("");
-        if (lightboxStorySectionEl) {
-            lightboxStorySectionEl.style.display = story.trim() ? "" : "none";
-        }
     }
 
     renderInfoGallery(tile);
+
+    const isMotionProject = tile.classList.contains("motion-project");
+    const shouldShowInnerControls = !isMotionProject && slides.length > 1;
+
+    if (mediaWrap) {
+        mediaWrap.classList.toggle("lightbox__media--motion", isMotionProject);
+        mediaWrap.classList.toggle("lightbox__media--no-controls", !shouldShowInnerControls);
+    }
+
+    if (mediaDots) {
+        mediaDots.style.display = shouldShowInnerControls ? "flex" : "none";
+    }
+
+    if (mediaPrevBtn) {
+        mediaPrevBtn.style.display = shouldShowInnerControls ? "grid" : "none";
+    }
+
+    if (mediaNextBtn) {
+        mediaNextBtn.style.display = shouldShowInnerControls ? "grid" : "none";
+    }
 
     kickerEl.textContent = tile.dataset.series || tile.dataset.year || "Featured Work";
 
