@@ -241,7 +241,13 @@ function renderInfoGallery(tile) {
                 image.loading = "lazy";
 
                 const figcaption = document.createElement("figcaption");
-                figcaption.textContent = item.caption;
+
+                const [titleLine, subLine] = (item.caption || "").split("~~").map(s => s.trim());
+
+                figcaption.innerHTML = `
+                <span class="cards-special__caption-main">${titleLine || ""}</span>
+                ${subLine ? `<span class="cards-special__caption-sub">${subLine}</span>` : ""}
+                `;
 
                 figure.appendChild(image);
                 figure.appendChild(figcaption);
