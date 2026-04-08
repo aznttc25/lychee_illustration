@@ -120,7 +120,6 @@ function renderInfoGallery(tile) {
     infoGallerySectionEl.hidden = !hasGallery;
     if (!hasGallery) return;
 
-    // keep existing special layout for card project
     if (isCardsSpecial) {
         const wrapper = document.createElement("div");
         wrapper.className = "cards-special";
@@ -418,7 +417,6 @@ function renderInfoGallery(tile) {
         infoGalleryEl.appendChild(section);
     }
 
-    // New editorial flow:
     createTextSection(storyHeading, storyText, "lightbox__section--intro");
     createGallerySection(processHeading, processImages, processCaptions, "lightbox__section--images-top");
     createTextSection(additionalHeading, additionalText, "lightbox__section--middle-copy");
@@ -426,7 +424,7 @@ function renderInfoGallery(tile) {
 }
 
 // =========================
-// GALLERY TILE AUTO-PREVIEW (cycles thumbnail for multi-image tiles)
+// GALLERY TILE AUTO-PREVIEW
 // =========================
 (function tileAutoPreview() {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
@@ -523,7 +521,6 @@ const featuredTiles = Array.from(document.querySelectorAll(".gallery .tile[data-
 const libraryTiles = Array.from(document.querySelectorAll(".artwork-library .tile[data-src]"));
 const tiles = [...featuredTiles, ...libraryTiles];
 
-// NEW: motion projects use same lightbox
 const motionProjects = Array.from(document.querySelectorAll(".motion-project[data-src]"));
 const allProjectTiles = [...tiles, ...motionProjects];
 
@@ -540,8 +537,23 @@ const mediaDots = document.getElementById("mediaDots");
 const vidEl = document.getElementById("lightboxVid");
 const panelEl = document.querySelector(".lightbox__panel");
 
+// ---------- body scroll lock helpers ----------
+function lockBodyScroll() {
+    document.body.style.overflow = "hidden";
+}
+
+function unlockBodyScroll() {
+    const lightboxOpen = lightbox?.classList.contains("is-open");
+    const projectOpen = projectOverlay?.classList.contains("is-open");
+    const sketchOpen = sketchOverlay?.classList.contains("active");
+
+    if (!lightboxOpen && !projectOpen && !sketchOpen) {
+        document.body.style.overflow = "";
+    }
+}
+
 // =========================
-// JUKEBOX CAROUSEL (auto + user-controlled)
+// JUKEBOX CAROUSEL
 // =========================
 const jukeboxStage = document.getElementById("jukeboxStage");
 const jukeboxItems = jukeboxStage ? Array.from(jukeboxStage.querySelectorAll(".jukebox__item")) : [];
@@ -637,7 +649,10 @@ if (jukeboxItems.length) {
 
     jukeboxStage.addEventListener("touchend", (e) => {
         const t = e.changedTouches && e.changedTouches[0];
-        if (!t) { startJukebox(); return; }
+        if (!t) {
+            startJukebox();
+            return;
+        }
 
         const dx = t.clientX - touchStartX;
         const dy = t.clientY - touchStartY;
@@ -661,6 +676,10 @@ let dragging = false;
 let startX = 0, startY = 0;
 let offsetX = 0, offsetY = 0;
 const ZOOM_SCALE = 2;
+
+let touchDragging = false;
+let touchStartX = 0;
+let touchStartY = 0;
 
 let slides = [];
 let slideIndex = 0;
@@ -801,7 +820,7 @@ function openAtIndex(i, options = {}) {
 
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
 
     resetOverlayScroll();
 }
@@ -810,7 +829,7 @@ function closeLightbox({ restoreFocus = true } = {}) {
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     imgEl.src = "";
-    document.body.style.overflow = "";
+    unlockBodyScroll();
     resetZoom();
 
     if (lightboxScrollCue) {
@@ -857,7 +876,7 @@ featuredTiles.forEach((tile, idx) => {
     });
 });
 
-// ---------- NEW: motion project button click ----------
+// ---------- motion project button click ----------
 motionProjects.forEach((project) => {
     const button = project.querySelector(".motion__btn");
 
@@ -898,7 +917,7 @@ function closeProjectOverlay({ restoreFocus = true } = {}) {
     if (!projectOverlay) return;
     projectOverlay.classList.remove("is-open");
     projectOverlay.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+    unlockBodyScroll();
     if (restoreFocus && projectLastFocused) projectLastFocused.focus();
 }
 
@@ -971,7 +990,8 @@ function openProjectOverlay(card) {
 
     projectOverlay.classList.add("is-open");
     projectOverlay.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
+    resetOverlayScroll();
 }
 
 projectCards.forEach((card) => {
@@ -1017,6 +1037,7 @@ function prevArtwork() {
     const nextPos = (currentPos - 1 + activeIndices.length) % activeIndices.length;
     currentIndex = activeIndices[nextPos];
     renderFromIndex(currentIndex);
+    resetOverlayScroll();
 }
 
 function nextArtwork() {
@@ -1025,6 +1046,7 @@ function nextArtwork() {
     const nextPos = (currentPos + 1) % activeIndices.length;
     currentIndex = activeIndices[nextPos];
     renderFromIndex(currentIndex);
+    resetOverlayScroll();
 }
 
 prevBtn?.addEventListener("click", (e) => {
@@ -1052,9 +1074,11 @@ document.addEventListener("keydown", (e) => {
             } else {
                 closeLightbox();
             }
+        } else if (projectOpen) {
+            closeProjectOverlay();
+        } else if (sketchOpen) {
+            closeSketchOverlay();
         }
-        else if (projectOpen) closeProjectOverlay();
-        else if (sketchOpen) closeSketchOverlay();
         return;
     }
 
@@ -1100,7 +1124,7 @@ imgEl?.addEventListener("dblclick", (e) => {
     toggleZoom();
 });
 
-// ---------- drag to pan (bounded) ----------
+// ---------- drag to pan (mouse) ----------
 imgEl?.addEventListener("mousedown", (e) => {
     if (!isZoomed) return;
     dragging = true;
@@ -1127,6 +1151,39 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener("mouseup", () => {
     dragging = false;
 });
+
+// ---------- drag to pan (touch) ----------
+imgEl?.addEventListener("touchstart", (e) => {
+    if (!isZoomed || !e.touches || !e.touches[0]) return;
+
+    touchDragging = true;
+    touchStartX = e.touches[0].clientX - offsetX;
+    touchStartY = e.touches[0].clientY - offsetY;
+}, { passive: true });
+
+window.addEventListener("touchmove", (e) => {
+    if (!touchDragging || !isZoomed || !e.touches || !e.touches[0]) return;
+
+    const containerRect = mediaWrap.getBoundingClientRect();
+    const scaledW = imgEl.naturalWidth * ZOOM_SCALE;
+    const scaledH = imgEl.naturalHeight * ZOOM_SCALE;
+
+    const maxX = Math.max(0, (scaledW - containerRect.width) / 2);
+    const maxY = Math.max(0, (scaledH - containerRect.height) / 2);
+
+    offsetX = clamp(e.touches[0].clientX - touchStartX, -maxX, maxX);
+    offsetY = clamp(e.touches[0].clientY - touchStartY, -maxY, maxY);
+
+    applyZoomTransform();
+}, { passive: true });
+
+window.addEventListener("touchend", () => {
+    touchDragging = false;
+}, { passive: true });
+
+window.addEventListener("touchcancel", () => {
+    touchDragging = false;
+}, { passive: true });
 
 // ---------- footer year ----------
 const yearEl = document.getElementById("year");
@@ -1164,11 +1221,15 @@ function updateHeaderCompact() {
     if (!header) return;
 
     const y = window.scrollY;
+    const isMobile = window.innerWidth <= 820;
 
-    if (!isCompact && y > 80) {
+    const compactOn = isMobile ? 50 : 80;
+    const compactOff = isMobile ? 18 : 30;
+
+    if (!isCompact && y > compactOn) {
         isCompact = true;
         header.classList.add("is-compact");
-    } else if (isCompact && y < 30) {
+    } else if (isCompact && y < compactOff) {
         isCompact = false;
         header.classList.remove("is-compact");
     }
@@ -1186,6 +1247,7 @@ function onScroll() {
 
 updateHeaderCompact();
 window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("resize", updateHeaderCompact);
 
 // ---------- sketch overlay ----------
 const sketchOverlay = document.getElementById("sketchOverlay");
@@ -1195,13 +1257,14 @@ const closeSketchOverlayBtn = document.getElementById("closeSketchOverlay");
 function openSketchOverlay() {
     if (!sketchOverlay) return;
     sketchOverlay.classList.add("active");
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
+    resetOverlayScroll();
 }
 
 function closeSketchOverlay() {
     if (!sketchOverlay) return;
     sketchOverlay.classList.remove("active");
-    document.body.style.overflow = "";
+    unlockBodyScroll();
 }
 
 if (openSketchOverlayBtn) {
@@ -1242,7 +1305,7 @@ if (sketchOverlay) {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
                 const playPromise = video.play();
                 if (playPromise && typeof playPromise.catch === "function") {
-                    playPromise.catch(() => { });
+                    playPromise.catch(() => {});
                 }
             } else {
                 video.pause();
