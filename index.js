@@ -887,6 +887,15 @@ function openProjectOverlay(card) {
     projectOverlayDesc.textContent = card.dataset.projectDesc || "";
     projectOverlayTools.textContent = card.dataset.projectTools || "";
 
+    const projectOverlayHeader = document.querySelector(".project-overlay__header");
+    if (projectOverlayHeader) {
+        const heroImage = card.dataset.projectHero || "";
+        projectOverlayHeader.style.setProperty(
+            "--project-hero-image",
+            heroImage ? `url("${heroImage}")` : "none"
+        );
+    }
+
     projectOverlayGrid.innerHTML = "";
 
     matches.forEach(({ tile, idx }) => {
