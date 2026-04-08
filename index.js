@@ -514,6 +514,8 @@ const infoGalleryEl = document.getElementById("lightboxInfoGallery");
 const kickerEl = document.getElementById("lightboxKicker");
 const chipsEl = document.getElementById("lightboxChips");
 const lightboxBodyEl = document.querySelector(".lightbox__body");
+const lightboxScrollCue = document.getElementById("lightboxScrollCue");
+const lightboxContent = document.querySelector(".lightbox__content");
 
 const lightboxStorySectionEl = document.getElementById("lightboxStorySection");
 
@@ -755,6 +757,31 @@ function renderFromIndex(i) {
     });
 }
 
+function updateLightboxScrollCue() {
+    if (!lightboxContent || !lightboxScrollCue || !lightbox.classList.contains("is-open")) return;
+
+    const canScroll = lightboxContent.scrollHeight > lightboxContent.clientHeight + 10;
+    const isNearTop = lightboxContent.scrollTop <= 20;
+
+    lightboxScrollCue.classList.toggle("is-visible", canScroll && isNearTop);
+}
+
+function resetOverlayScroll() {
+    requestAnimationFrame(() => {
+        const projectPanel = document.querySelector(".project-overlay__panel");
+        const sketchContent = document.querySelector(".overlay-content");
+
+        if (projectPanel) projectPanel.scrollTop = 0;
+        if (lightboxContent) lightboxContent.scrollTop = 0;
+        if (sketchContent) sketchContent.scrollTop = 0;
+
+        updateLightboxScrollCue();
+    });
+}
+
+lightboxContent?.addEventListener("scroll", updateLightboxScrollCue);
+window.addEventListener("resize", updateLightboxScrollCue);
+
 // ---------- open / close ----------
 function openAtIndex(i, options = {}) {
     lastFocused = document.activeElement;
@@ -775,6 +802,8 @@ function openAtIndex(i, options = {}) {
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    resetOverlayScroll();
 }
 
 function closeLightbox({ restoreFocus = true } = {}) {
@@ -783,6 +812,10 @@ function closeLightbox({ restoreFocus = true } = {}) {
     imgEl.src = "";
     document.body.style.overflow = "";
     resetZoom();
+
+    if (lightboxScrollCue) {
+        lightboxScrollCue.classList.remove("is-visible");
+    }
 
     if (vidEl) {
         vidEl.pause();
