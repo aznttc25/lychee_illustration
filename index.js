@@ -394,14 +394,28 @@ function renderInfoGallery(tile) {
         const grid = document.createElement("div");
         grid.className = "lightbox__process-grid";
 
+        const isWideProcess = tile.dataset.processLayout === "wide";
+        if (isWideProcess) {
+            grid.classList.add("lightbox__process-grid--wide");
+        }
+
         images.forEach((src, idx) => {
             const figure = document.createElement("figure");
             figure.className = "lightbox__process-card";
+
+            if (isWideProcess) {
+                figure.classList.add("lightbox__process-card--wide");
+            }
 
             const img = document.createElement("img");
             img.src = src;
             img.alt = captions[idx] || `${tile.dataset.title || "Artwork"} image ${idx + 1}`;
             img.loading = "lazy";
+
+            if (isWideProcess) {
+                img.classList.add("lightbox__process-image--wide");
+            }
+
             figure.appendChild(img);
 
             if (captions[idx]) {
