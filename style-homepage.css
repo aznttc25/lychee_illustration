@@ -671,6 +671,33 @@ p, li, a, button, input, textarea {
   object-fit: contain;
 }
 
+/* tablet */
+@media (max-width: 820px){
+  #lightboxInfoGallery .lightbox__process-card--wide{
+    max-width: 100%;
+  }
+}
+
+/* mobile */
+@media (max-width: 560px){
+  #lightboxInfoGallery .lightbox__process-card--wide{
+    margin: 0;
+    border-radius: 16px;
+  }
+
+  #lightboxInfoGallery .lightbox__process-image--wide{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  #lightboxInfoGallery .lightbox__process-card--wide figcaption{
+    padding: 10px 12px 12px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
+
 /* =========================
    CARD SERIES SPECIAL LAYOUT
 ========================= */
