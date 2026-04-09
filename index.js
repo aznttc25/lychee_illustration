@@ -407,16 +407,39 @@ function renderInfoGallery(tile) {
                 figure.classList.add("lightbox__process-card--wide");
             }
 
-            const img = document.createElement("img");
-            img.src = src;
-            img.alt = captions[idx] || `${tile.dataset.title || "Artwork"} image ${idx + 1}`;
-            img.loading = "lazy";
+            const type = getMediaType(src);
 
-            if (isWideProcess) {
-                img.classList.add("lightbox__process-image--wide");
+            if (type === "video") {
+                const video = document.createElement("video");
+                video.src = src;
+                video.className = "lightbox__process-video";
+                video.muted = true;
+                video.loop = true;
+                video.autoplay = true;
+                video.playsInline = true;
+                video.preload = "metadata";
+                video.setAttribute("autoplay", "");
+                video.setAttribute("muted", "");
+                video.setAttribute("loop", "");
+                video.setAttribute("playsinline", "");
+
+                if (isWideProcess) {
+                    video.classList.add("lightbox__process-video--wide");
+                }
+
+                figure.appendChild(video);
+            } else {
+                const img = document.createElement("img");
+                img.src = src;
+                img.alt = captions[idx] || `${tile.dataset.title || "Artwork"} image ${idx + 1}`;
+                img.loading = "lazy";
+
+                if (isWideProcess) {
+                    img.classList.add("lightbox__process-image--wide");
+                }
+
+                figure.appendChild(img);
             }
-
-            figure.appendChild(img);
 
             if (captions[idx]) {
                 const cap = document.createElement("figcaption");
@@ -429,6 +452,14 @@ function renderInfoGallery(tile) {
 
         section.appendChild(grid);
         infoGalleryEl.appendChild(section);
+
+        const videos = grid.querySelectorAll(".lightbox__process-video");
+        videos.forEach((video) => {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {});
+            }
+        });
     }
 
     createTextSection(storyHeading, storyText, "lightbox__section--intro");

@@ -698,6 +698,23 @@ p, li, a, button, input, textarea {
   }
 }
 
+.lightbox__process-card video,
+#lightboxInfoGallery .lightbox__process-card video{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--surface);
+}
+
+#lightboxInfoGallery .lightbox__process-video--wide{
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 /* =========================
    CARD SERIES SPECIAL LAYOUT
 ========================= */
