@@ -1942,8 +1942,8 @@ input, textarea {
   }
 
   .artist-header__inner{
-    grid-template-columns: 42px minmax(0, 1fr) auto;
-    gap: 10px;
+    grid-template-columns: 40px minmax(0, 1fr) 68px;
+    gap: 8px;
     padding: 12px 16px 8px;
     align-items: center;
   }
@@ -1957,20 +1957,23 @@ input, textarea {
   }
 
   .artist-header__wordmark{
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
     justify-items: start;
     text-align: left;
-    min-width: 0;
   }
 
   .artist-header__name{
-    font-size: clamp(22px, 6.4vw, 32px);
-    line-height: 1.08;
+    margin: 0;
+    font-size: clamp(20px, 5.8vw, 28px);
+    line-height: 1.05;
     letter-spacing: -0.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 0 0.08em;
     display: block;
+    max-width: 100%;
   }
 
   .artist-header__title{
@@ -1978,10 +1981,12 @@ input, textarea {
   }
 
   .artist-header__social{
+    width: 68px;
+    min-width: 68px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 8px;
+    gap: 6px;
     padding-top: 0;
   }
 
@@ -2029,9 +2034,9 @@ input, textarea {
   }
 
   .artist-header.is-compact .artist-header__inner{
-    grid-template-columns: 30px minmax(0, 1fr) auto;
+    grid-template-columns: 28px minmax(0, 1fr) 58px;
     padding: 8px 12px 6px;
-    gap: 8px;
+    gap: 6px;
   }
 
   .artist-header.is-compact .artist-header__avatar{
@@ -2041,13 +2046,13 @@ input, textarea {
   }
 
   .artist-header.is-compact .artist-header__name{
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 1.05;
   }
 
   .artist-header.is-compact .artist-header__social{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    width: 58px;
+    min-width: 58px;
     gap: 6px;
   }
 

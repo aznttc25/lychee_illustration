@@ -3,6 +3,13 @@ function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
+function formatRichText(text = "") {
+    return text
+        .split("||")
+        .map(paragraph => `<p>${paragraph.trim()}</p>`)
+        .join("");
+}
+
 // ----- multi-image helpers -----
 function parseSrcList(srcString) {
     return (srcString || "")
@@ -203,9 +210,9 @@ function renderInfoGallery(tile) {
             const heading = document.createElement("h4");
             heading.textContent = "The story";
 
-            const body = document.createElement("p");
+            const body = document.createElement("div");
             body.className = "lightbox__body-copy";
-            body.innerHTML = storyText.replace(/\|\|/g, "<br><br>");
+            body.innerHTML = formatRichText(storyText);
 
             section.appendChild(heading);
             section.appendChild(body);
@@ -371,9 +378,9 @@ function renderInfoGallery(tile) {
             section.appendChild(heading);
         }
 
-        const body = document.createElement("p");
+        const body = document.createElement("div");
         body.className = "lightbox__body-copy";
-        body.innerHTML = bodyText.replace(/\|\|/g, "<br><br>");
+        body.innerHTML = formatRichText(bodyText);
         section.appendChild(body);
 
         infoGalleryEl.appendChild(section);
@@ -771,10 +778,7 @@ function renderFromIndex(i) {
     titleEl.textContent = tile.dataset.title || "";
     subEl.textContent = [tile.dataset.year, tile.dataset.medium].filter(Boolean).join(" • ");
 
-    descEl.innerHTML = (desc || "")
-        .split("||")
-        .map(p => `<p>${p.trim()}</p>`)
-        .join("");
+    descEl.innerHTML = formatRichText(desc || "");
 
     const isCardsSpecial = tile.dataset.layout === "cards-special";
 
