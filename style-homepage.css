@@ -2666,3 +2666,81 @@ input, textarea {
     min-height: 170px;
   }
 }
+
+/* =========================================
+   LIGHTBOX SPLIT-SCROLL FIX
+   Desktop: left and right panels scroll separately
+========================================= */
+@media (min-width: 1101px){
+  .lightbox__panel{
+    overflow: hidden;
+  }
+
+  .lightbox__content{
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .lightbox__hero{
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(320px, 420px);
+    align-items: stretch;
+  }
+
+  .lightbox__media-section{
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 30px 30px 42px 72px;
+    scrollbar-gutter: stable;
+  }
+
+  .lightbox__meta{
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    top: auto;
+    align-self: stretch;
+    padding: 54px 34px 44px;
+    scrollbar-gutter: stable;
+  }
+
+  .lightbox__body{
+    padding-bottom: 42px;
+  }
+
+  .lightbox__body.is-cards-special{
+    padding-bottom: 54px;
+  }
+}
+
+/* Keep stacked/mobile layout natural */
+@media (max-width: 1100px){
+  .lightbox__content{
+    overflow: auto;
+  }
+
+  .lightbox__hero{
+    height: auto;
+    min-height: auto;
+  }
+
+  .lightbox__media-section,
+  .lightbox__meta{
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .lightbox__meta{
+    position: relative;
+    top: auto;
+  }
+}

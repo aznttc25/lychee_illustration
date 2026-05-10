@@ -565,7 +565,14 @@ const kickerEl = document.getElementById("lightboxKicker");
 const chipsEl = document.getElementById("lightboxChips");
 const lightboxBodyEl = document.querySelector(".lightbox__body");
 const lightboxScrollCue = document.getElementById("lightboxScrollCue");
-const lightboxContent = document.querySelector(".lightbox__content");
+function getLightboxScrollContainer() {
+    if (window.innerWidth > 1100) {
+        return document.querySelector(".lightbox__media-section");
+    }
+    return document.querySelector(".lightbox__content");
+}
+
+let lightboxContent = getLightboxScrollContainer();
 
 const lightboxStorySectionEl = document.getElementById("lightboxStorySection");
 
@@ -826,6 +833,8 @@ function renderFromIndex(i) {
 }
 
 function updateLightboxScrollCue() {
+    lightboxContent = getLightboxScrollContainer();
+
     if (!lightboxContent || !lightboxScrollCue || !lightbox.classList.contains("is-open")) return;
 
     const canScroll = lightboxContent.scrollHeight > lightboxContent.clientHeight + 10;
@@ -836,19 +845,38 @@ function updateLightboxScrollCue() {
 
 function resetOverlayScroll() {
     requestAnimationFrame(() => {
+        lightboxContent = getLightboxScrollContainer();
+
         const projectPanel = document.querySelector(".project-overlay__panel");
         const sketchContent = document.querySelector(".overlay-content");
+        const lightboxMeta = document.querySelector(".lightbox__meta");
 
         if (projectPanel) projectPanel.scrollTop = 0;
         if (lightboxContent) lightboxContent.scrollTop = 0;
+        if (lightboxMeta && window.innerWidth > 1100) lightboxMeta.scrollTop = 0;
         if (sketchContent) sketchContent.scrollTop = 0;
 
         updateLightboxScrollCue();
     });
 }
 
-lightboxContent?.addEventListener("scroll", updateLightboxScrollCue);
-window.addEventListener("resize", updateLightboxScrollCue);
+function bindLightboxScrollCue() {
+    const mediaSection = document.querySelector(".lightbox__media-section");
+    const content = document.querySelector(".lightbox__content");
+
+    mediaSection?.removeEventListener("scroll", updateLightboxScrollCue);
+    content?.removeEventListener("scroll", updateLightboxScrollCue);
+
+    lightboxContent = getLightboxScrollContainer();
+    lightboxContent?.addEventListener("scroll", updateLightboxScrollCue, { passive: true });
+}
+
+bindLightboxScrollCue();
+window.addEventListener("resize", () => {
+    bindLightboxScrollCue();
+    updateLightboxScrollCue();
+});
+
 
 // ---------- open / close ----------
 function openAtIndex(i, options = {}) {
